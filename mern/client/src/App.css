@@ -404,6 +404,15 @@ label {
   margin: auto;
 }
 
+.content-uploader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-upload-date {
+  margin: 0px;
+}
+
 .description-textarea {
   margin-top: 10px;
   width: 100%;

@@ -45,6 +45,7 @@ export function ContentBrowser() {
                   videoTitle: video.title,
                   videoDescription: video.description,
                   videoUploader: video.uploader,
+                  uploadedAt: video.uploadedAt,
                 }}
                 className="video-title"
               >

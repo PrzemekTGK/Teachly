@@ -11,9 +11,9 @@ export function CreatorDetails({ userState }) {
       <h3>{userState.email}</h3>
       <label>Join Date:</label>
       <h3>
-        {new Date(userState.date_joined).toLocaleDateString("en-US", {
+        {new Date(userState.date_joined).toLocaleDateString("en-GB", {
           day: "2-digit",
-          month: "short",
+          month: "long",
           year: "numeric",
         })}
       </h3>
