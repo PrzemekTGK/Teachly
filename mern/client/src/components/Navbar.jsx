@@ -1,0 +1,125 @@
+import { useState, useEffect, useRef } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import LoginModal from "./LoginModal";
+import * as jwt_decode from "jwt-decode";
+
+export function Navbar() {
+  const [openModal, setOpenModal] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [userRole, setUserRole] = useState(null);
+  const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
+  const navigate = useNavigate();
+
+  const token = sessionStorage.getItem("User");
+
+  useEffect(() => {
+    if (token) {
+      const decodedToken = jwt_decode.jwtDecode(token);
+      setUserRole(decodedToken.role);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setMenuOpen(false);
+      }
+    };
+
+    if (menuOpen) {
+      setTimeout(() => {
+        document.addEventListener("click", handleClickOutside);
+      }, 0);
+    } else {
+      document.removeEventListener("click", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, [menuOpen]);
+
+  function handleLogout() {
+    sessionStorage.removeItem("User");
+    setMenuOpen(false); // Close dropdown when logging out
+    setTimeout(() => {
+      navigate("/");
+    }, 0);
+  }
+
+  function handleLinkClick() {
+    setMenuOpen(false); // Close dropdown when navigating
+  }
+
+  return (
+    <>
+      <div className="navbar">
+        <Link to={"/"} className="navitem">
+          <button>Home</button>
+        </Link>
+
+        {token ? (
+          <div className="burger-container">
+            <button
+              ref={buttonRef}
+              className="burger-menu"
+              onClick={() => setMenuOpen((prev) => !prev)}
+            >
+              ☰
+            </button>
+
+            {menuOpen && (
+              <div ref={dropdownRef} className="dropdown-menu">
+                <Link
+                  to={"/profile"}
+                  className="navitem"
+                  onClick={handleLinkClick}
+                >
+                  <button>Profile</button>
+                </Link>
+
+                {userRole === "creator" && (
+                  <Link
+                    to={"/contentUpload"}
+                    className="navitem"
+                    onClick={handleLinkClick}
+                  >
+                    <button>Upload</button>
+                  </Link>
+                )}
+
+                {userRole === "creator" && (
+                  <Link
+                    to={"/streamManager"}
+                    className="navitem"
+                    onClick={handleLinkClick}
+                  >
+                    <button>Stream</button>
+                  </Link>
+                )}
+
+                <button onClick={handleLogout}>Logout</button>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="nav-item">
+            <button onClick={() => setOpenModal(true)}>Login</button>
+          </div>
+        )}
+      </div>
+
+      {openModal && (
+        <div className="modal-wrapper">
+          <LoginModal modalState={openModal} setModalState={setOpenModal} />
+        </div>
+      )}
+    </>
+  );
+}

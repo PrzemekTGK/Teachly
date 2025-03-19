@@ -1,0 +1,31 @@
+import { useState } from "react";
+import { ContentBrowser } from "./ContentBrowser";
+import { StreamBrowser } from "./StreamBrowser";
+
+export function Home() {
+  const [activeTab, setActiveTab] = useState("page1");
+
+  return (
+    <div className="home-page">
+      <div className="tab-container">
+        <button
+          className={`tab ${activeTab === "page1" ? "active-tab" : ""}`}
+          onClick={() => setActiveTab("page1")}
+        >
+          Content
+        </button>
+        <button
+          className={`tab ${activeTab === "page2" ? "active-tab" : ""}`}
+          onClick={() => setActiveTab("page2")}
+        >
+          Live Streaming
+        </button>
+      </div>
+
+      <div className="tab-content">
+        {activeTab === "page1" && <ContentBrowser />}
+        {activeTab === "page2" && <StreamBrowser />}
+      </div>
+    </div>
+  );
+}

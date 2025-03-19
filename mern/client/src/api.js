@@ -1,0 +1,187 @@
+import axios from "axios";
+import * as jwt_decode from "jwt-decode";
+
+const URL = "http://localhost:5000/api";
+
+export async function getUsers() {
+  try {
+    const response = await axios.get(`${URL}/users`);
+    return response.data;
+  } catch (error) {
+    console.error(`${error.message}`);
+  }
+}
+
+export async function getUser(id) {
+  try {
+    const response = await axios.get(`${URL}/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(`${error.message}`);
+  }
+}
+
+export async function createUser(user) {
+  const { confirmPassword, ...userData } = user;
+
+  try {
+    const response = await axios.post(`${URL}/users`, userData);
+    return response;
+  } catch (error) {
+    console.error(`Failed to add the user to DB: ${error.message}`, error);
+
+    if (error.response) {
+      return error.response.data;
+    }
+
+    return {
+      data: {
+        success: false,
+        message: "An unexpected error occurred.",
+      },
+    };
+  }
+}
+
+export async function updateUser(id, user) {
+  try {
+    const token = sessionStorage.getItem("User");
+    const response = await axios.put(`${URL}/users/${id}`, user, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error(`${error.message}`);
+  }
+}
+
+export async function deleteUser(id) {
+  try {
+    const response = await axios.delete(`${URL}/users/${id}`);
+    return response;
+  } catch (error) {
+    console.error(`${error.message}`);
+  }
+}
+
+export async function verifyUser(user) {
+  try {
+    const response = await axios.post(`${URL}/users/login`, user);
+    return response.data;
+  } catch (error) {
+    throw error.response ? error.response.data : new Error("Unexpected error");
+  }
+}
+
+export async function uploadImage(file) {
+  console.log("Uploading Image Api.js", file);
+  const formData = new FormData();
+  formData.append("image", file);
+  try {
+    const token = sessionStorage.getItem("User");
+    const response = await axios.post(`${URL}/images/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Failed to upload the image ${error.message}`);
+    alert(
+      "An error occurred while uploading the image. Please try again later!"
+    );
+  }
+}
+
+export async function getImage(id) {
+  try {
+    const token = sessionStorage.getItem("User");
+    const response = await axios.get(`${URL}/images/${id}`, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Optional, depending on your server's requirements
+        Authorization: `Bearer ${token}`, // Include the Authorization header
+      },
+    });
+
+    if (!response.data) {
+      throw new Error("No image data returned from the server");
+    }
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to retrieve image from DB: `, error.response.data);
+    throw new Error("No image data returned from the server");
+  }
+}
+
+export async function deleteImage(id) {
+  const token = sessionStorage.getItem("User");
+  try {
+    const response = await axios.delete(`${URL}/images/${id}`, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Optional, depending on your server's requirements
+        Authorization: `Bearer ${token}`, // Include the Authorization header
+      },
+    });
+    return response;
+  } catch (error) {
+    alert(
+      "An error occurred while deleting the image. Please try again later."
+    );
+    return error.response.data;
+  }
+}
+
+export async function uploadVideo(file, title, description) {
+  const formData = new FormData();
+  formData.append("video", file);
+  formData.append("title", title);
+  if (description) {
+    formData.append("description", description);
+  } else {
+    formData.append("description", "");
+  }
+
+  try {
+    const token = sessionStorage.getItem("User");
+    const decodedUser = jwt_decode.jwtDecode(token);
+    formData.append("uploaderId", decodedUser._id);
+    formData.append("uploader", decodedUser.username);
+
+    if (!token) {
+      throw new Error("User not authenticated");
+    }
+
+    const response = await axios.post(`${URL}/videos/upload`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response;
+  } catch (error) {
+    if (error.response) {
+      // If there's a response, handle it here
+      console.log("Error response:", error.response.data.message);
+      return error.response.data.message; // Return the full response to be handled by the frontend.
+    } else {
+      // If there's no response (e.g., network error)
+      console.log("Network or other error:", error.message);
+      return { status: 500, message: error.message }; // Return custom error for network errors.
+    }
+  }
+}
+
+export async function getVideos() {
+  try {
+    const response = await axios.get(`${URL}/videos`); // Assuming the endpoint for fetching all videos is /videos
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch videos: ${error.message}`);
+    throw error; // Optionally handle the error in a way that the caller can handle it
+  }
+}

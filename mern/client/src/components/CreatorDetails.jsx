@@ -1,0 +1,22 @@
+export function CreatorDetails({ userState }) {
+  return (
+    <div className="creator-details">
+      <label>User Name:</label>
+      <h3>{userState.username}</h3>
+      <label>First Name:</label>
+      <h3>{userState.firstname}</h3>
+      <label>Last Name:</label>
+      <h3>{userState.lastname}</h3>
+      <label>Email:</label>
+      <h3>{userState.email}</h3>
+      <label>Join Date:</label>
+      <h3>
+        {new Date(userState.date_joined).toLocaleDateString("en-US", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        })}
+      </h3>
+    </div>
+  );
+}
