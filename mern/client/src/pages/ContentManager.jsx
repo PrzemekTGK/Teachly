@@ -76,7 +76,10 @@ export function ContentManager() {
                 >
                   {video.title}
                 </Link>
-                <button onClick={() => handleDelete(video._id)}>
+                <button
+                  className="delete-video-button"
+                  onClick={() => handleDelete(video._id)}
+                >
                   Delete X
                 </button>
               </div>

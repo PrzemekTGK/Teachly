@@ -253,7 +253,9 @@ h3 {
   min-width: 100% !important;
   background-color: rgba(255, 0, 0, 1);
 }
-
+.delete-video-button {
+  background-color: rgba(255, 0, 0, 1);
+}
 label {
   font-weight: 500;
 }

@@ -185,10 +185,25 @@ export async function getVideos() {
     throw error; // Optionally handle the error in a way that the caller can handle it
   }
 }
-export async function deleteVideo(id) {
+
+export async function getUserVideos(filterKey, filterValue) {
+  try {
+    // Construct the query parameters dynamically
+    const response = await axios.get(`${URL}/videos`, {
+      params: {
+        [filterKey]: filterValue, // dynamically add the filter key and value
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch videos: ${error.message}`);
+    throw error;
+  }
+}
+export async function deleteVideo(videoId) {
   const token = sessionStorage.getItem("User");
   try {
-    const response = await axios.delete(`${URL}/videos/${id}`, {
+    const response = await axios.delete(`${URL}/videos/${videoId}`, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
@@ -197,6 +212,26 @@ export async function deleteVideo(id) {
     return response;
   } catch (error) {
     console.error(`Failed to delete video: ${error.message}`);
+    return error.response ? error.response.data : { error: error.message };
+  }
+}
+
+export async function deleteVideos(videoIds) {
+  const token = sessionStorage.getItem("User");
+  try {
+    const response = await axios.post(
+      `${URL}/videos/delete`,
+      { videoIds }, // Send videoIds in the request body
+      {
+        headers: {
+          "Content-Type": "application/json", // Using application/json for the request body
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error(`Failed to delete videos: ${error.message}`);
     return error.response ? error.response.data : { error: error.message };
   }
 }

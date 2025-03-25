@@ -1,4 +1,12 @@
-import { uploadImage, updateUser, getImage, deleteImage } from "../api.js";
+import {
+  uploadImage,
+  updateUser,
+  getImage,
+  deleteImage,
+  getUserVideos,
+  deleteVideos,
+  deleteUser,
+} from "../api.js";
 import { useEffect, useState, useRef } from "react";
 import { ViewerDetails } from "../components/ViewerDetails.jsx";
 import { CreatorDetails } from "../components/CreatorDetails.jsx";
@@ -145,6 +153,37 @@ export function Profile() {
     }
   }
 
+  async function handleDeleteProfile() {
+    const token = sessionStorage.getItem("User");
+    const userId = userState._id;
+    const imageId = userState.imageId;
+
+    try {
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const userVideos = await getUserVideos("uploaderId", userId);
+      console.log(`User Vidoes: `, userVideos);
+
+      const videoIds = userVideos.map((video) => video._id);
+      console.log(`Video IDs: `, videoIds);
+
+      if (imageId) {
+        console.log("Profile has IMAGE!");
+        await deleteImage(imageId);
+      }
+
+      if (videoIds.length > 0) {
+        console.log("Profile has VIDEOS!");
+        await deleteVideos(videoIds);
+      }
+      await deleteUser(userId);
+
+      sessionStorage.removeItem("User"); // Remove user data from session
+      window.location.href = "/";
+    } catch (error) {
+      setError(error);
+    }
+  }
+
   if (!userState) {
     return <div>Loading...</div>; // Show a loading message or spinner while userState is being set
   }
@@ -214,7 +253,9 @@ export function Profile() {
           )}
           <button className="change-password-button">Change Password</button>
         </div>
-        <button className="delete-profile-button">Delete Profile</button>
+        <button className="delete-profile-button" onClick={handleDeleteProfile}>
+          Delete Profile
+        </button>
       </div>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}

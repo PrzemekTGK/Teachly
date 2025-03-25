@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   GetObjectCommand,
   DeleteObjectCommand,
+  DeleteObjectsCommand,
 } from "@aws-sdk/client-s3";
 import { fromEnv } from "@aws-sdk/credential-providers";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -15,15 +16,14 @@ const s3Client = new S3Client({
 });
 
 export const uploadVideo = async (req, res) => {
-  const { title, description, uploaderId, uploader } = req.body; // Access title and description from the request body
-  const file = req.files[0]; // The uploaded file
+  const { title, description, uploaderId, uploader } = req.body;
+  const file = req.files[0];
 
   if (!title) {
     return res.status(400).json({ error: "Title is required." });
   }
 
   try {
-    // Check if a video with the same title already exists
     const existingVideo = await Video.findOne({ title: title });
 
     if (existingVideo) {
@@ -31,10 +31,10 @@ export const uploadVideo = async (req, res) => {
         .status(400)
         .json({ message: "A video with this title already exists" });
     }
-    // Create a new Video document in MongoDB
+
     const newVideo = new Video({
-      title: title, // Save the title from the request body
-      description: description, // Save the description from the request body
+      title: title,
+      description: description,
       uploaderId: uploaderId,
       uploader: uploader,
     });
@@ -43,7 +43,7 @@ export const uploadVideo = async (req, res) => {
 
     const bucketParams = {
       Bucket: s3VideoBucket,
-      Key: newVideo._id.toString(), // You can still use the original filename or modify it for uniqueness
+      Key: newVideo._id.toString(),
       Body: file.buffer,
     };
 
@@ -59,17 +59,20 @@ export const uploadVideo = async (req, res) => {
 
 export const getVideos = async (req, res) => {
   try {
-    // Fetch video metadata from MongoDB
-    const videos = await Video.find();
+    const { uploaderId } = req.query;
 
-    // Generate a pre-signed URL for each video
+    // Filter by uploaderId if provided, else fetch all videos
+    const filter = uploaderId ? { uploaderId } : {};
+
+    const videos = await Video.find(filter);
+
     const videosWithUrls = await Promise.all(
       videos.map(async (video) => {
         const command = new GetObjectCommand({
           Bucket: s3VideoBucket,
           Key: video._id.toString(),
         });
-        const url = await getSignedUrl(s3Client, command); // URL expires in 1 hour
+        const url = await getSignedUrl(s3Client, command);
         return {
           ...video.toObject(),
           url,
@@ -90,7 +93,6 @@ export const deleteVideo = async (req, res) => {
   }
 
   try {
-    // Delete the video from S3 using the videoId as the Key
     const bucketParams = {
       Bucket: s3VideoBucket,
       Key: videoId.toString(),
@@ -98,7 +100,6 @@ export const deleteVideo = async (req, res) => {
 
     await s3Client.send(new DeleteObjectCommand(bucketParams));
 
-    // Remove the video document from MongoDB
     const deletedVideo = await Video.findByIdAndDelete(videoId);
     if (!deletedVideo) {
       return res.status(404).json({ error: "Video not found." });
@@ -107,6 +108,45 @@ export const deleteVideo = async (req, res) => {
     res
       .status(200)
       .json({ success: true, message: "Video deleted successfully." });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteVideos = async (req, res) => {
+  const { videoIds } = req.body; // Expecting an array of video IDs
+
+  if (!videoIds || !Array.isArray(videoIds) || videoIds.length === 0) {
+    return res.status(400).json({ error: "Video IDs are required." });
+  }
+
+  try {
+    // Prepare S3 delete requests for multiple objects
+    const objectsToDelete = videoIds.map((videoId) => ({
+      Key: videoId.toString(),
+    }));
+
+    const bucketParams = {
+      Bucket: s3VideoBucket,
+      Delete: {
+        Objects: objectsToDelete,
+      },
+    };
+
+    const s3Response = await s3Client.send(
+      new DeleteObjectsCommand(bucketParams)
+    );
+
+    // Delete the videos from the database
+    const deletedVideos = await Video.deleteMany({ _id: { $in: videoIds } });
+    if (deletedVideos.deletedCount === 0) {
+      return res.status(404).json({ error: "No videos found to delete." });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: `${deletedVideos.deletedCount} videos deleted successfully.`,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
