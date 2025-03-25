@@ -10,6 +10,6 @@ const awsImgRouter = express.Router();
 
 awsImgRouter.post("/upload", verifyToken, uploadImage);
 awsImgRouter.get("/:id", verifyToken, getImage);
-awsImgRouter.delete("/:id", verifyToken, deleteImage);
+awsImgRouter.delete("/delete/:id", verifyToken, deleteImage);
 
 export default awsImgRouter;

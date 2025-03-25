@@ -120,7 +120,7 @@ export async function getImage(id) {
 export async function deleteImage(id) {
   const token = sessionStorage.getItem("User");
   try {
-    const response = await axios.delete(`${URL}/images/${id}`, {
+    const response = await axios.delete(`${URL}/images/delete/${id}`, {
       headers: {
         "Content-Type": "multipart/form-data", // Optional, depending on your server's requirements
         Authorization: `Bearer ${token}`, // Include the Authorization header
