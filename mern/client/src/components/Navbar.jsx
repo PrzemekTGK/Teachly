@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
+import Dropwdown from "./Dropdown";
 import * as jwt_decode from "jwt-decode";
 
 export function Navbar() {
@@ -75,37 +76,12 @@ export function Navbar() {
             </button>
 
             {menuOpen && (
-              <div ref={dropdownRef} className="dropdown-menu">
-                <Link
-                  to={"/profile"}
-                  className="navitem"
-                  onClick={handleLinkClick}
-                >
-                  <button>Profile</button>
-                </Link>
-
-                {userRole === "creator" && (
-                  <Link
-                    to={"/contentUpload"}
-                    className="navitem"
-                    onClick={handleLinkClick}
-                  >
-                    <button>Upload</button>
-                  </Link>
-                )}
-
-                {userRole === "creator" && (
-                  <Link
-                    to={"/streamManager"}
-                    className="navitem"
-                    onClick={handleLinkClick}
-                  >
-                    <button>Stream</button>
-                  </Link>
-                )}
-
-                <button onClick={handleLogout}>Logout</button>
-              </div>
+              <Dropwdown
+                userRole={userRole}
+                dropdownRef={dropdownRef}
+                handleLinkClick={handleLinkClick}
+                handleLogout={handleLogout}
+              />
             )}
           </div>
         ) : (

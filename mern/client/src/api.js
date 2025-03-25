@@ -185,3 +185,18 @@ export async function getVideos() {
     throw error; // Optionally handle the error in a way that the caller can handle it
   }
 }
+export async function deleteVideo(id) {
+  const token = sessionStorage.getItem("User");
+  try {
+    const response = await axios.delete(`${URL}/videos/${id}`, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.error(`Failed to delete video: ${error.message}`);
+    return error.response ? error.response.data : { error: error.message };
+  }
+}

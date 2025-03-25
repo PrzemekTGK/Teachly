@@ -2,6 +2,7 @@ import {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  DeleteObjectCommand,
 } from "@aws-sdk/client-s3";
 import { fromEnv } from "@aws-sdk/credential-providers";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -77,6 +78,35 @@ export const getVideos = async (req, res) => {
     );
 
     res.status(200).json(videosWithUrls);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const deleteVideo = async (req, res) => {
+  const videoId = req.params.id;
+  if (!videoId) {
+    return res.status(400).json({ error: "Video ID is required." });
+  }
+
+  try {
+    // Delete the video from S3 using the videoId as the Key
+    const bucketParams = {
+      Bucket: s3VideoBucket,
+      Key: videoId.toString(),
+    };
+
+    await s3Client.send(new DeleteObjectCommand(bucketParams));
+
+    // Remove the video document from MongoDB
+    const deletedVideo = await Video.findByIdAndDelete(videoId);
+    if (!deletedVideo) {
+      return res.status(404).json({ error: "Video not found." });
+    }
+
+    res
+      .status(200)
+      .json({ success: true, message: "Video deleted successfully." });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

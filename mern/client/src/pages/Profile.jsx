@@ -37,13 +37,6 @@ export function Profile() {
     loadUserData();
   }, []);
 
-  useEffect(() => {
-    document.body.classList.add("no-scroll");
-    return () => {
-      document.body.classList.remove("no-scroll");
-    };
-  }, []);
-
   function editProfileImg() {
     setEditProfileImgState(!editProfileImgState);
     setSelectProfileImgState();
@@ -203,22 +196,25 @@ export function Profile() {
         )}
       </span>
       <div className="details-card">
-        {roleState === "viewer" ? (
-          <>
-            <ViewerDetails userState={userState} />
-            <button className="become-creator-button" onClick={setUserRole}>
-              Become Creator
-            </button>
-          </>
-        ) : (
-          <>
-            <CreatorDetails userState={userState} />
-            <button className="cease-creator-button" onClick={setUserRole}>
-              Stop Creating
-            </button>
-          </>
-        )}
-        <button className="change-password-button">Change Password</button>
+        <div>
+          {roleState === "viewer" ? (
+            <>
+              <ViewerDetails userState={userState} />
+              <button className="become-creator-button" onClick={setUserRole}>
+                Become Creator
+              </button>
+            </>
+          ) : (
+            <>
+              <CreatorDetails userState={userState} />
+              <button className="cease-creator-button" onClick={setUserRole}>
+                Stop Creating
+              </button>
+            </>
+          )}
+          <button className="change-password-button">Change Password</button>
+        </div>
+        <button className="delete-profile-button">Delete Profile</button>
       </div>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}

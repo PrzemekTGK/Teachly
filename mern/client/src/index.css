@@ -19,10 +19,7 @@ a {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  overflow-x: hidden; /* Prevents scrolling if not needed */
-  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 h1 {
