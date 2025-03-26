@@ -1,5 +1,5 @@
 import axios from "axios";
-import * as jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const URL = "http://localhost:5000/api";
 
@@ -147,7 +147,7 @@ export async function uploadVideo(file, title, description) {
 
   try {
     const token = sessionStorage.getItem("User");
-    const decodedUser = jwt_decode.jwtDecode(token);
+    const decodedUser = jwtDecode(token);
     formData.append("uploaderId", decodedUser._id);
     formData.append("uploader", decodedUser.username);
 

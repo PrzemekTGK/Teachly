@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getVideos, deleteVideo } from "../api";
 import { Link } from "react-router-dom";
-import * as jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 export function ContentManager() {
   const [videos, setVideos] = useState([]);
@@ -26,8 +26,8 @@ export function ContentManager() {
   const token = sessionStorage.getItem("User");
   let userId = null;
   if (token) {
-    const decodedToken = jwt_decode.jwtDecode(token);
-    userId = decodedToken._id;
+    const decodedUser = jwtDecode(token);
+    userId = decodedUser._id;
   }
 
   const userVideos = videos.filter((video) => video.uploaderId === userId);

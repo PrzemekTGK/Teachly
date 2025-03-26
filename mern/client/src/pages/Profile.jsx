@@ -11,7 +11,7 @@ import { useEffect, useState, useRef } from "react";
 import { ViewerDetails } from "../components/ViewerDetails.jsx";
 import { CreatorDetails } from "../components/CreatorDetails.jsx";
 import defaultProfileImage from "../assets/unknown.jpg";
-import * as jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 import axios from "axios";
 
 export function Profile() {
@@ -28,7 +28,7 @@ export function Profile() {
   useEffect(() => {
     async function loadUserData() {
       const token = sessionStorage.getItem("User");
-      const decodedUser = jwt_decode.jwtDecode(token);
+      const decodedUser = jwtDecode(token);
       setUserState(decodedUser);
       setRoleState(decodedUser.role);
       if (decodedUser.imageId) {
@@ -79,7 +79,7 @@ export function Profile() {
     if (profileImgUrl) {
       console.log(`PROFILE IMAGE URL: `, profileImgUrl);
       const token = sessionStorage.getItem("User");
-      const currentImageId = jwt_decode.jwtDecode(token).imageId;
+      const currentImageId = jwtDecode(token).imageId;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       if (!profileImgUrl === "/src/assets/unknown.jpg") {
         await deleteImage(currentImageId);
@@ -101,7 +101,7 @@ export function Profile() {
           };
           const response = await updateUser(updatedUser._id, updatedUser);
           const newToken = response.data.token;
-          const decodedUser = jwt_decode.jwtDecode(newToken);
+          const decodedUser = jwtDecode(newToken);
           const imageUrl = await getImage(decodedUser.imageId);
           sessionStorage.setItem("User", newToken);
           axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
@@ -123,33 +123,33 @@ export function Profile() {
   async function deleteProfileImg() {
     if (profileImgUrl) {
       const token = sessionStorage.getItem("User");
-      const user = jwt_decode.jwtDecode(token);
-      const imageId = user.imageId;
+      const decodedUser = jwtDecode(token);
+      const imageId = decodedUser.imageId;
       const updatedUser = {
-        ...user,
+        ...decodedUser,
         imageId: "",
       };
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       await deleteImage(imageId);
-      await updateUser(user._id, updatedUser);
+      await updateUser(decodedUser._id, updatedUser);
       setProfileImgUrl(defaultProfileImage);
     }
   }
 
   async function setUserRole() {
     const token = sessionStorage.getItem("User");
-    const user = jwt_decode.jwtDecode(token);
-    const newRole = user.role === "viewer" ? "creator" : "viewer";
+    const decodedUser = jwtDecode(token);
+    const newRole = decodedUser.role === "viewer" ? "creator" : "viewer";
 
-    const updatedUser = { ...user, role: newRole };
+    const updatedUser = { ...decodedUser, role: newRole };
 
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const response = await updateUser(user._id, updatedUser);
+      const response = await updateUser(decodedUser._id, updatedUser);
       const newToken = response.data.token;
       sessionStorage.setItem("User", newToken);
 
-      const decodedUser = jwt_decode.jwtDecode(newToken);
+      const decodedUser = jwtDecode(newToken);
       setRoleState(decodedUser.role);
     } catch (error) {
       setError("Failed to update user role:", error.message);

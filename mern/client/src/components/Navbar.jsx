@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import Dropwdown from "./Dropdown";
-import * as jwt_decode from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 export function Navbar() {
   const [openModal, setOpenModal] = useState(false);
@@ -16,7 +16,7 @@ export function Navbar() {
 
   useEffect(() => {
     if (token) {
-      const decodedToken = jwt_decode.jwtDecode(token);
+      const decodedToken = jwtDecode(token);
       setUserRole(decodedToken.role);
     }
   }, [token]);
