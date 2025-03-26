@@ -77,10 +77,13 @@ export function Profile() {
     setError("");
     setSuccess("");
     if (profileImgUrl) {
+      console.log(`PROFILE IMAGE URL: `, profileImgUrl);
       const token = sessionStorage.getItem("User");
       const currentImageId = jwt_decode.jwtDecode(token).imageId;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      await deleteImage(currentImageId);
+      if (!profileImgUrl === "/src/assets/unknown.jpg") {
+        await deleteImage(currentImageId);
+      }
     }
 
     if (!selectProfileImgState) {
