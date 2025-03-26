@@ -10,8 +10,8 @@ import {
 import { useEffect, useState, useRef } from "react";
 import { ViewerDetails } from "../components/ViewerDetails.jsx";
 import { CreatorDetails } from "../components/CreatorDetails.jsx";
+import { jwtDecode } from "jwt-decode";
 import defaultProfileImage from "../assets/unknown.jpg";
-import jwtDecode from "jwt-decode";
 import axios from "axios";
 
 export function Profile() {
@@ -136,11 +136,10 @@ export function Profile() {
     }
   }
 
-  async function setUserRole() {
+  async function handleSetUserRole() {
     const token = sessionStorage.getItem("User");
     const decodedUser = jwtDecode(token);
     const newRole = decodedUser.role === "viewer" ? "creator" : "viewer";
-
     const updatedUser = { ...decodedUser, role: newRole };
 
     try {
@@ -148,9 +147,8 @@ export function Profile() {
       const response = await updateUser(decodedUser._id, updatedUser);
       const newToken = response.data.token;
       sessionStorage.setItem("User", newToken);
-
-      const decodedUser = jwtDecode(newToken);
-      setRoleState(decodedUser.role);
+      const decodedUserAfterUpdate = jwtDecode(newToken);
+      setRoleState(decodedUserAfterUpdate.role);
     } catch (error) {
       setError("Failed to update user role:", error.message);
     }
@@ -242,14 +240,20 @@ export function Profile() {
           {roleState === "viewer" ? (
             <>
               <ViewerDetails userState={userState} />
-              <button className="become-creator-button" onClick={setUserRole}>
+              <button
+                className="become-creator-button"
+                onClick={handleSetUserRole}
+              >
                 Become Creator
               </button>
             </>
           ) : (
             <>
               <CreatorDetails userState={userState} />
-              <button className="cease-creator-button" onClick={setUserRole}>
+              <button
+                className="cease-creator-button"
+                onClick={handleSetUserRole}
+              >
                 Stop Creating
               </button>
             </>

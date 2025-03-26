@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getVideos, deleteVideo } from "../api";
 import { Link } from "react-router-dom";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 export function ContentManager() {
   const [videos, setVideos] = useState([]);

@@ -1,5 +1,5 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 const URL = "http://localhost:5000/api";
 

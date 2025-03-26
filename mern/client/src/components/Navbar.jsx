@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import LoginModal from "./LoginModal";
 import Dropwdown from "./Dropdown";
-import jwtDecode from "jwt-decode";
 
 export function Navbar() {
   const [openModal, setOpenModal] = useState(false);
