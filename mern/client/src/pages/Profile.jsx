@@ -8,9 +8,11 @@ import {
   deleteUser,
 } from "../api.js";
 import { useEffect, useState, useRef } from "react";
+import { jwtDecode } from "jwt-decode";
 import { ViewerDetails } from "../components/ViewerDetails.jsx";
 import { CreatorDetails } from "../components/CreatorDetails.jsx";
-import { jwtDecode } from "jwt-decode";
+import ConfirmationModal from "../components/ConfirmationModal.jsx";
+import BecomeCreatorModal from "../components/BecomeCreatorModal.jsx";
 import defaultProfileImage from "../assets/unknown.jpg";
 import axios from "axios";
 
@@ -21,6 +23,7 @@ export function Profile() {
   const [selectProfileImgState, setSelectProfileImgState] = useState();
   const [profileImgUrl, setProfileImgUrl] = useState(defaultProfileImage);
   const [roleState, setRoleState] = useState();
+  const [openModalState, setOpenModalState] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const inputFileRef = useRef(null);
@@ -44,6 +47,19 @@ export function Profile() {
 
     loadUserData();
   }, []);
+
+  useEffect(() => {
+    // When the modal closes, refresh the user data
+    if (!openModalState && userState) {
+      async function refreshUserData() {
+        const token = sessionStorage.getItem("User");
+        const decodedUser = jwtDecode(token);
+        // Optionally, you can re-fetch user data from the server here.
+        setUserState(decodedUser);
+      }
+      refreshUserData();
+    }
+  }, [openModalState, userState]);
 
   function editProfileImg() {
     setEditProfileImgState(!editProfileImgState);
@@ -136,10 +152,10 @@ export function Profile() {
     }
   }
 
-  async function handleSetUserRole() {
+  async function handleCeaseCreator() {
     const token = sessionStorage.getItem("User");
     const decodedUser = jwtDecode(token);
-    const newRole = decodedUser.role === "viewer" ? "creator" : "viewer";
+    const newRole = "viewer";
     const updatedUser = { ...decodedUser, role: newRole };
 
     try {
@@ -183,6 +199,10 @@ export function Profile() {
     } catch (error) {
       setError(error);
     }
+  }
+
+  function handleRoleUpdate(newRole) {
+    setRoleState(newRole);
   }
 
   if (!userState) {
@@ -242,7 +262,9 @@ export function Profile() {
               <ViewerDetails userState={userState} />
               <button
                 className="become-creator-button"
-                onClick={handleSetUserRole}
+                onClick={() => {
+                  setOpenModalState(!openModalState);
+                }}
               >
                 Become Creator
               </button>
@@ -252,7 +274,7 @@ export function Profile() {
               <CreatorDetails userState={userState} />
               <button
                 className="cease-creator-button"
-                onClick={handleSetUserRole}
+                onClick={handleCeaseCreator}
               >
                 Stop Creating
               </button>
@@ -266,6 +288,20 @@ export function Profile() {
       </div>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
+
+      {openModalState && (
+        <div className="modal-wrapper">
+          <BecomeCreatorModal
+            modalState={openModalState}
+            setModalState={setOpenModalState}
+            onRoleUpdate={handleRoleUpdate}
+          />
+          <ConfirmationModal
+            modalState={openModalState}
+            setModalState={setOpenModalState}
+          />
+        </div>
+      )}
     </div>
   );
 }

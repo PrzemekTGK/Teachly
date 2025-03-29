@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
-import LoginModal from "./LoginModal";
+import AuthorizationModal from "./AuthorizationModal";
 import Dropwdown from "./Dropdown";
 
 export function Navbar() {
-  const [openModal, setOpenModal] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  const [openModalState, setOpenModalState] = useState(false);
+  const [menuOpenState, setMenuOpenState] = useState(false);
+  const [userRoleState, setUserRoleState] = useState(null);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ export function Navbar() {
   useEffect(() => {
     if (token) {
       const decodedToken = jwtDecode(token);
-      setUserRole(decodedToken.role);
+      setUserRoleState(decodedToken.role);
     }
   }, [token]);
 
@@ -29,11 +29,11 @@ export function Navbar() {
         buttonRef.current &&
         !buttonRef.current.contains(event.target)
       ) {
-        setMenuOpen(false);
+        setMenuOpenState(false);
       }
     };
 
-    if (menuOpen) {
+    if (menuOpenState) {
       setTimeout(() => {
         document.addEventListener("click", handleClickOutside);
       }, 0);
@@ -44,18 +44,18 @@ export function Navbar() {
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [menuOpen]);
+  }, [menuOpenState]);
 
   function handleLogout() {
     sessionStorage.removeItem("User");
-    setMenuOpen(false); // Close dropdown when logging out
+    setMenuOpenState(false); // Close dropdown when logging out
     setTimeout(() => {
       navigate("/");
     }, 0);
   }
 
   function handleLinkClick() {
-    setMenuOpen(false); // Close dropdown when navigating
+    setMenuOpenState(false); // Close dropdown when navigating
   }
 
   return (
@@ -70,14 +70,14 @@ export function Navbar() {
             <button
               ref={buttonRef}
               className="burger-menu"
-              onClick={() => setMenuOpen((prev) => !prev)}
+              onClick={() => setMenuOpenState((prev) => !prev)}
             >
               ☰
             </button>
 
-            {menuOpen && (
+            {menuOpenState && (
               <Dropwdown
-                userRole={userRole}
+                userRole={userRoleState}
                 dropdownRef={dropdownRef}
                 handleLinkClick={handleLinkClick}
                 handleLogout={handleLogout}
@@ -86,14 +86,16 @@ export function Navbar() {
           </div>
         ) : (
           <div className="nav-item">
-            <button onClick={() => setOpenModal(true)}>Login</button>
+            <button onClick={() => setOpenModalState(true)}>Login</button>
           </div>
         )}
       </div>
-
-      {openModal && (
+      {openModalState && (
         <div className="modal-wrapper">
-          <LoginModal modalState={openModal} setModalState={setOpenModal} />
+          <AuthorizationModal
+            modalState={openModalState}
+            setModalState={setOpenModalState}
+          />
         </div>
       )}
     </>

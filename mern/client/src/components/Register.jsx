@@ -79,36 +79,36 @@ export function Register({ modalState, setModalState }) {
             <input
               className="reg-input"
               placeholder="User Name"
-              onChange={updateHandler}
               name="username"
-              required
+              onChange={updateHandler}
               maxLength={20}
+              required
             />
             <input
               className="reg-input"
               placeholder="E-mail"
-              onChange={updateHandler}
               name="email"
-              required
+              onChange={updateHandler}
               maxLength={40}
+              required
             />
             <input
               type="password"
               className="reg-input"
               placeholder="Password"
-              onChange={updateHandler}
               name="password"
-              required
+              onChange={updateHandler}
               maxLength={20}
+              required
             />
             <input
               type="password"
               className="reg-input"
               placeholder="Confirm Password"
-              onChange={updateHandler}
               name="confirmPassword"
-              required
+              onChange={updateHandler}
               maxLength={20}
+              required
             />
             <button className="submit-button" type="submit">
               Register

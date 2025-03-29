@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Login } from "./Login";
 import { Register } from "./Register";
-function LoginModal({ modalState, setModalState }) {
+function AuthorizationModal({ modalState, setModalState }) {
   const [loginState, setLogin] = new useState(true);
 
   return (
@@ -46,4 +46,4 @@ function LoginModal({ modalState, setModalState }) {
   );
 }
 
-export default LoginModal;
+export default AuthorizationModal;
