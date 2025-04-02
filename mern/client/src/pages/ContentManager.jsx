@@ -3,7 +3,7 @@ import { getVideos, deleteVideo } from "../api";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
-export function ContentManager() {
+export default function ContentManager() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

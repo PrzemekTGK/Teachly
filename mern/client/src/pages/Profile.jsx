@@ -9,14 +9,14 @@ import {
 } from "../api.js";
 import { useEffect, useState, useRef } from "react";
 import { jwtDecode } from "jwt-decode";
-import { ViewerDetails } from "../components/ViewerDetails.jsx";
-import { CreatorDetails } from "../components/CreatorDetails.jsx";
+import ViewerDetails from "../components/ViewerDetails.jsx";
+import CreatorDetails from "../components/CreatorDetails.jsx";
 import ConfirmationModal from "../components/ConfirmationModal.jsx";
 import BecomeCreatorModal from "../components/BecomeCreatorModal.jsx";
 import defaultProfileImage from "../assets/unknown.jpg";
 import axios from "axios";
 
-export function Profile() {
+export default function Profile() {
   const MAX_FILE_SIZE = 5000000;
   const [userState, setUserState] = useState();
   const [editProfileImgState, setEditProfileImgState] = useState(false);

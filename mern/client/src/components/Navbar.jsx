@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import AuthorizationModal from "./AuthorizationModal";
 import Dropwdown from "./Dropdown";
 
-export function Navbar() {
+export default function Navbar() {
   const [openModalState, setOpenModalState] = useState(false);
   const [menuOpenState, setMenuOpenState] = useState(false);
   const [userRoleState, setUserRoleState] = useState(null);

@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import ConfirmationModal from "../components/ConfirmationModal.jsx";
-function Dropwdown({ userRole, dropdownRef, handleLinkClick, handleLogout }) {
+
+export default function Dropwdown({
+  userRole,
+  dropdownRef,
+  handleLinkClick,
+  handleLogout,
+}) {
   const [confirmModalState, setConfirmModalState] = useState(false);
   return (
     <div ref={dropdownRef} className="dropdown-menu">
@@ -56,5 +62,3 @@ function Dropwdown({ userRole, dropdownRef, handleLinkClick, handleLogout }) {
     </div>
   );
 }
-
-export default Dropwdown;

@@ -1,15 +1,15 @@
 import "./App.css";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { ContentBrowser } from "./pages/ContentBrowser";
-import { ContentUpload } from "./pages/ContentUpload";
-import { ContentViewer } from "./pages/ContentViewer";
-import { ContentManager } from "./pages/ContentManager";
-import { Home } from "./pages/Home";
-import { Profile } from "./pages/Profile";
-import { StreamBrowser } from "./pages/StreamBrowser";
-import { StreamManager } from "./pages/StreamManager";
-import { StreamViewer } from "./pages/StreamViewer";
-import { Layout } from "./components/Layout";
+import ContentBrowser from "./pages/ContentBrowser";
+import ContentUpload from "./pages/ContentUpload";
+import ContentViewer from "./pages/ContentViewer";
+import ContentManager from "./pages/ContentManager";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import StreamBrowser from "./pages/StreamBrowser";
+import StreamManager from "./pages/StreamManager";
+import StreamViewer from "./pages/StreamViewer";
+import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {

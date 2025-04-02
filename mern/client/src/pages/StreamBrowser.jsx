@@ -1,4 +1,4 @@
-export function StreamBrowser() {
+export default function StreamBrowser() {
   return (
     <>
       <h2>Stream Browser</h2>

@@ -1,4 +1,4 @@
-export function CreatorDetails({ userState }) {
+export default function CreatorDetails({ userState }) {
   return (
     <div className="creator-details">
       <label>User Name:</label>

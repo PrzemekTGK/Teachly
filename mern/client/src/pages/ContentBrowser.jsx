@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getVideos } from "../api";
 import { Link } from "react-router-dom";
 
-export function ContentBrowser() {
+export default function ContentBrowser() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

@@ -1,9 +1,3 @@
-
-
-export function StreamManager(){
-    return (
-        <>
-            Stream Manager        
-        </>
-    )
+export default function StreamManager() {
+  return <>Stream Manager</>;
 }

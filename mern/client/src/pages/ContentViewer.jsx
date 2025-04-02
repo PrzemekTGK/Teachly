@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
-export function ContentViewer() {
+export default function ContentViewer() {
   const { state } = useLocation();
   const { videoUrl, videoTitle, videoDescription, videoUploader, uploadedAt } =
     state || {};

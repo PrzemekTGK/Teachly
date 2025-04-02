@@ -1,4 +1,8 @@
-function ConfirmationModal({ modalState, setModalState, onConfirm }) {
+export default function ConfirmationModal({
+  modalState,
+  setModalState,
+  onConfirm,
+}) {
   return (
     <div className="modal-background">
       <div className="modal-container">
@@ -37,5 +41,3 @@ function ConfirmationModal({ modalState, setModalState, onConfirm }) {
     </div>
   );
 }
-
-export default ConfirmationModal;

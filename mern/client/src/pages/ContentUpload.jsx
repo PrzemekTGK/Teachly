@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { uploadVideo } from "../api";
 
-export function ContentUpload() {
+export default function ContentUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);

@@ -1,4 +1,4 @@
-export function ViewerDetails({ userState }) {
+export default function ViewerDetails({ userState }) {
   return (
     <div className="viewer-details">
       <label>User Name:</label>

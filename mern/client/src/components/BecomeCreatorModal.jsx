@@ -2,7 +2,11 @@ import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { updateUser } from "../api";
 import axios from "axios";
-function BecomeCreatorModal({ modalState, setModalState, onRoleUpdate }) {
+export default function BecomeCreatorModal({
+  modalState,
+  setModalState,
+  onRoleUpdate,
+}) {
   const [userState, setUserState] = useState({
     firstname: "",
     lastname: "",
@@ -97,5 +101,3 @@ function BecomeCreatorModal({ modalState, setModalState, onRoleUpdate }) {
     </div>
   );
 }
-
-export default BecomeCreatorModal;

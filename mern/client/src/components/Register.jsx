@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function Register({ modalState, setModalState }) {
+export default function Register({ modalState, setModalState }) {
   const [userState, setUserState] = useState({
     imageId: "",
     firstname: "",

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-export function Login({ modalState, setModalState }) {
+export default function Login({ modalState, setModalState }) {
   const [userState, setUserState] = useState({
     email: "",
     password: "",

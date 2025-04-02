@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { ContentBrowser } from "./ContentBrowser";
-import { StreamBrowser } from "./StreamBrowser";
+import ContentBrowser from "./ContentBrowser";
+import StreamBrowser from "./StreamBrowser";
 
-export function Home() {
+export default function Home() {
   const [activeTab, setActiveTab] = useState("page1");
 
   return (

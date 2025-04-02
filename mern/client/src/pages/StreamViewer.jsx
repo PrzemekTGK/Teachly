@@ -1,9 +1,3 @@
-
-
-export function StreamViewer(){
-    return (
-        <>
-            Stream Viewer        
-        </>
-    )
+export default function StreamViewer() {
+  return <>Stream Viewer</>;
 }
