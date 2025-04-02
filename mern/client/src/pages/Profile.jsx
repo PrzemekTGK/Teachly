@@ -23,7 +23,9 @@ export function Profile() {
   const [selectProfileImgState, setSelectProfileImgState] = useState();
   const [profileImgUrl, setProfileImgUrl] = useState(defaultProfileImage);
   const [roleState, setRoleState] = useState();
-  const [openModalState, setOpenModalState] = useState(false);
+  const [roleModalState, setRoleModalState] = useState(false);
+  const [confirmModalState, setConfirmModalState] = useState(false);
+  const [confirmAction, setConfirmAction] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
   const inputFileRef = useRef(null);
@@ -46,27 +48,14 @@ export function Profile() {
     }
 
     loadUserData();
-  }, []);
+  }, [roleState]);
 
-  useEffect(() => {
-    // When the modal closes, refresh the user data
-    if (!openModalState && userState) {
-      async function refreshUserData() {
-        const token = sessionStorage.getItem("User");
-        const decodedUser = jwtDecode(token);
-        // Optionally, you can re-fetch user data from the server here.
-        setUserState(decodedUser);
-      }
-      refreshUserData();
-    }
-  }, [openModalState, userState]);
-
-  function editProfileImg() {
+  function handleEditProfileImg() {
     setEditProfileImgState(!editProfileImgState);
     setSelectProfileImgState();
   }
 
-  function selectProfileImg(e) {
+  function handleSelectProfileImg(e) {
     const file = e.target.files[0];
     const fileExtension = file.name.substring(file.name.lastIndexOf("."));
     if (
@@ -89,7 +78,7 @@ export function Profile() {
     setSelectProfileImgState(file);
   }
 
-  async function uploadProfileImg() {
+  async function handleUploadProfileImg() {
     setError("");
     setSuccess("");
     if (profileImgUrl) {
@@ -136,7 +125,7 @@ export function Profile() {
     }
   }
 
-  async function deleteProfileImg() {
+  async function handleDeleteProfileImg() {
     if (profileImgUrl) {
       const token = sessionStorage.getItem("User");
       const decodedUser = jwtDecode(token);
@@ -217,7 +206,7 @@ export function Profile() {
           <>
             <button
               className="edit-profile-image-button"
-              onClick={editProfileImg}
+              onClick={handleEditProfileImg}
             >
               {profileImgUrl === defaultProfileImage
                 ? "Upload Image"
@@ -225,7 +214,10 @@ export function Profile() {
             </button>
             <button
               className="delete-profile-image-button"
-              onClick={deleteProfileImg}
+              onClick={() => {
+                setConfirmAction("deleteImage");
+                setConfirmModalState(!confirmModalState);
+              }}
             >
               Delete Image
             </button>
@@ -236,18 +228,18 @@ export function Profile() {
               <></>
             ) : (
               <>
-                <button onClick={uploadProfileImg}>Upload</button>
+                <button onClick={handleUploadProfileImg}>Upload</button>
               </>
             )}
             <>
               <input
                 type="file"
-                onChange={selectProfileImg}
+                onChange={handleSelectProfileImg}
                 ref={inputFileRef}
               />
               <button
                 className="close-image-edit-button"
-                onClick={editProfileImg}
+                onClick={handleEditProfileImg}
               >
                 X
               </button>
@@ -263,7 +255,7 @@ export function Profile() {
               <button
                 className="become-creator-button"
                 onClick={() => {
-                  setOpenModalState(!openModalState);
+                  setRoleModalState(!roleModalState);
                 }}
               >
                 Become Creator
@@ -274,7 +266,10 @@ export function Profile() {
               <CreatorDetails userState={userState} />
               <button
                 className="cease-creator-button"
-                onClick={handleCeaseCreator}
+                onClick={() => {
+                  setConfirmAction("ceaseCreator");
+                  setConfirmModalState(!confirmModalState);
+                }}
               >
                 Stop Creating
               </button>
@@ -282,23 +277,42 @@ export function Profile() {
           )}
           <button className="change-password-button">Change Password</button>
         </div>
-        <button className="delete-profile-button" onClick={handleDeleteProfile}>
+        <button
+          className="delete-profile-button"
+          onClick={() => {
+            setConfirmAction("deleteProfile");
+            setConfirmModalState(!confirmModalState);
+          }}
+        >
           Delete Profile
         </button>
       </div>
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
 
-      {openModalState && (
+      {roleModalState && (
         <div className="modal-wrapper">
           <BecomeCreatorModal
-            modalState={openModalState}
-            setModalState={setOpenModalState}
+            modalState={roleModalState}
+            setModalState={setRoleModalState}
             onRoleUpdate={handleRoleUpdate}
           />
+        </div>
+      )}
+      {confirmModalState && (
+        <div className="modal-wrapper">
           <ConfirmationModal
-            modalState={openModalState}
-            setModalState={setOpenModalState}
+            modalState={confirmModalState}
+            setModalState={setConfirmModalState}
+            onConfirm={() => {
+              if (confirmAction === "ceaseCreator") {
+                handleCeaseCreator();
+              } else if (confirmAction === "deleteProfile") {
+                handleDeleteProfile();
+              } else if (confirmAction === "deleteImage") {
+                handleDeleteProfileImg();
+              }
+            }}
           />
         </div>
       )}

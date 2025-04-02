@@ -1,4 +1,4 @@
-function ConfirmationModal({ modalState, setModalState }) {
+function ConfirmationModal({ modalState, setModalState, onConfirm }) {
   return (
     <div className="modal-background">
       <div className="modal-container">
@@ -14,8 +14,25 @@ function ConfirmationModal({ modalState, setModalState }) {
         <div className="modal-bar">
           <h3>Are you sure you want to proceed?</h3>
         </div>
-        <button>Yes</button>
-        <button>No</button>
+        <div className="confirmation-buttons-bar">
+          <button
+            className="confrim-button"
+            onClick={() => {
+              onConfirm(); // Execute the correct action
+              setModalState(!modalState); // Close modal after confirming
+            }}
+          >
+            Yes
+          </button>
+          <button
+            className="cancel-button"
+            onClick={() => {
+              setModalState(!modalState);
+            }}
+          >
+            No
+          </button>
+        </div>
       </div>
     </div>
   );

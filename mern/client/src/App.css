@@ -432,3 +432,16 @@ label {
   border: none;
   overflow: hidden;
 }
+
+.confirmation-buttons-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+}
+
+.confrim-button,
+.cancel-button {
+  min-width: 50%;
+  background-color: rgba(36, 36, 36, 1);
+}
