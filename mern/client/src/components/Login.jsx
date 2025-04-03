@@ -34,7 +34,7 @@ export default function Login({ modalState, setModalState }) {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.token}`;
-        navigate("../profile");
+        navigate("../");
       } else {
         setError(response.message);
       }
