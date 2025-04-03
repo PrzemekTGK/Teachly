@@ -1,4 +1,4 @@
-import { checkPassword, changePassword } from "../api";
+import { checkPassword, changePassword, validatePassword } from "../api";
 import { useState } from "react";
 
 export default function ChangePasswordModal({ modalState, setModalState }) {
@@ -57,6 +57,18 @@ export default function ChangePasswordModal({ modalState, setModalState }) {
 
     if (!passwordMatch) {
       setError("Current password is incorrect!!!");
+      return;
+    }
+
+    if (!validatePassword(userState.newPassword)) {
+      setError(
+        "Password must be at least 8 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character."
+      );
+      return;
+    }
+
+    if (userState.newPassword === userState.currentPassword) {
+      setError("Password cannot be the same as current password!");
       return;
     }
 

@@ -1,4 +1,4 @@
-import { createUser } from "../api";
+import { createUser, validatePassword } from "../api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -40,9 +40,17 @@ export default function Register({ modalState, setModalState }) {
       setError("Passwords do not match!");
       return; // Stop the submission
     }
+
     if (!validateEmail(userState.email)) {
       setError("Enter a Valid Email!!");
       return; // Don't submit the form and prevent modal from closing
+    }
+
+    if (!validatePassword(userState.password)) {
+      setError(
+        "Password must be at least 8 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character."
+      );
+      return;
     }
 
     try {
