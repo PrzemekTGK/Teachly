@@ -29,7 +29,7 @@ export default function Register({ modalState, setModalState }) {
   };
 
   async function registerNewUser(e) {
-    e.preventDefault();
+    e.preventDefault(); // Display an alert if they don't match;
 
     // Reset success andtoke error messages on each submission attempt
     setError("");
@@ -46,7 +46,7 @@ export default function Register({ modalState, setModalState }) {
     }
 
     try {
-      const { userConfirmedPassword, ...user } = userState;
+      const { confirmPassword, ...user } = userState;
       let newUser = await createUser(user);
 
       if (newUser.data.success) {
