@@ -170,9 +170,6 @@ export async function deleteImage(id) {
     });
     return response;
   } catch (error) {
-    alert(
-      "An error occurred while deleting the image. Please try again later."
-    );
     return error.response.data;
   }
 }

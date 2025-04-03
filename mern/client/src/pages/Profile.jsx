@@ -88,7 +88,7 @@ export default function Profile() {
       const token = sessionStorage.getItem("User");
       const currentImageId = jwtDecode(token).imageId;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      if (!profileImgUrl === "/src/assets/unknown.jpg") {
+      if (!(profileImgUrl === defaultProfileImage)) {
         await deleteImage(currentImageId);
       }
     }
@@ -213,8 +213,10 @@ export default function Profile() {
             <button
               className="delete-profile-image-button"
               onClick={() => {
-                setConfirmAction("deleteImage");
-                setConfirmModalState(!confirmModalState);
+                if (!(profileImgUrl === defaultProfileImage)) {
+                  setConfirmAction("deleteImage");
+                  setConfirmModalState(!confirmModalState);
+                }
               }}
             >
               Delete Image

@@ -29,7 +29,7 @@ export default function Register({ modalState, setModalState }) {
   };
 
   async function registerNewUser(e) {
-    e.preventDefault(); // Display an alert if they don't match;
+    e.preventDefault();
 
     // Reset success andtoke error messages on each submission attempt
     setError("");
