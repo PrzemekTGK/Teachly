@@ -13,6 +13,7 @@ import ViewerDetails from "../components/ViewerDetails.jsx";
 import CreatorDetails from "../components/CreatorDetails.jsx";
 import ConfirmationModal from "../components/ConfirmationModal.jsx";
 import BecomeCreatorModal from "../components/BecomeCreatorModal.jsx";
+import ChangePasswordModal from "../components/ChangePasswordModal.jsx";
 import defaultProfileImage from "../assets/unknown.jpg";
 import axios from "axios";
 
@@ -25,6 +26,8 @@ export default function Profile() {
   const [roleState, setRoleState] = useState();
   const [roleModalState, setRoleModalState] = useState(false);
   const [confirmModalState, setConfirmModalState] = useState(false);
+  const [changePasswordModalState, setChangePasswordModalState] =
+    useState(false);
   const [confirmAction, setConfirmAction] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
@@ -42,7 +45,7 @@ export default function Profile() {
           setProfileImgUrl(imageUrl); // Update only if imageUrl is valid
         } catch (error) {
           setProfileImgUrl(defaultProfileImage);
-          console.error("Error fetching profile image:", error);
+          setError("Error fetching profile image:", error);
         }
       }
     }
@@ -82,7 +85,6 @@ export default function Profile() {
     setError("");
     setSuccess("");
     if (profileImgUrl) {
-      console.log(`PROFILE IMAGE URL: `, profileImgUrl);
       const token = sessionStorage.getItem("User");
       const currentImageId = jwtDecode(token).imageId;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -167,18 +169,14 @@ export default function Profile() {
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const userVideos = await getUserVideos("uploaderId", userId);
-      console.log(`User Vidoes: `, userVideos);
 
       const videoIds = userVideos.map((video) => video._id);
-      console.log(`Video IDs: `, videoIds);
 
       if (imageId) {
-        console.log("Profile has IMAGE!");
         await deleteImage(imageId);
       }
 
       if (videoIds.length > 0) {
-        console.log("Profile has VIDEOS!");
         await deleteVideos(videoIds);
       }
       await deleteUser(userId);
@@ -275,7 +273,14 @@ export default function Profile() {
               </button>
             </>
           )}
-          <button className="change-password-button">Change Password</button>
+          <button
+            className="change-password-button"
+            onClick={() => {
+              setChangePasswordModalState(!changePasswordModalState);
+            }}
+          >
+            Change Password
+          </button>
         </div>
         <button
           className="delete-profile-button"
@@ -313,6 +318,15 @@ export default function Profile() {
                 handleDeleteProfileImg();
               }
             }}
+          />
+        </div>
+      )}
+
+      {changePasswordModalState && (
+        <div className="modal-wrapper">
+          <ChangePasswordModal
+            modalState={changePasswordModalState}
+            setModalState={setChangePasswordModalState}
           />
         </div>
       )}

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changePassword,
   createUser,
   deleteUser,
   getUser,
@@ -9,15 +10,18 @@ import {
 import {
   verifyToken,
   verifyUser,
+  checkPassword,
 } from "../controllers/verificationController.js";
 
 const userRouter = express.Router();
 
+userRouter.post("/", createUser);
+userRouter.post("/login", verifyUser);
+userRouter.post("/check-password", checkPassword);
+userRouter.put("/change-password", verifyToken, changePassword);
+userRouter.put("/:id", verifyToken, updateUser);
 userRouter.get("/", verifyToken, getUsers);
 userRouter.get("/:id", verifyToken, getUser);
-userRouter.post("/", createUser);
-userRouter.put("/:id", verifyToken, updateUser);
 userRouter.delete("/:id", verifyToken, deleteUser);
-userRouter.post("/login", verifyUser);
 
 export default userRouter;

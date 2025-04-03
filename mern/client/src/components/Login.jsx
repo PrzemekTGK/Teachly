@@ -26,13 +26,11 @@ export default function Login({ modalState, setModalState }) {
 
     try {
       const response = await verifyUser(userState);
-      console.log(`Response: ${response.data}`);
 
       if (response.success) {
         setSuccess("User logged in successfully!");
         setModalState(!modalState);
         sessionStorage.setItem("User", response.data);
-        console.log(`Session storage: ${sessionStorage.getItem("User")}`);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.token}`;
@@ -41,7 +39,6 @@ export default function Login({ modalState, setModalState }) {
         setError(response.message);
       }
     } catch (error) {
-      console.error("Login error:", error);
       setError(error.message || "An unexpected error occurred.");
     }
   }

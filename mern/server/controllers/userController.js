@@ -1,13 +1,13 @@
 import User from "../models/userModel.js";
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
     res.status(200).json({ success: true, data: users });
   } catch (error) {
-    console.error(`Error getting all users: ${error.message}`);
     res.status(500).json({ success: false, message: "Server error!" });
   }
 };
@@ -18,7 +18,6 @@ export const getUser = async (req, res) => {
     const users = await User.findById(id);
     res.status(200).json({ success: true, data: users });
   } catch (error) {
-    console.error(`Error getting a user: ${error.message}`);
     res.status(500).json({ success: false, message: "Server error!" });
   }
 };
@@ -78,7 +77,6 @@ export const updateUser = async (req, res) => {
     const token = jwt.sign(updatedUser, process.env.SECRET_KEY);
     res.status(200).json({ success: true, token });
   } catch (error) {
-    console.error(`Error updating user: ${error.message}`);
     res.status(500).json({ success: false, message: "Server error!" });
   }
 };
@@ -96,7 +94,30 @@ export const deleteUser = async (req, res) => {
     await User.findByIdAndDelete(id);
     res.status(200).json({ success: true, message: "User Deleted!" });
   } catch (error) {
-    console.error(`Error deleting user: ${error.message}`);
     res.status(500).json({ success: false, message: "Server Error!" });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const { userId, newPassword } = req.body;
+
+  try {
+    // Find user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Update the password
+    user.password = newPassword;
+    await user.save();
+    return res
+      .status(200)
+      .json({ success: true, message: "Password updated successfully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };

@@ -26,7 +26,6 @@ export const uploadImage = async (req, res) => {
     const data = await s3Client.send(new PutObjectCommand(bucketParams));
     res.status(200).json(data);
   } catch (error) {
-    console.error("Error uploading to S3:");
     res.status(500).json({ error: error.message });
   }
 };

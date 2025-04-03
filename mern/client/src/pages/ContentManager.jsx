@@ -12,7 +12,6 @@ export default function ContentManager() {
     async function fetchVideos() {
       try {
         const videosData = await getVideos();
-        console.log(videosData);
         setVideos(videosData);
       } catch (err) {
         setError(`Error fetching videos: ${err.message}`);
@@ -39,11 +38,9 @@ export default function ContentManager() {
         setVideos((prevVideos) =>
           prevVideos.filter((video) => video._id !== videoId)
         );
-      } else {
-        console.error("Failed to delete video:", response.data);
       }
     } catch (error) {
-      console.error("Error deleting video:", error);
+      setError("Error deleting video:", error);
     }
   }
 

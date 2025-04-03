@@ -27,7 +27,6 @@ export default function ContentUpload() {
         fileInputRef.current.value = "";
         return;
       }
-      console.log(file);
       setSelectedFile(file);
     }
   }
@@ -57,7 +56,6 @@ export default function ContentUpload() {
         setTitle("");
         setDescription("");
       } else {
-        console.log(response);
         setError(response);
       }
     } catch (error) {

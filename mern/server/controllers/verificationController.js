@@ -2,6 +2,36 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+export const checkPassword = async (req, res) => {
+  const { userId, currentPassword } = req.body;
+
+  try {
+    // Find user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Compare hashed password
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Current password is incorrect" });
+    }
+
+    return res
+      .status(200)
+      .json({ success: true, message: "Password is correct" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 export const verifyUser = async (req, res) => {
   const { email, password } = req.body;
 
@@ -22,7 +52,6 @@ export const verifyUser = async (req, res) => {
     const token = jwt.sign(user, process.env.SECRET_KEY, { expiresIn: "1h" });
     return res.status(200).json({ success: true, data: token });
   } catch (error) {
-    console.error(`Login error: ${error.message}`);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };

@@ -11,7 +11,6 @@ export default function ContentBrowser() {
     async function fetchVideos() {
       try {
         const videosData = await getVideos();
-        console.log(videosData);
         setVideos(videosData);
       } catch (err) {
         setError(`Error fetching videos: `, err);

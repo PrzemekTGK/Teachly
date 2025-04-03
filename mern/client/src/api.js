@@ -3,6 +3,54 @@ import { jwtDecode } from "jwt-decode";
 
 const URL = "http://localhost:5000/api";
 
+export async function checkPassword(currentPassword) {
+  const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
+  const decodedUser = jwtDecode(token); // Decode the token to get the user ID
+  const userId = decodedUser._id; // Extract the user ID from the decoded token
+
+  try {
+    const response = await axios.post(
+      `${URL}/users/check-password`,
+      { userId, currentPassword }, // Send the userId and password to the backend
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send the token in the Authorization header
+        },
+      }
+    );
+
+    return response.data.success; // Return whether the password is correct
+  } catch (error) {
+    console.error("Error validating password:", error);
+    return false; // Return false if there's an error (like incorrect password)
+  }
+}
+
+export async function changePassword(newPassword) {
+  const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
+  const decodedUser = jwtDecode(token); // Decode the token to get the user ID
+  const userId = decodedUser._id; // Extract the user ID from the decoded token
+
+  try {
+    const response = await axios.put(
+      `${URL}/users/change-password`,
+      {
+        userId,
+        newPassword,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`, // Send the token in the Authorization header
+        },
+      }
+    );
+
+    return response.data; // Return the success message or any data returned by the API
+  } catch (error) {
+    return error.response?.data || { success: false, message: "Unknown error" };
+  }
+}
+
 export async function getUsers() {
   try {
     const response = await axios.get(`${URL}/users`);
@@ -28,8 +76,6 @@ export async function createUser(user) {
     const response = await axios.post(`${URL}/users`, userData);
     return response;
   } catch (error) {
-    console.error(`Failed to add the user to DB: ${error.message}`, error);
-
     if (error.response) {
       return error.response.data;
     }
@@ -77,7 +123,6 @@ export async function verifyUser(user) {
 }
 
 export async function uploadImage(file) {
-  console.log("Uploading Image Api.js", file);
   const formData = new FormData();
   formData.append("image", file);
   try {
@@ -91,9 +136,6 @@ export async function uploadImage(file) {
     return response;
   } catch (error) {
     console.log(`Failed to upload the image ${error.message}`);
-    alert(
-      "An error occurred while uploading the image. Please try again later!"
-    );
   }
 }
 
@@ -166,11 +208,9 @@ export async function uploadVideo(file, title, description) {
   } catch (error) {
     if (error.response) {
       // If there's a response, handle it here
-      console.log("Error response:", error.response.data.message);
       return error.response.data.message; // Return the full response to be handled by the frontend.
     } else {
       // If there's no response (e.g., network error)
-      console.log("Network or other error:", error.message);
       return { status: 500, message: error.message }; // Return custom error for network errors.
     }
   }
@@ -196,7 +236,7 @@ export async function getUserVideos(filterKey, filterValue) {
     });
     return response.data;
   } catch (error) {
-    console.error(`Failed to fetch videos: ${error.message}`);
+    error(`Failed to fetch videos: ${error.message}`);
     throw error;
   }
 }
@@ -211,7 +251,6 @@ export async function deleteVideo(videoId) {
     });
     return response;
   } catch (error) {
-    console.error(`Failed to delete video: ${error.message}`);
     return error.response ? error.response.data : { error: error.message };
   }
 }
@@ -231,7 +270,6 @@ export async function deleteVideos(videoIds) {
     );
     return response;
   } catch (error) {
-    console.error(`Failed to delete videos: ${error.message}`);
     return error.response ? error.response.data : { error: error.message };
   }
 }
