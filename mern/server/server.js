@@ -15,11 +15,13 @@ const upload = multer();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
+
 app.use("/api/users", userRouter);
 app.use("/api/images", awsImgRouter);
 app.use("/api/videos", awsVidRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   connectDB();
 });

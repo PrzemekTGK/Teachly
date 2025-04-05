@@ -154,6 +154,7 @@ export default function Profile() {
       const response = await updateUser(decodedUser._id, updatedUser);
       const newToken = response.data.token;
       sessionStorage.setItem("User", newToken);
+      sessionStorage.removeItem("StreamKey");
       const decodedUserAfterUpdate = jwtDecode(newToken);
       setRoleState(decodedUserAfterUpdate.role);
     } catch (error) {

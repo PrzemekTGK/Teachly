@@ -1,6 +1,7 @@
 import { verifyUser } from "../api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 export default function Login({ modalState, setModalState }) {
@@ -31,6 +32,10 @@ export default function Login({ modalState, setModalState }) {
         setSuccess("User logged in successfully!");
         setModalState(!modalState);
         sessionStorage.setItem("User", response.data);
+        const decodedUser = jwtDecode(response.data);
+        const streamKey = decodedUser.streamKey;
+        console.log(streamKey);
+        sessionStorage.setItem("StreamKey", streamKey);
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.token}`;

@@ -35,6 +35,10 @@ const userSchema = mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  streamKey: {
+    type: String,
+    required: false, // stream key is only needed for creators
+  },
 });
 
 userSchema.pre("save", async function (next) {

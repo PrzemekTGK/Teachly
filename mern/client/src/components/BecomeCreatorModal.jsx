@@ -11,9 +11,14 @@ export default function BecomeCreatorModal({
     firstname: "",
     lastname: "",
     role: "creator",
+    streamKey: "",
   });
   const [error, setError] = useState(""); // For error messages
   const [success, setSuccess] = useState(""); // For success messages
+
+  function generateStreamKey(username) {
+    return `${username}-${Math.random().toString(36).substr(2, 9)}`; // Example: username-randomKey
+  }
 
   function updateHandler(e) {
     setUserState({ ...userState, [e.target.name]: e.target.value });
@@ -29,19 +34,24 @@ export default function BecomeCreatorModal({
     const decodedUser = jwtDecode(token);
     const userId = decodedUser._id;
     const newRole = userState.role;
+    const streamKey = generateStreamKey(decodedUser.username);
 
     try {
       const updatedUser = {
         firstname: userState.firstname,
         lastname: userState.lastname,
         role: newRole,
+        streamKey: streamKey,
       };
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       const response = await updateUser(userId, updatedUser);
 
       // Use the token returned by the backend; no need to encode manually
       const newToken = response.data.token;
+      const newUser = jwtDecode(newToken);
+      console.log(newUser);
       sessionStorage.setItem("User", newToken);
+      sessionStorage.setItem("StreamKey", newUser.streamKey);
 
       // Call the onRoleUpdate callback to update the role in the parent component
       onRoleUpdate(newRole);

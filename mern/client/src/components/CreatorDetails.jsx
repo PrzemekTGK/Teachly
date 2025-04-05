@@ -17,6 +17,8 @@ export default function CreatorDetails({ userState }) {
           year: "numeric",
         })}
       </h3>
+      <label>Your Streamer Key: </label>
+      <h3>{userState.streamKey}</h3>
     </div>
   );
 }

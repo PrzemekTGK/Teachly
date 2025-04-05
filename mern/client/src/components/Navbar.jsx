@@ -48,6 +48,7 @@ export default function Navbar() {
 
   function handleLogout() {
     sessionStorage.removeItem("User");
+    sessionStorage.removeItem("StreamKey");
     setMenuOpenState(false); // Close dropdown when logging out
     setTimeout(() => {
       navigate("/");

@@ -11,13 +11,15 @@ import {
   verifyToken,
   verifyUser,
   checkPassword,
+  validateStreamKey,
 } from "../controllers/verificationController.js";
 
 const userRouter = express.Router();
 
+userRouter.all("/validate-stream-key", validateStreamKey);
 userRouter.post("/", createUser);
 userRouter.post("/login", verifyUser);
-userRouter.post("/check-password", checkPassword);
+userRouter.post("/check-password", verifyToken, checkPassword);
 userRouter.put("/change-password", verifyToken, changePassword);
 userRouter.put("/:id", verifyToken, updateUser);
 userRouter.get("/", verifyToken, getUsers);

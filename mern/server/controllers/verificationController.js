@@ -2,6 +2,44 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+export const validateStreamKey = async (req, res) => {
+  console.log(`VALIDATING STREAMER KEY`, req.body.name);
+  const streamKey = req.body.name;
+  console.log("Received streamKey:", streamKey); // Log for debugging
+
+  try {
+    // Find the user by ID and check if they are a 'creator'
+    const user = await User.findOne({ streamKey });
+
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, message: "User not found" });
+    }
+
+    // Check if the user is a creator and the stream key matches
+    if (user.role !== "creator") {
+      return res
+        .status(400)
+        .json({ success: false, message: "User is not a content creator" });
+    }
+
+    // Compare the provided streamKey with the one in the database
+    if (user.streamKey !== streamKey) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid stream key" });
+    }
+
+    // If everything is valid, return a success message
+    return res
+      .status(200)
+      .json({ success: true, message: "Stream key is valid!" });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 export const checkPassword = async (req, res) => {
   const { userId, currentPassword } = req.body;
 
@@ -57,10 +95,13 @@ export const verifyUser = async (req, res) => {
 };
 
 export const verifyToken = async (req, res, next) => {
+  console.log(`🔍 Checking token for: ${req.path}`); // Debugging log
+
   const authHeaders = req.headers["authorization"];
   const token = authHeaders && authHeaders.split(" ")[1];
 
   if (!token) {
+    console.log(`🚨 No token provided for: ${req.path}`);
     return res
       .status(401)
       .json({ message: "Authantication token is missing!" });
