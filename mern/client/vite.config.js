@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: "dist", // ensure the build output is set to the 'dist' folder
+    rollupOptions: {
+      input: "/src/main.js", // Ensure this is pointing to your entry file (usually main.js or index.js)
+    },
   },
   server: {
     // Disable the default localhost binding, allowing the server to be exposed externally
