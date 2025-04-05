@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 
 const userSchema = mongoose.Schema({
   imageId: {
@@ -45,8 +45,8 @@ userSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
     // Only hash if the password is modified
     try {
-      const salt = await bcrypt.genSalt(10); // Generate a salt
-      this.password = await bcrypt.hash(this.password, salt); // Hash the password
+      const salt = await bcryptjs.genSalt(10); // Generate a salt
+      this.password = await bcryptjs.hash(this.password, salt); // Hash the password
       next(); // Proceed with saving the document
     } catch (error) {
       next(error); // Handle any errors

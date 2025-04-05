@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import bcrypt from "bcrypt";
+import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const validateStreamKey = async (req, res) => {
@@ -54,7 +54,7 @@ export const checkPassword = async (req, res) => {
     }
 
     // Compare hashed password
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    const isMatch = await bcryptjs.compare(currentPassword, user.password);
 
     if (!isMatch) {
       return res
@@ -81,7 +81,7 @@ export const verifyUser = async (req, res) => {
     }
 
     // ✅ Compare hashed password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcryptjs.compare(password, user.password);
     if (!isMatch) {
       return res
         .status(400)
