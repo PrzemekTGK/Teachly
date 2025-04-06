@@ -11,7 +11,6 @@ export const streamProxy = (req, res) => {
     path: `/hls${req.url}`,
     method: req.method,
     headers: req.headers,
-    timeout: 10000, // 10 seconds timeout
   };
 
   const proxyReq = http.request(options, (proxyRes) => {
