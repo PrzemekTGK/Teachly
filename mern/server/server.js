@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRouter from "./routes/userRouter.js";
 import awsImgRouter from "./routes/awsImgRouter.js";
 import awsVidRouter from "./routes/awsVidRouter.js";
+import streamRouter from "./routes/streamRouter.js";
 import { connectDB } from "./config/db.js";
 import multer from "multer";
 
@@ -21,6 +22,7 @@ app.use(upload.any());
 app.use("/api/users", userRouter);
 app.use("/api/images", awsImgRouter);
 app.use("/api/videos", awsVidRouter);
+app.use("/api/stream", streamRouter);
 
 app.listen(PORT, "0.0.0.0", () => {
   connectDB();

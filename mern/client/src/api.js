@@ -2,6 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const URL = "http://localhost:5000/api";
+const STREAM_URL = "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com";
 
 export async function checkPassword(currentPassword) {
   const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
@@ -275,4 +276,22 @@ export const validatePassword = (password) => {
   const regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   return regex.test(password);
+};
+
+export const getStreamUrl = async (streamKey) => {
+  console.log("LOADING STREAM!");
+  const api = axios.create({
+    baseURL: STREAM_URL,
+  });
+  try {
+    const response = await api.head(`/hls/${streamKey}.m3u8`);
+    if (response.status === 200) {
+      return `${STREAM_URL}/hls/${streamKey}.m3u8`;
+    } else {
+      throw new Error("Stream not live");
+    }
+  } catch (error) {
+    console.error("Error checking stream:", error);
+    throw error;
+  }
 };
