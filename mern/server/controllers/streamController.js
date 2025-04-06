@@ -1,8 +1,6 @@
 // controllers/streamController.js
 import fetch from "node-fetch";
 
-import fetch from "node-fetch";
-
 export const proxyHLSStream = async (req, res) => {
   const { file } = req.params;
   const streamUrl = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls/${file}`;
