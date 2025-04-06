@@ -282,17 +282,22 @@ export const getStreamUrl = async (streamKey) => {
   const api = axios.create({
     baseURL: URL,
   });
-  const fullUrl = `${URL}/stream/hls/${streamKey}.m3u8`;
-  console.log("Requesting:", fullUrl);
   try {
+    const fullUrl = `${URL}/stream/hls/${streamKey}.m3u8`;
+    console.log("Requesting HEAD:", fullUrl);
     const response = await api.head(`/stream/hls/${streamKey}.m3u8`);
     if (response.status === 200) {
-      return `${URL}/stream/hls/${streamKey}.m3u8`;
+      console.log("Stream URL returned:", fullUrl);
+      return fullUrl;
     } else {
       throw new Error("Stream not live");
     }
   } catch (error) {
-    console.error("Error checking stream:", error);
+    console.error(
+      "Error checking stream:",
+      error.message,
+      error.response?.status
+    );
     throw error;
   }
 };
