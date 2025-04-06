@@ -10,9 +10,9 @@ export const streamProxy = async (req, res, next) => {
       pathRewrite: { "^/api/stream/hls": "/hls" },
       onError: (err, req, res) => {
         console.error("Proxy error:", err.message);
-        res.status(500).send("Proxy failed");
+        res.status(502).send("Bad Gateway");
       },
-      onProxyReq: (proxyReq, req) => {
+      onProxyReq: (proxyReq) => {
         console.log("Proxy request sent to:", proxyReq.path);
       },
       onProxyRes: (proxyRes) => {
@@ -22,6 +22,6 @@ export const streamProxy = async (req, res, next) => {
     proxy(req, res, next);
   } catch (error) {
     console.error("Proxy setup error:", error.message);
-    next(error);
+    res.status(500).send("Proxy failed");
   }
 };
