@@ -21,6 +21,7 @@ export const streamProxy = (req, res, next) => {
     });
     console.log("Proxy created, executing...");
     proxy(req, res, (err) => {
+      console.log("Proxy callback triggered, error:", err || "none");
       if (err) {
         console.error("Proxy next error:", err.message);
         return res.status(500).send("Proxy failed");
