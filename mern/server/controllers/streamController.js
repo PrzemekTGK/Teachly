@@ -2,7 +2,6 @@ import http from "http";
 
 export const streamProxy = (req, res) => {
   console.log("Stream proxy started for:", req.url);
-
   const targetUrl = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls${req.url}`;
   console.log("Proxying to:", targetUrl);
 
@@ -10,13 +9,22 @@ export const streamProxy = (req, res) => {
     hostname: "ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
     path: `/hls${req.url}`,
     method: req.method,
-    headers: req.headers,
+    headers: {
+      ...req.headers,
+      "Cache-Control": "no-cache", // Force fresh response
+      "If-Modified-Since": "", // Clear caching headers
+      "If-None-Match": "", // Prevent 304
+    },
+    timeout: 10000,
   };
 
   const proxyReq = http.request(options, (proxyRes) => {
     console.log("Proxy response status:", proxyRes.statusCode);
-    res.writeHead(proxyRes.statusCode, proxyRes.headers);
-    proxyRes.pipe(res); // Stream the response back to the client
+    res.writeHead(proxyRes.statusCode, {
+      ...proxyRes.headers,
+      "Cache-Control": "no-cache", // Ensure client doesn’t cache
+    });
+    proxyRes.pipe(res);
   });
 
   proxyReq.on("error", (err) => {
@@ -27,9 +35,8 @@ export const streamProxy = (req, res) => {
   proxyReq.on("timeout", () => {
     console.error("Proxy request timed out");
     res.status(504).send("Proxy request timed out");
-    proxyReq.destroy(); // Clean up the request
+    proxyReq.destroy();
   });
 
-  // Forward the client’s request body (if any) to the target server
   req.pipe(proxyReq);
 };
