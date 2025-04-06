@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { testBackend } from "./api.js";
+import { testBackend } from "../api";
 import ContentBrowser from "./ContentBrowser";
 import StreamBrowser from "./StreamBrowser";
 
