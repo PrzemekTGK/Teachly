@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import Hls from "hls.js";
-import { fetchHLSStream } from "../backend/api"; // Make sure to adjust the import path
 
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
@@ -12,15 +12,19 @@ export default function StreamManager() {
   useEffect(() => {
     const token = sessionStorage.getItem("User");
     const decodedUser = jwtDecode(token);
-    const streamKey = decodedUser.streamKey;
 
+    const streamKey = decodedUser.streamKey;
     const fetchStreamKey = async () => {
       try {
-        // Call the backend API to get the stream data
-        const streamData = await fetchHLSStream(`${streamKey}.m3u8`);
+        // Generate the stream URL
+        const url = `https://teachly-backend.onrender.co/hls/${streamKey}.m3u8`;
 
-        if (streamData) {
-          setStreamUrl(streamData); // This will be the proxy URL from the backend
+        // Check if the stream is accessible (i.e., live)
+        const response = await axios.head(url);
+
+        // If the response status is 200, the stream is live
+        if (response.status === 200) {
+          setStreamUrl(url);
           setIsLive(true);
         } else {
           setIsLive(false); // Stream not live, or not available
