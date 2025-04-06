@@ -19,6 +19,8 @@ export const streamProxy = async (req, res, next) => {
         console.log("Proxy response status:", proxyRes.statusCode);
       },
     });
+    console.log(req);
+    console.log(res);
     proxy(req, res, next);
   } catch (error) {
     console.error("Proxy setup error:", error.message);
