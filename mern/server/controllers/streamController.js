@@ -3,6 +3,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 export const streamProxy = (req, res, next) => {
   console.log("Stream proxy started for:", req.url);
   try {
+    console.log("Creating proxy middleware!");
     const proxy = createProxyMiddleware({
       target: "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
       changeOrigin: true,
