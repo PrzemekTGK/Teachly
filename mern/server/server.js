@@ -22,6 +22,6 @@ app.use("/api/users", userRouter);
 app.use("/api/images", awsImgRouter);
 app.use("/api/videos", awsVidRouter);
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   connectDB();
 });
