@@ -17,7 +17,7 @@ export default function StreamManager() {
     const fetchStreamKey = async () => {
       try {
         // Generate the stream URL
-        const url = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls/${streamKey}.m3u8`;
+        const url = `https://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls/${streamKey}.m3u8`;
 
         // Check if the stream is accessible (i.e., live)
         const response = await axios.head(url);
