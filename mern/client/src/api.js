@@ -293,16 +293,13 @@ export const validatePassword = (password) => {
 };
 
 export const getStreamUrl = async (streamKey) => {
-  console.log("LOADING STREAM!");
   const api = axios.create({
     baseURL: URL,
   });
   try {
     const fullUrl = `${URL}/stream/hls/${streamKey}.m3u8`;
-    console.log("Requesting HEAD:", fullUrl);
     const response = await api.head(`/stream/hls/${streamKey}.m3u8`);
     if (response.status === 200) {
-      console.log("Stream URL returned:", fullUrl);
       return fullUrl;
     } else {
       throw new Error("Stream not live");

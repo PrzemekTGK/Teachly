@@ -1,9 +1,7 @@
 import http from "http";
 
 export const streamProxy = (req, res) => {
-  console.log("Stream proxy started for:", req.url);
   const targetUrl = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls${req.url}`;
-  console.log("Proxying to:", targetUrl);
 
   const options = {
     hostname: "ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
@@ -19,7 +17,6 @@ export const streamProxy = (req, res) => {
   };
 
   const proxyReq = http.request(options, (proxyRes) => {
-    console.log("Proxy response status:", proxyRes.statusCode);
     res.writeHead(proxyRes.statusCode, {
       ...proxyRes.headers,
       "Cache-Control": "no-cache", // Ensure client doesn’t cache
@@ -28,12 +25,10 @@ export const streamProxy = (req, res) => {
   });
 
   proxyReq.on("error", (err) => {
-    console.error("Proxy request error:", err.message);
     res.status(502).send("Proxy failed: " + err.message);
   });
 
   proxyReq.on("timeout", () => {
-    console.error("Proxy request timed out");
     res.status(504).send("Proxy request timed out");
     proxyReq.destroy();
   });
