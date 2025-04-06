@@ -2,25 +2,25 @@ export default function CreatorDetails({ userState }) {
   return (
     <div className="creator-details">
       <label>User Name:</label>
-      <h3>{userState.username}</h3>
+      <h4>{userState.username}</h4>
       <label>First Name:</label>
-      <h3>{userState.firstname}</h3>
+      <h4>{userState.firstname}</h4>
       <label>Last Name:</label>
-      <h3>{userState.lastname}</h3>
+      <h4>{userState.lastname}</h4>
       <label>Email:</label>
-      <h3>{userState.email}</h3>
+      <h4>{userState.email}</h4>
       <label>Join Date:</label>
-      <h3>
+      <h4>
         {new Date(userState.date_joined).toLocaleDateString("en-GB", {
           day: "2-digit",
           month: "long",
           year: "numeric",
         })}
-      </h3>
+      </h4>
       <label>Your Streamer Key: </label>
-      <h3>{userState.streamKey}</h3>
+      <h4>{userState.streamKey}</h4>
       <label>Stream Server: </label>
-      <p>{"rtmp://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/live"}</p>
+      <h4>{"rtmp://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/live"}</h4>
     </div>
   );
 }
