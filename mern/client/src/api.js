@@ -276,3 +276,15 @@ export const validatePassword = (password) => {
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
   return regex.test(password);
 };
+
+export const fetchHLSStream = async (streamFile) => {
+  try {
+    const response = await axios.get(`${URL}/api/hls/${streamFile}`, {
+      responseType: "stream", // Important for handling video data
+    });
+    return response.data; // You can use this data to process the stream in your frontend
+  } catch (error) {
+    console.error("Error fetching HLS stream:", error);
+    throw error;
+  }
+};
