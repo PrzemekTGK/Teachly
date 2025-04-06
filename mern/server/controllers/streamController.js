@@ -1,15 +1,21 @@
-import axios from "axios";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
-export const streamProxy = async (req, res) => {
+export const streamProxy = (req, res, next) => {
   console.log("Stream proxy started for:", req.url);
-  const targetUrl = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls${req.url}`;
-  console.log("Requesting:", targetUrl);
-  try {
-    const response = await axios.head(targetUrl);
-    console.log("EC2 response status:", response.status);
-    res.status(200).end(); // HEAD response, no body
-  } catch (error) {
-    console.error("EC2 error:", error.response?.status || error.message);
-    res.status(error.response?.status || 404).end();
-  }
+  const proxy = createProxyMiddleware({
+    target: "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
+    changeOrigin: true,
+    pathRewrite: { "^/api/stream/hls": "/hls" },
+    onError: (err) => {
+      console.error("Proxy error:", err.message);
+      res.status(502).send("Bad Gateway");
+    },
+    onProxyReq: (proxyReq) => {
+      console.log("Proxy request sent to:", proxyReq.path);
+    },
+    onProxyRes: (proxyRes) => {
+      console.log("Proxy response status:", proxyRes.statusCode);
+    },
+  });
+  proxy(req, res, next);
 };
