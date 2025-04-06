@@ -4,6 +4,6 @@ import { streamProxy } from "../controllers/streamController.js";
 
 const streamRouter = express.Router();
 
-streamRouter.use("/stream", streamProxy);
+streamRouter.use("/hls", streamProxy);
 
 export default streamRouter;
