@@ -1,38 +1,36 @@
-import { createProxyMiddleware } from "http-proxy-middleware";
+import http from "http";
 
-export const streamProxy = (req, res, next) => {
+export const streamProxy = (req, res) => {
   console.log("Stream proxy started for:", req.url);
-  try {
-    console.log("Creating proxy middleware!");
-    const proxy = createProxyMiddleware({
-      target: "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
-      changeOrigin: true,
-      pathRewrite: { "^/api/stream/hls": "/hls" },
-      timeout: 10000, // Wait 10 seconds before timing out
-      proxyTimeout: 10000, // Ensure proxy itself times out too
-      onError: (err, req, res) => {
-        console.error("Proxy error:", err.message);
-        res.status(502).send("Proxy failed: " + err.message);
-      },
-      onProxyReq: (proxyReq, req, res) => {
-        console.log("Proxy request sent to:", proxyReq.path);
-      },
-      onProxyRes: (proxyRes, req, res) => {
-        console.log("Proxy response status:", proxyRes.statusCode);
-      },
-    });
-    console.log("Proxy executing...");
-    proxy(req, res, (err) => {
-      console.log("Proxy callback, error:", err ? err.message : "none");
-      if (err) {
-        res.status(500).send("Proxy callback error: " + err.message);
-      } else if (!res.headersSent) {
-        console.log("No response sent, forcing 404");
-        res.status(404).send("No response from proxy");
-      }
-    });
-  } catch (error) {
-    console.error("Proxy setup error:", error.message);
-    res.status(500).send("Proxy setup failed: " + error.message);
-  }
+
+  const targetUrl = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls${req.url}`;
+  console.log("Proxying to:", targetUrl);
+
+  const options = {
+    hostname: "ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
+    path: `/hls${req.url}`,
+    method: req.method,
+    headers: req.headers,
+    timeout: 10000, // 10 seconds timeout
+  };
+
+  const proxyReq = http.request(options, (proxyRes) => {
+    console.log("Proxy response status:", proxyRes.statusCode);
+    res.writeHead(proxyRes.statusCode, proxyRes.headers);
+    proxyRes.pipe(res); // Stream the response back to the client
+  });
+
+  proxyReq.on("error", (err) => {
+    console.error("Proxy request error:", err.message);
+    res.status(502).send("Proxy failed: " + err.message);
+  });
+
+  proxyReq.on("timeout", () => {
+    console.error("Proxy request timed out");
+    res.status(504).send("Proxy request timed out");
+    proxyReq.destroy(); // Clean up the request
+  });
+
+  // Forward the client’s request body (if any) to the target server
+  req.pipe(proxyReq);
 };
