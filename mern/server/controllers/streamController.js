@@ -1,36 +1,15 @@
-import { createProxyMiddleware } from "http-proxy-middleware";
+import axios from "axios";
 
-export const streamProxy = (req, res, next) => {
+export const streamProxy = async (req, res) => {
   console.log("Stream proxy started for:", req.url);
+  const targetUrl = `http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/hls${req.url}`;
+  console.log("Requesting:", targetUrl);
   try {
-    console.log("Setting up proxy...");
-    const proxy = createProxyMiddleware({
-      target: "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
-      changeOrigin: true,
-      pathRewrite: { "^/api/stream/hls": "/hls" },
-      onError: (err) => {
-        console.error("Proxy error:", err.message);
-        res.status(502).send("Bad Gateway");
-      },
-      onProxyReq: (proxyReq) => {
-        console.log("Proxy request sent to:", proxyReq.path);
-      },
-      onProxyRes: (proxyRes) => {
-        console.log("Proxy response status:", proxyRes.statusCode);
-      },
-    });
-    console.log("Proxy created, executing...");
-    proxy(req, res, (err) => {
-      console.log("Proxy callback triggered, error:", err || "none");
-      if (err) {
-        console.error("Proxy next error:", err.message);
-        return res.status(500).send("Proxy failed");
-      }
-      console.log("Proxy fallback triggered");
-      res.status(404).send("Stream not found");
-    });
+    const response = await axios.head(targetUrl);
+    console.log("EC2 response status:", response.status);
+    res.status(200).end(); // HEAD response, no body
   } catch (error) {
-    console.error("Proxy setup error:", error.message);
-    res.status(500).send("Proxy crashed");
+    console.error("EC2 error:", error.response?.status || error.message);
+    res.status(error.response?.status || 404).end();
   }
 };
