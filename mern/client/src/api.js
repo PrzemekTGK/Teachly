@@ -2,6 +2,21 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const URL = "https://teachly-backend.onrender.com/api";
+export async function testBackend() {
+  console.log("Calling backend...");
+  try {
+    const response = await axios.get(`${URL}/users`);
+    console.log("Backend response:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Backend call failed:",
+      error.message,
+      error.response?.status
+    );
+    throw error;
+  }
+}
 
 export async function checkPassword(currentPassword) {
   const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
