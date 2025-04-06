@@ -3,6 +3,7 @@ import { createProxyMiddleware } from "http-proxy-middleware";
 
 export const streamProxy = async (req, res, next) => {
   console.log("Stream proxy started for:", req.url);
+  console.log("Request headers:", req.headers);
   try {
     const proxy = createProxyMiddleware({
       target: "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com",
@@ -19,8 +20,6 @@ export const streamProxy = async (req, res, next) => {
         console.log("Proxy response status:", proxyRes.statusCode);
       },
     });
-    console.log(req);
-    console.log(res);
     proxy(req, res, next);
   } catch (error) {
     console.error("Proxy setup error:", error.message);
