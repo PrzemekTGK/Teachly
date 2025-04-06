@@ -37,7 +37,11 @@ export default function StreamManager() {
         hls.loadSource(streamUrl);
         hls.attachMedia(videoRef.current);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          console.log("Manifest parsed, playing...");
           videoRef.current.play();
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error("HLS error:", data.type, data.details);
         });
       } else if (
         videoRef.current.canPlayType("application/vnd.apple.mpegurl")
