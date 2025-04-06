@@ -1,7 +1,7 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const URL = "http://localhost:5000/api";
+const URL = "https://teachly-backend.onrender.com/api";
 
 export async function checkPassword(currentPassword) {
   const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
