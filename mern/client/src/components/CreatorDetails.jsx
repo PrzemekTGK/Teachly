@@ -19,6 +19,8 @@ export default function CreatorDetails({ userState }) {
       </h3>
       <label>Your Streamer Key: </label>
       <h3>{userState.streamKey}</h3>
+      <label>Stream Server: </label>
+      <p>{"rtmp://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com/live"}</p>
     </div>
   );
 }
