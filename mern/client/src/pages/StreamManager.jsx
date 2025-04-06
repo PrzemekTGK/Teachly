@@ -33,7 +33,10 @@ export default function StreamManager() {
   useEffect(() => {
     if (!loading && streamUrl && videoRef.current && isLive) {
       if (Hls.isSupported()) {
-        const hls = new Hls();
+        const hls = new Hls({
+          liveSyncDurationCount: 3, // Sync to 3 segments
+          liveMaxLatencyDurationCount: 10, // Allow up to 10 segments latency
+        });
         hls.loadSource(streamUrl);
         hls.attachMedia(videoRef.current);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
