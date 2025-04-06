@@ -1,6 +1,6 @@
 // streamRouter.js
 import express from "express";
-import streamProxy from "./streamController.js";
+import streamProxy from "../streamController.js";
 
 const streamRouter = express.Router();
 
