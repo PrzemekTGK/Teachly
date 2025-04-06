@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
-import { jwtDecode } from "jwt-decode";
-import Hls from "hls.js";
+import streamDetails from "../components/streamDetails";
 import { getStreamUrl } from "../api"; // Adjust path to your api.js
+import { jwtDecode } from "jwt-decode";
+import React, { useEffect, useRef, useState } from "react";
+import Hls from "hls.js";
 
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
@@ -18,10 +19,8 @@ export default function StreamManager() {
       try {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
-        setIsLive(true);
       } catch (error) {
         console.log(error);
-        setIsLive(false);
       } finally {
         setLoading(false);
       }
@@ -51,7 +50,10 @@ export default function StreamManager() {
         videoRef.current.src = streamUrl;
         videoRef.current.addEventListener("loadedmetadata", () => {
           videoRef.current.play();
+          setIsLive(true);
         });
+      } else {
+        setIsLive(false);
       }
     }
   }, [loading, streamUrl, isLive]);
@@ -62,14 +64,17 @@ export default function StreamManager() {
       {loading ? (
         <p>Loading your stream...</p>
       ) : isLive ? (
-        <video
-          ref={videoRef}
-          controls
-          autoPlay
-          width="640"
-          height="360"
-          crossOrigin="anonymous"
-        />
+        <div>
+          <video
+            ref={videoRef}
+            controls
+            autoPlay
+            width="640"
+            height="360"
+            crossOrigin="anonymous"
+          />
+          <streamDetails></streamDetails>
+        </div>
       ) : (
         <p>You're currently not streaming.</p>
       )}
