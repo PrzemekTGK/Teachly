@@ -1,8 +1,6 @@
 // server/controllers/streamController.js
 import { createProxyMiddleware } from "http-proxy-middleware";
 
-import { createProxyMiddleware } from "http-proxy-middleware";
-
 export const streamProxy = async (req, res, next) => {
   console.log("Stream proxy started for:", req.url);
   try {
