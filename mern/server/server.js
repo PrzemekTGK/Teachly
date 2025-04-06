@@ -13,13 +13,7 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const upload = multer();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // Allow only localhost for testing
-    methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type"],
-  })
-);
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
@@ -28,6 +22,6 @@ app.use("/api/users", userRouter);
 app.use("/api/images", awsImgRouter);
 app.use("/api/videos", awsVidRouter);
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   connectDB();
 });

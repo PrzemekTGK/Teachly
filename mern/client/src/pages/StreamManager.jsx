@@ -67,7 +67,14 @@ export default function StreamManager() {
       {loading ? (
         <p>Loading your stream...</p>
       ) : isLive ? (
-        <video ref={videoRef} controls autoPlay width="640" height="360" />
+        <video
+          ref={videoRef}
+          controls
+          autoPlay
+          width="640"
+          height="360"
+          crossOrigin="anonymous"
+        />
       ) : (
         <p>You're currently not streaming.</p>
       )}
