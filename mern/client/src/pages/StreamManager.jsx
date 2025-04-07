@@ -9,6 +9,7 @@ export default function StreamManager() {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false); // Track if the stream is live
   const videoRef = useRef(null);
+  const wsRef = useRef(null);
 
   useEffect(() => {
     const token = sessionStorage.getItem("User");
@@ -20,17 +21,43 @@ export default function StreamManager() {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
         setIsLive(true);
-        console.log("STREAM LOADED!");
       } catch (error) {
         console.log(error);
         setIsLive(false);
-        console.log("STREAM ENDED!");
       } finally {
         setLoading(false);
       }
     };
 
     fetchStreamKey();
+    // Set up WebSocket connection
+    wsRef.current = new WebSocket("ws://localhost:5000"); // Update to production URL later
+
+    wsRef.current.onopen = () => {
+      wsRef.current.send(JSON.stringify({ streamKey }));
+    };
+
+    wsRef.current.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      if (data.streamKey === streamKey && data.action === "streamStarted") {
+        fetchStreamKey(); // Re-fetch stream URL when stream starts
+      }
+    };
+
+    wsRef.current.onerror = (error) => {
+      console.error("WebSocket error:", error);
+    };
+
+    wsRef.current.onclose = () => {
+      console.log("WebSocket disconnected");
+    };
+
+    // Cleanup WebSocket on unmount
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+      }
+    };
   }, []);
 
   useEffect(() => {
