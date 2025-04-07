@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 import StreamDetails from "../components/StreamDetails";
+
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
   const [loading, setLoading] = useState(true);
