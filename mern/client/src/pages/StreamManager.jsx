@@ -19,10 +19,8 @@ export default function StreamManager() {
       try {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
-        setIsLive(true);
       } catch (error) {
         console.log(error);
-        setIsLive(false);
       } finally {
         setLoading(false);
       }
@@ -54,6 +52,8 @@ export default function StreamManager() {
           videoRef.current.play();
           setIsLive(true);
         });
+      } else {
+        setIsLive(false);
       }
     }
   }, [loading, streamUrl, isLive]);
