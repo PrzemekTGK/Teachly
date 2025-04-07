@@ -1,4 +1,3 @@
-import { StreamDetails } from "../components/StreamDetails";
 import { getStreamUrl } from "../api"; // Adjust path to your api.js
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useRef, useState } from "react";
