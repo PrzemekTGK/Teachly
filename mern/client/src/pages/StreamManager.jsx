@@ -43,7 +43,7 @@ export default function StreamManager() {
 
     // Cleanup interval on unmount
     return () => clearInterval(intervalId);
-  }, [isLive, loading]);
+  }, [isLive]);
 
   // HLS setup
   useEffect(() => {
