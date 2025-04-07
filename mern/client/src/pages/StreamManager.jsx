@@ -52,6 +52,7 @@ export default function StreamManager() {
         videoRef.current.src = streamUrl;
         videoRef.current.addEventListener("loadedmetadata", () => {
           videoRef.current.play();
+          console.log("STREAM IS LIVE");
         });
       }
     }
