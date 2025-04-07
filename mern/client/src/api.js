@@ -1,7 +1,8 @@
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
-const URL = "https://teachly-backend.onrender.com/api";
+const URL = import.meta.env.VITE_API_URL;
+
 export async function testBackend() {
   console.log("Calling backend...");
   try {
