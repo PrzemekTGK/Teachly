@@ -128,7 +128,9 @@
 }
 
 .tab-content,
-.content-manager {
+.content-manager,
+.stream-manager,
+.stream-details {
   margin: 0px auto;
   max-width: 90%;
   padding: 20px;

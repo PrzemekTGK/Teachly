@@ -87,7 +87,7 @@ export default function StreamManager() {
   }, [loading, streamUrl, isLive]);
 
   return (
-    <div>
+    <div className="stream-manager">
       <h2>Stream Manager</h2>
       {loading ? (
         <p>Loading your stream...</p>
