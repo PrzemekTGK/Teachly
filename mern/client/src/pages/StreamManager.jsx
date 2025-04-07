@@ -20,11 +20,13 @@ export default function StreamManager() {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
         setIsLive(true);
-        setLoading(false);
+        console.log("STREAM LOADED!");
       } catch (error) {
         console.log(error);
         setIsLive(false);
         console.log("STREAM ENDED!");
+      } finally {
+        setLoading(false);
       }
     };
 
