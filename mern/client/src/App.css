@@ -446,3 +446,8 @@ label {
 .cancel-button {
   min-width: 50%;
 }
+
+.stream-title-input,
+.stream-description {
+  min-width: webkit-fill-available;
+}
