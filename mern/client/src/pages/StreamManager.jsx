@@ -20,6 +20,7 @@ export default function StreamManager() {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
         setIsLive(true);
+        console.log("STREAM IS LIVE 1");
       } catch (error) {
         console.log(error);
         setIsLive(false);
@@ -52,7 +53,7 @@ export default function StreamManager() {
         videoRef.current.src = streamUrl;
         videoRef.current.addEventListener("loadedmetadata", () => {
           videoRef.current.play();
-          console.log("STREAM IS LIVE");
+          console.log("STREAM IS LIVE 2");
         });
       }
     }
