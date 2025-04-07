@@ -31,7 +31,7 @@ export default function StreamManager() {
 
     fetchStreamKey();
     // Set up WebSocket connection
-    wsRef.current = new WebSocket("ws://teachly-backend.up.railway.app"); // Update to production URL later
+    wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app"); // Update to production URL later
 
     wsRef.current.onopen = () => {
       wsRef.current.send(JSON.stringify({ streamKey }));
