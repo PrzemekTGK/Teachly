@@ -29,7 +29,7 @@ export default function StreamManager() {
     };
 
     fetchStreamKey();
-  }, [isLive]);
+  }, []);
 
   useEffect(() => {
     if (!loading && streamUrl && videoRef.current && isLive) {
