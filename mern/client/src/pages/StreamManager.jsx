@@ -21,7 +21,6 @@ export default function StreamManager() {
         setStreamUrl(url);
         setIsLive(true);
         setLoading(false);
-        window.location.reload();
       } catch (error) {
         console.log(error);
         setIsLive(false);
