@@ -36,7 +36,7 @@ export default function StreamDetails() {
           maxLength={150}
         />
         <button className="submit-button" type="submit">
-          Punlish Stream
+          Publish Stream
         </button>
       </form>
       {/* Show success or error messages */}

@@ -449,5 +449,5 @@ label {
 
 .stream-title-input,
 .stream-description {
-  width: 100%;
+  min-width: 100%;
 }
