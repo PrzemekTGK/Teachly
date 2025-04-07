@@ -18,7 +18,7 @@ export default function StreamDetails() {
   return (
     <div className="stream-details">
       <h2>Stream Details</h2>
-      <form onSubmit={handlePublishStream}>
+      <form className="stream-details-form" onSubmit={handlePublishStream}>
         <input
           className="stream-title-input"
           placeholder="Stream Title"

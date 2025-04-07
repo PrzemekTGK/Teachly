@@ -268,7 +268,8 @@ label {
   justify-content: center;
 }
 
-.upload-video-form {
+.upload-video-,
+.stream-details-form {
   display: flex;
   flex-direction: column;
   align-items: center !important;
