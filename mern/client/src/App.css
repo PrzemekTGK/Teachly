@@ -203,6 +203,7 @@ html {
 }
 
 .content-manager {
+  max-width: 80%;
   margin: 0px auto 50px;
 }
 
