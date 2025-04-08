@@ -151,7 +151,7 @@
   max-width: fit-content !important;
 }
 
-.ta-scroll {
+.tab-scroll {
   max-height: 90vh;
   overflow-y: auto;
 }
