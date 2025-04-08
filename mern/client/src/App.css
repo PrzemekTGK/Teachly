@@ -240,6 +240,13 @@ html {
   max-width: fit-content;
 }
 
+.stream-manager {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min-content;
+}
+
 .stream-details {
   margin: 0 auto;
   max-width: -webkit-fill-available;
