@@ -101,7 +101,7 @@ export default function StreamManager() {
             height="360"
             crossOrigin="anonymous"
           />
-          <StreamDetails></StreamDetails>
+          <StreamDetails />
         </div>
       ) : (
         <p>You're currently not streaming.</p>
