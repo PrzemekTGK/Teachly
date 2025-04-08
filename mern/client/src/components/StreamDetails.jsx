@@ -37,7 +37,7 @@ export default function StreamDetails() {
           required
           maxLength={150}
         />
-        <button className="submit-button" type="submit">
+        <button className="publish-stream-button" type="submit">
           Publish Stream
         </button>
       </form>

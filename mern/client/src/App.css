@@ -226,7 +226,7 @@
 .stream-details-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  text-align: left;
 }
 
 .upload-box {
@@ -334,6 +334,10 @@ button:hover {
 .confrim-button,
 .cancel-button {
   min-width: 50%;
+}
+
+.publish-stream-button {
+  max-width: 20%;
 }
 
 /* ==========================================================================
