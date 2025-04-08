@@ -375,8 +375,8 @@ button:hover {
   border-style: solid;
   border-width: 2px;
   border-radius: 0px;
-  border-color: rgba(200, 0, 0, 0.5);
-  color: rgba(200, 0, 0, 0.5);
+  border-color: rgba(255, 0, 0, 0.5);
+  color: rgba(255, 0, 0, 0.5);
 }
 
 .delete-profile-button {
@@ -385,8 +385,8 @@ button:hover {
   border-style: solid;
   border-width: 2px;
   border-radius: 0px;
-  border-color: rgba(200, 0, 0, 0.5);
-  color: rgba(200, 0, 0, 0.5);
+  border-color: rgba(255, 0, 0, 0.5);
+  color: rgba(255, 0, 0, 0.5);
 }
 
 .delete-video-button {
@@ -394,8 +394,8 @@ button:hover {
   border-style: solid;
   border-width: 2px;
   border-radius: 0px;
-  border-color: rgba(200, 0, 0, 0.5);
-  color: rgba(200, 0, 0, 0.5);
+  border-color: rgba(255, 0, 0, 0.5);
+  color: rgba(255, 0, 0, 0.5);
 }
 
 .confirmation-buttons-bar {
