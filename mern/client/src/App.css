@@ -1,3 +1,6 @@
+/* ==========================================================================
+   Global Layout
+   ========================================================================== */
 #root {
   width: 100%;
   height: 100vh;
@@ -20,6 +23,38 @@
   z-index: 1000;
 }
 
+.home-page,
+.content-manager {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  min-height: fit-content;
+  overflow-y: visible !important;
+}
+
+.profile-content {
+  box-sizing: border-box;
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  width: 60%;
+  height: 100vh;
+  min-width: 340px;
+}
+
+.footer {
+  display: flex;
+  flex: 20%;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================================
+   Modals
+   ========================================================================== */
 .modal-background {
   position: fixed;
   top: 0;
@@ -33,20 +68,12 @@
   z-index: 2000;
 }
 
-.modal-bar {
-  width: 100%;
-  padding: 10px 0;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-}
-
 .modal-container {
   width: 400px;
-  background-color: rgba(25, 25, 25);
+  background-color: rgba(25, 25, 25, 1);
   display: flex;
   flex-direction: column;
-  box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 1.2);
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 1.2);
 }
 
 .modal-container .title {
@@ -56,21 +83,11 @@
   margin-top: 10px;
 }
 
-.content {
-  overflow-y: visible !important;
-}
-
-.video-delete-bar {
+.modal-bar {
+  width: 100%;
+  padding: 10px 0;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end !important;
-  min-width: 100%;
-}
-
-.footer {
-  display: flex;
-  flex: 20%;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -86,7 +103,111 @@
   cursor: pointer;
 }
 
-.reg-from {
+/* ==========================================================================
+   Tabs and Navigation
+   ========================================================================== */
+.tabs-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  background-color: rgba(20, 20, 20, 1);
+  display: flex;
+  justify-content: center;
+  z-index: 999;
+}
+
+.tab {
+  width: 50%;
+  height: 45px;
+  border-radius: 0;
+}
+
+.active-tab {
+  background-color: rgba(36, 36, 36, 1);
+  font-weight: bold;
+}
+
+.burger-container {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropdown-menu .navitem button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100px;
+  padding: 10px;
+  text-align: left;
+}
+
+.back-button {
+  margin-top: 20px;
+  max-width: fit-content !important;
+}
+
+/* ==========================================================================
+   Content Sections
+   ========================================================================== */
+.content,
+.tab-content,
+.content-manager,
+.stream-manager,
+.stream-details {
+  margin: 0 auto;
+  max-width: 90%;
+  padding: 20px;
+}
+
+.content {
+  overflow-y: visible !important;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  margin: auto;
+}
+
+.content-nav {
+  display: flex;
+  flex-direction: column;
+  max-width: fit-content;
+  justify-content: flex-start;
+}
+
+.content-title {
+  margin-bottom: 0;
+}
+
+.content-video {
+  max-width: fit-content;
+  margin: auto;
+}
+
+.content-uploader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-upload-date {
+  margin: 0;
+}
+
+/* ==========================================================================
+   Forms and Inputs
+   ========================================================================== */
+.reg-form {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -101,77 +222,133 @@
   box-sizing: border-box;
 }
 
+.upload-container,
+.upload-video-,
+.stream-details-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-box {
+  text-align: left;
+  width: 300px;
+}
+
+.upload-box input {
+  margin: 20px 0;
+}
+
+.upload-video-name {
+  margin: 0;
+}
+
+.upload-video-title,
+.upload-video-decription {
+  width: 300px;
+  border: none;
+  padding: 0;
+  font-size: large;
+}
+
+.upload-video-decription {
+  min-height: 200px;
+  height: auto;
+  font-size: larger !important;
+}
+
+.description-textarea {
+  margin-top: 10px;
+  width: 100%;
+  min-height: 150px;
+  resize: none;
+  box-sizing: border-box;
+  background-color: rgba(36, 36, 36, 1);
+  color: rgba(255, 255, 255, 1);
+  font-size: large;
+  border: none;
+  overflow: hidden;
+}
+
+.stream-title-input,
+.stream-description {
+  min-width: 100%;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+button {
+  border-radius: 0;
+  color: rgba(255, 255, 255, 1);
+  outline: none;
+  border: none;
+}
+
+button:hover {
+  font-weight: bolder !important;
+  background-color: rgba(50, 50, 50, 1);
+}
+
 .submit-button {
   margin: 15px;
   background-color: rgba(20, 20, 20, 1);
 }
 
-.home-page,
-.content-manager {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  min-height: fit-content;
-  overflow-y: visible !important;
+.upload-video-button {
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin: 5px 0;
 }
 
-.tabs-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  max-width: 100%;
-  background-color: rgba(20, 20, 20, 1);
-  display: flex;
-  justify-content: center;
-  z-index: 999;
-}
-
-.tab-content,
-.content-manager,
-.stream-manager,
-.stream-details {
-  margin: 0px auto;
-  max-width: 90%;
-  padding: 20px;
-}
-
-.tab {
+.details-card button {
   width: 50%;
-  max-height: 45px;
-  min-height: 45px;
-  border-radius: 0px;
+  white-space: nowrap;
 }
 
-.active-tab {
-  background-color: rgba(36, 36, 36, 1);
-  font-weight: bold;
-}
-
-.profile-content {
-  box-sizing: border-box;
-  margin: 100px auto;
+.edit-profile-image-button,
+.delete-profile-image-button {
   display: flex;
-  flex-direction: column;
-  justify-content: left;
   align-items: center;
-  width: 60%;
-  height: 100vh;
-  min-width: 340px;
+  justify-content: center;
+  height: 30px;
+  width: 50%;
 }
 
+.delete-profile-button {
+  min-width: 100% !important;
+  background-color: rgba(255, 0, 0, 1);
+}
+
+.delete-video-button {
+  background-color: rgba(255, 0, 0, 1);
+}
+
+.confirmation-buttons-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 10px;
+}
+
+.confrim-button,
+.cancel-button {
+  min-width: 50%;
+}
+
+/* ==========================================================================
+   Profile and Details
+   ========================================================================== */
 .profile-image {
-  min-width: 340px;
-  max-width: 340px;
-  min-height: 340px;
-  max-height: 340px;
+  width: 340px;
+  height: 340px;
 }
 
 .image-upload-span {
   display: flex;
   align-items: center;
-  min-height: 30px;
-  max-height: 30px;
+  height: 30px;
   width: 340px;
   overflow: hidden;
   white-space: nowrap;
@@ -190,156 +367,26 @@
 .close-image-edit-button {
   display: flex;
   align-items: center;
-  min-height: 30px;
-  max-height: 30px;
+  height: 30px;
   margin-left: auto;
-}
-
-button {
-  border-radius: 0px;
-  color: rgba(255, 255, 255, 1);
-}
-
-button,
-button:active,
-button:focus,
-button:hover,
-button:visited {
-  outline: none;
-  border: none;
-}
-
-button:hover {
-  font-weight: bolder !important;
-  background-color: rgba(50, 50, 50, 1);
 }
 
 .details-card,
 .viewer-details {
-  min-width: 340px;
-  max-width: 340px;
+  width: 340px;
 }
 
-.viewer-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 20px 0px 20px;
-}
-
+.viewer-details,
 .creator-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px 0px 20px;
-}
-
-.details-card button {
-  max-width: 50%;
-  min-width: 50%;
-  white-space: nowrap;
-}
-
-.edit-profile-image-button,
-.delete-profile-image-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 30px;
-  max-height: 30px;
-  width: 50%;
-}
-
-.delete-profile-button {
-  min-width: 100% !important;
-  background-color: rgba(255, 0, 0, 1);
-}
-.delete-video-button {
-  background-color: rgba(255, 0, 0, 1);
-}
-label {
-  font-weight: 300;
-}
-
-.upload-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.upload-video-,
-.stream-details-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center !important;
-}
-
-.upload-page-title {
-  position: relative;
-  display: flex;
-  margin-top: 50px;
-  text-align: center;
-  top: 0%;
-}
-
-.upload-box {
-  text-align: left;
-  width: 300px;
-}
-
-.upload-video-name {
-  margin: 0px;
-}
-
-.upload-box input {
   margin: 20px 0;
 }
 
-.upload-video-button {
-  border: none;
-  cursor: pointer;
-  width: 100%;
-  margin: 5px 0 5px 0;
-}
-
-.upload-video-title,
-.upload-video-decription {
-  max-width: 300px;
-  min-width: 300px;
-  border: none;
-  padding: 0px;
-  font-size: large;
-}
-
-.upload-video-decription {
-  min-height: 200px;
-  height: auto;
-  font-size: larger !important;
-}
-
-.burger-container {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  right: 0%;
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown-menu .navitem button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100px;
-  padding: 10px;
-  text-align: left;
-}
-
+/* ==========================================================================
+   Video Grid
+   ========================================================================== */
 .video-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -356,11 +403,11 @@ label {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
 .video-title {
-  margin: auto 0px;
+  margin: auto 0;
   align-self: flex-start;
   font-weight: 500;
   font-size: larger;
@@ -372,6 +419,32 @@ label {
   font-weight: bolder;
 }
 
+.video-delete-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end !important;
+  min-width: 100%;
+}
+
+/* ==========================================================================
+   Typography
+   ========================================================================== */
+label {
+  font-weight: 300;
+  text-align: left;
+}
+
+.upload-page-title {
+  position: relative;
+  display: flex;
+  margin-top: 50px;
+  text-align: center;
+  top: 0%;
+}
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
 @media (max-width: 1135px) {
   .video-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -382,72 +455,4 @@ label {
   .video-grid {
     grid-template-columns: repeat(1, 1fr);
   }
-}
-
-.content-container {
-  display: flex;
-  flex-direction: column;
-  max-width: fit-content;
-  margin: auto;
-}
-
-.content-nav {
-  display: flex;
-  flex-direction: column;
-  max-width: fit-content;
-  justify-content: flex-start;
-}
-
-.back-button {
-  margin-top: 20px;
-  max-width: fit-content !important;
-}
-
-.content-title {
-  margin-bottom: 0px;
-}
-
-.content-video {
-  max-width: fit-content;
-  margin: auto;
-}
-
-.content-uploader {
-  display: flex;
-  justify-content: space-between;
-}
-
-.content-upload-date {
-  margin: 0px;
-}
-
-.description-textarea {
-  margin-top: 10px;
-  width: 100%;
-  max-width: 100%;
-  min-height: 150px;
-  resize: none;
-  box-sizing: border-box;
-  background-color: rgba(36, 36, 36, 1);
-  color: rgba(255, 255, 255, 1);
-  font-size: large;
-  border: none;
-  overflow: hidden;
-}
-
-.confirmation-buttons-bar {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  padding: 10px;
-}
-
-.confrim-button,
-.cancel-button {
-  min-width: 50%;
-}
-
-.stream-title-input,
-.stream-description {
-  min-width: 100%;
 }
