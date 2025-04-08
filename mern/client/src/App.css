@@ -221,14 +221,16 @@
   box-sizing: border-box;
 }
 
-.upload-container,
-.upload-video-,
 .stream-details-form {
-  display: flex;
-  flex-direction: column;
   text-align: left;
 }
 
+.upload-container,
+.upload-video- {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .upload-box {
   text-align: left;
   width: 300px;
