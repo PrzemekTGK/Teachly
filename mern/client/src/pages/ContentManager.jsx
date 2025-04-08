@@ -53,7 +53,7 @@ export default function ContentManager() {
   }
 
   return (
-    <div className="content-scroll">
+    <div className="scroll">
       <div className="content-manager">
         <h2 className="content-manager-title">Content Manager</h2>
         <div className="video-grid">
