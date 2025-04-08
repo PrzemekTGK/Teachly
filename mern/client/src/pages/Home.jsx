@@ -27,10 +27,11 @@ export default function Home() {
           Live Streaming
         </button>
       </div>
-
-      <div className="tab-content">
-        {activeTab === "page1" && <ContentBrowser />}
-        {activeTab === "page2" && <StreamBrowser />}
+      <div className="tab-scroll">
+        <div className="tab-content">
+          {activeTab === "page1" && <ContentBrowser />}
+          {activeTab === "page2" && <StreamBrowser />}
+        </div>
       </div>
     </div>
   );
