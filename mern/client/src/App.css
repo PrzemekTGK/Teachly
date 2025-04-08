@@ -381,20 +381,17 @@ button:hover {
   justify-content: center;
   height: 30px;
   width: 50%;
-  background-color: rgba(50, 50, 50, 1);
   color: rgba(255, 0, 0, 1);
 }
 
 .delete-profile-button {
   min-width: 100% !important;
-  background-color: rgba(50, 50, 50, 1);
   color: rgba(255, 0, 0, 1);
 }
 
 .delete-video-button {
   width: 105px;
   max-width: 105px;
-  background-color: rgba(50, 50, 50, 1);
   color: rgba(255, 0, 0, 1);
 }
 
