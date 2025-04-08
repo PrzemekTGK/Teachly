@@ -188,13 +188,6 @@ html {
 /* ==========================================================================
    Content Sections
    ========================================================================== */
-.tab-content,
-.stream-manager,
-.stream-details {
-  margin: 0 auto;
-  max-width: fit-content;
-}
-
 .content-container {
   display: flex;
   flex-direction: column;
@@ -234,6 +227,17 @@ html {
 
 .content-browser {
   margin-bottom: 50px;
+}
+
+.stream-manager,
+.stream-details {
+  margin: 0 auto;
+  max-width: fit-content;
+}
+
+.tab-content {
+  margin: 0 auto;
+  max-width: 80%;
 }
 
 /* ==========================================================================
