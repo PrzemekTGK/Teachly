@@ -15,8 +15,8 @@ export default function Register({ modalState, setModalState }) {
     role: "viewer",
   });
 
-  const [error, setError] = useState(""); // For error messages
-  const [success, setSuccess] = useState(""); // For success messages
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   function updateHandler(e) {
@@ -25,25 +25,23 @@ export default function Register({ modalState, setModalState }) {
 
   const validateEmail = (email) => {
     const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    return regex.test(email); // Returns true if valid email format, false otherwise
+    return regex.test(email);
   };
 
   async function registerNewUser(e) {
-    e.preventDefault(); // Display an alert if they don't match;
+    e.preventDefault();
 
-    // Reset success andtoke error messages on each submission attempt
     setError("");
     setSuccess("");
 
-    // Check if password and confirmPassword match
     if (user.password !== user.confirmPassword) {
       setError("Passwords do not match!");
-      return; // Stop the submission
+      return;
     }
 
     if (!validateEmail(user.email)) {
       setError("Enter a Valid Email!!");
-      return; // Don't submit the form and prevent modal from closing
+      return;
     }
 
     if (!validatePassword(user.password)) {

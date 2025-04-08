@@ -16,7 +16,6 @@ export default function ChangePasswordModal({ modalState, setModalState }) {
     setUser({ ...user, [e.target.name]: e.target.value });
   }
 
-  // Handle the change in current password
   function handleCurrentPasswordInputUpdate(e) {
     const currentPassword = e.target.value;
     setUser({ ...user, currentPassword });
@@ -45,7 +44,7 @@ export default function ChangePasswordModal({ modalState, setModalState }) {
   }
 
   async function handleChangePassword(e) {
-    e.preventDefault(); // Prevent default form submission behavior
+    e.preventDefault();
 
     setError("");
     setSuccess("");

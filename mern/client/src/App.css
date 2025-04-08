@@ -187,7 +187,7 @@ html {
 }
 
 .tab-scroll {
-  max-height: 90vh;
+  max-height: 89.5vh;
   overflow-y: auto;
 }
 
@@ -518,7 +518,7 @@ label {
    Scroll
    ========================================================================== */
 .scroll {
-  max-height: 95vh;
+  max-height: 93.5vh;
   overflow-y: auto;
 }
 

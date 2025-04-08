@@ -6,7 +6,7 @@ export default function StreamDetails() {
     streamDescription: "",
   });
 
-  const [error, setError] = useState(""); // For error messages
+  const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   function updateHandler(e) {
@@ -41,7 +41,6 @@ export default function StreamDetails() {
           Publish Stream
         </button>
       </form>
-      {/* Show success or error messages */}
       {error && <p className="error-message">{error}</p>}
       {success && <p className="success-message">{success}</p>}
     </div>

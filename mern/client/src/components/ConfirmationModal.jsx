@@ -22,8 +22,8 @@ export default function ConfirmationModal({
           <button
             className="confrim-button"
             onClick={() => {
-              onConfirm(); // Execute the correct action
-              setModalState(!modalState); // Close modal after confirming
+              onConfirm();
+              setModalState(!modalState);
             }}
           >
             Yes

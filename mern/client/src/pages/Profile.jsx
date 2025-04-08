@@ -181,7 +181,7 @@ export default function Profile() {
       }
       await deleteUser(userId);
 
-      sessionStorage.removeItem("User"); // Remove user data from session
+      sessionStorage.removeItem("User");
       window.location.href = "/";
     } catch (error) {
       setError(error);
@@ -193,7 +193,7 @@ export default function Profile() {
   }
 
   if (!user) {
-    return <div>Loading...</div>; // Show a loading message or spinner while userState is being set
+    return <div>Loading...</div>;
   }
 
   return (

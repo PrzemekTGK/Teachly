@@ -1,4 +1,4 @@
-import { getStreamUrl } from "../api"; // Adjust path to your api.js
+import { getStreamUrl } from "../api";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
@@ -7,7 +7,7 @@ import StreamDetails from "../components/StreamDetails";
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
   const [loading, setLoading] = useState(true);
-  const [isLive, setIsLive] = useState(false); // Track if the stream is live
+  const [isLive, setIsLive] = useState(false);
   const videoRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -30,7 +30,6 @@ export default function StreamManager() {
     };
 
     fetchStreamKey();
-    // Set up WebSocket connection
     wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app"); // Update to production URL later
 
     wsRef.current.onopen = () => {
@@ -40,7 +39,7 @@ export default function StreamManager() {
     wsRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.streamKey === streamKey && data.action === "streamStarted") {
-        fetchStreamKey(); // Re-fetch stream URL when stream starts
+        fetchStreamKey();
       }
     };
 
@@ -52,7 +51,6 @@ export default function StreamManager() {
       console.log("WebSocket disconnected");
     };
 
-    // Cleanup WebSocket on unmount
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
@@ -64,8 +62,8 @@ export default function StreamManager() {
     if (!loading && streamUrl && videoRef.current && isLive) {
       if (Hls.isSupported()) {
         const hls = new Hls({
-          liveSyncDurationCount: 3, // Sync to 3 segments
-          liveMaxLatencyDurationCount: 10, // Allow up to 10 segments latency
+          liveSyncDurationCount: 3,
+          liveMaxLatencyDurationCount: 10,
         });
         hls.loadSource(streamUrl);
         hls.attachMedia(videoRef.current);

@@ -10,8 +10,8 @@ export default function Login({ modalState, setModalState }) {
     password: "",
   });
 
-  const [error, setError] = useState(""); // For error messages
-  const [success, setSuccess] = useState(""); // For success messages
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
   function updateHandler(e) {
@@ -19,9 +19,8 @@ export default function Login({ modalState, setModalState }) {
   }
 
   async function loginHandler(e) {
-    e.preventDefault(); // Display an alert if they don't match;
+    e.preventDefault();
 
-    // Reset success and error messages on each submission attempt
     setError("");
     setSuccess("");
 
@@ -74,7 +73,6 @@ export default function Login({ modalState, setModalState }) {
               Login
             </button>
           </form>
-          {/* Show success or error messages */}
           {error && <p className="error-message">{error}</p>}
           {success && <p className="success-message">{success}</p>}
         </div>
