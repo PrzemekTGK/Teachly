@@ -247,9 +247,8 @@ html {
   width: min-content;
 }
 
-.stream-details {
-  margin: 0 auto;
-  max-width: -webkit-fill-available;
+.stream-manager-video {
+  margin-bottom: 20px;
 }
 
 .tab-content {
@@ -327,8 +326,8 @@ html {
 
 .stream-title-input,
 .stream-description {
-  min-width: 100%;
-  max-width: 100%;
+  min-width: -webkit-fill-available;
+  max-width: -webkit-fill-available;
 }
 
 /* ==========================================================================

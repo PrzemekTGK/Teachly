@@ -100,6 +100,7 @@ export default function StreamManager() {
             width="640"
             height="360"
             crossOrigin="anonymous"
+            className="stream-manager-video"
           />
           <StreamDetails />
         </div>
