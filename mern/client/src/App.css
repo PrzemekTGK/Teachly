@@ -41,14 +41,15 @@ html {
 }
 
 .navbar-container {
-  min-width: 100%;
-}
-
-.navbar {
   position: fixed;
   top: 0;
   left: 0;
   max-height: 30px;
+  min-width: 100%;
+  height: 30px;
+}
+
+.navbar {
   max-width: 80%;
   background-color: rgba(30, 30, 30, 1);
   padding: 10px 0;
