@@ -19,7 +19,7 @@ import axios from "axios";
 
 export default function Profile() {
   const MAX_FILE_SIZE = 5000000;
-  const [userState, setUserState] = useState();
+  const [user, setUserState] = useState();
   const [editProfileImage, setEditProfileImage] = useState(false);
   const [selectProfileImage, setSelectProfileImage] = useState();
   const [profileImageUrl, setProfileImageUrl] = useState(defaultProfileImage);
@@ -102,10 +102,10 @@ export default function Profile() {
       if (uploadedImage) {
         try {
           const updatedUser = {
-            ...userState,
+            ...user,
             imageId: selectProfileImage.name,
           };
-          const response = await updateUser(userState._id, updatedUser);
+          const response = await updateUser(user._id, updatedUser);
           const newToken = response.data.token;
           const decodedUser = jwtDecode(newToken);
           const imageUrl = await getImage(decodedUser.imageId);
@@ -163,8 +163,8 @@ export default function Profile() {
 
   async function handleDeleteProfile() {
     const token = sessionStorage.getItem("User");
-    const userId = userState._id;
-    const imageId = userState.imageId;
+    const userId = user._id;
+    const imageId = user.imageId;
 
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -192,7 +192,7 @@ export default function Profile() {
     setUserRole(newRole);
   }
 
-  if (!userState) {
+  if (!user) {
     return <div>Loading...</div>; // Show a loading message or spinner while userState is being set
   }
 
@@ -252,7 +252,7 @@ export default function Profile() {
           <div>
             {userRole === "viewer" ? (
               <>
-                <ViewerDetails userState={userState} />
+                <ViewerDetails user={user} />
                 <button
                   className="become-creator-button"
                   onClick={() => {
@@ -264,7 +264,7 @@ export default function Profile() {
               </>
             ) : (
               <>
-                <CreatorDetails userState={userState} />
+                <CreatorDetails user={user} />
                 <button
                   className="cease-creator-button"
                   onClick={() => {
