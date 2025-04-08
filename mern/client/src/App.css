@@ -167,7 +167,7 @@
 }
 
 .content {
-  overflow-y: visible !important;
+  overflow-y: auto !important;
 }
 
 .content-container {
