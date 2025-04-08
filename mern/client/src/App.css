@@ -107,14 +107,8 @@
 /* ==========================================================================
    Tabs and Navigation
    ========================================================================== */
-.tabs-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  max-width: 100%;
-  background-color: rgba(20, 20, 20, 1);
-  display: flex;
-  justify-content: center;
+.tab-container {
+  position: sticky;
   z-index: 999;
 }
 
@@ -154,6 +148,11 @@
 .back-button {
   margin-top: 20px;
   max-width: fit-content !important;
+}
+
+.ta-scroll {
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* ==========================================================================
@@ -197,6 +196,10 @@
 
 .content-upload-date {
   margin: 0;
+}
+
+.content-browser {
+  margin-bottom: 50px;
 }
 
 /* ==========================================================================
