@@ -392,6 +392,8 @@ button:hover {
 }
 
 .delete-video-button {
+  width: 105px;
+  max-width: 105px;
   background-color: rgba(50, 50, 50, 1);
   color: rgba(255, 0, 0, 1);
 }
