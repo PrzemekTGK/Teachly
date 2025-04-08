@@ -87,12 +87,12 @@ export default function StreamManager() {
   }, [loading, streamUrl, isLive]);
 
   return (
-    <div className="stream-manager">
+    <div className="stream-manager-container">
       <h2>Stream Manager</h2>
       {loading ? (
         <p>Loading your stream...</p>
       ) : isLive ? (
-        <div>
+        <div className="stream-manager">
           <video
             ref={videoRef}
             controls
