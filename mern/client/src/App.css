@@ -40,16 +40,20 @@ html {
   overflow: hidden;
 }
 
+.navbar-container {
+  min-width: 100%;
+}
+
 .navbar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
   max-height: 30px;
+  max-width: 80%;
   background-color: rgba(30, 30, 30, 1);
   padding: 10px 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   z-index: 1000;
 }
@@ -362,11 +366,14 @@ button:hover {
 
 .delete-profile-button {
   min-width: 100% !important;
-  background-color: rgba(255, 0, 0, 1);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 0px;
+  background-color: rgba(50, 50, 50, 1);
 }
 
 .delete-video-button {
-  background-color: rgba(255, 0, 0, 1);
+  background-color: rgba(50, 50, 50, 1);
 }
 
 .confirmation-buttons-bar {

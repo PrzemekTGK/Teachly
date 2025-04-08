@@ -60,7 +60,7 @@ export default function Navbar() {
   }
 
   return (
-    <>
+    <div className="navbar-container">
       <div className="navbar">
         <Link to={"/"} className="navitem">
           <button>Home</button>
@@ -99,6 +99,6 @@ export default function Navbar() {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
