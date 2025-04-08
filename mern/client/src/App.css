@@ -242,7 +242,7 @@ html {
 
 .stream-details {
   margin: 0 auto;
-  max-width: -webit-fill-available;
+  max-width: -webkit-fill-available;
 }
 
 .tab-content {
