@@ -1,13 +1,13 @@
-export default function ViewerDetails({ userState }) {
+export default function ViewerDetails({ user }) {
   return (
     <div className="viewer-details">
       <label>User Name:</label>
-      <h3>{userState.username}</h3>
+      <h3>{user.username}</h3>
       <label>Email:</label>
-      <h3>{userState.email}</h3>
+      <h3>{user.email}</h3>
       <label>Join Date:</label>
       <h3>
-        {new Date(userState.date_joined).toLocaleDateString("en-US", {
+        {new Date(user.date_joined).toLocaleDateString("en-US", {
           day: "2-digit",
           month: "short",
           year: "numeric",

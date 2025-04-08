@@ -7,7 +7,7 @@ export default function BecomeCreatorModal({
   setModalState,
   onRoleUpdate,
 }) {
-  const [userState, setUserState] = useState({
+  const [user, setUser] = useState({
     firstname: "",
     lastname: "",
     role: "creator",
@@ -21,7 +21,7 @@ export default function BecomeCreatorModal({
   }
 
   function updateHandler(e) {
-    setUserState({ ...userState, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   }
 
   async function handleBecomeCreator(e) {
@@ -33,13 +33,13 @@ export default function BecomeCreatorModal({
     const token = sessionStorage.getItem("User");
     const decodedUser = jwtDecode(token);
     const userId = decodedUser._id;
-    const newRole = userState.role;
+    const newRole = user.role;
     const streamKey = generateStreamKey(decodedUser.username);
 
     try {
       const updatedUser = {
-        firstname: userState.firstname,
-        lastname: userState.lastname,
+        firstname: user.firstname,
+        lastname: user.lastname,
         role: newRole,
         streamKey: streamKey,
       };

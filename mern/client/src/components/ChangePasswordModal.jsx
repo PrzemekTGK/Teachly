@@ -2,7 +2,7 @@ import { checkPassword, changePassword, validatePassword } from "../api";
 import { useState } from "react";
 
 export default function ChangePasswordModal({ modalState, setModalState }) {
-  const [userState, setUserState] = useState({
+  const [user, setUser] = useState({
     currentPassword: "",
     newPassword: "",
     confirmPassword: "",
@@ -13,13 +13,13 @@ export default function ChangePasswordModal({ modalState, setModalState }) {
   const [error, setError] = useState("");
 
   function updateHandler(e) {
-    setUserState({ ...userState, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   }
 
   // Handle the change in current password
   function handleCurrentPasswordInputUpdate(e) {
     const currentPassword = e.target.value;
-    setUserState({ ...userState, currentPassword });
+    setUser({ ...user, currentPassword });
 
     // Clear previous timeout
     if (typingTimeout) {
@@ -50,7 +50,7 @@ export default function ChangePasswordModal({ modalState, setModalState }) {
     setError("");
     setSuccess("");
 
-    if (userState.newPassword !== userState.confirmPassword) {
+    if (user.newPassword !== user.confirmPassword) {
       setError("New passwords do not match.");
       return;
     }
@@ -60,20 +60,20 @@ export default function ChangePasswordModal({ modalState, setModalState }) {
       return;
     }
 
-    if (!validatePassword(userState.newPassword)) {
+    if (!validatePassword(user.newPassword)) {
       setError(
         "Password must be at least 8 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character."
       );
       return;
     }
 
-    if (userState.newPassword === userState.currentPassword) {
+    if (user.newPassword === user.currentPassword) {
       setError("Password cannot be the same as current password!");
       return;
     }
 
     try {
-      const response = await changePassword(userState.newPassword);
+      const response = await changePassword(user.newPassword);
       setModalState(!modalState);
       setSuccess(response.message);
     } catch (error) {

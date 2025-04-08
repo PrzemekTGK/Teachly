@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Register({ modalState, setModalState }) {
-  const [userState, setUserState] = useState({
+  const [user, setUser] = useState({
     imageId: "",
     firstname: "",
     lastname: "",
@@ -20,7 +20,7 @@ export default function Register({ modalState, setModalState }) {
   const navigate = useNavigate();
 
   function updateHandler(e) {
-    setUserState({ ...userState, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   }
 
   const validateEmail = (email) => {
@@ -36,17 +36,17 @@ export default function Register({ modalState, setModalState }) {
     setSuccess("");
 
     // Check if password and confirmPassword match
-    if (userState.password !== userState.confirmPassword) {
+    if (user.password !== user.confirmPassword) {
       setError("Passwords do not match!");
       return; // Stop the submission
     }
 
-    if (!validateEmail(userState.email)) {
+    if (!validateEmail(user.email)) {
       setError("Enter a Valid Email!!");
       return; // Don't submit the form and prevent modal from closing
     }
 
-    if (!validatePassword(userState.password)) {
+    if (!validatePassword(user.password)) {
       setError(
         "Password must be at least 8 characters long and include at least 1 lowercase letter, 1 uppercase letter, 1 number, and 1 special character."
       );
@@ -54,7 +54,7 @@ export default function Register({ modalState, setModalState }) {
     }
 
     try {
-      const { confirmPassword, ...user } = userState;
+      const { confirmPassword, ...user } = user;
       let newUser = await createUser(user);
 
       if (newUser.data.success) {

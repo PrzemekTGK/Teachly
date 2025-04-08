@@ -2,7 +2,7 @@ import { useState } from "react";
 import Login from "./Login";
 import Register from "./Register";
 export default function AuthorizationModal({ modalState, setModalState }) {
-  const [loginState, setLogin] = new useState(true);
+  const [login, setLogin] = new useState(true);
 
   return (
     <div className="modal-background">
@@ -19,8 +19,8 @@ export default function AuthorizationModal({ modalState, setModalState }) {
         <div className="modal-bar">
           <button
             onClick={() => {
-              if (!loginState) {
-                setLogin(!loginState);
+              if (!login) {
+                setLogin(!login);
               }
             }}
           >
@@ -28,15 +28,15 @@ export default function AuthorizationModal({ modalState, setModalState }) {
           </button>
           <button
             onClick={() => {
-              if (loginState) {
-                setLogin(!loginState);
+              if (login) {
+                setLogin(!login);
               }
             }}
           >
             Register
           </button>
         </div>
-        {loginState ? (
+        {login ? (
           <Login modalState={setModalState} setModalState={setModalState} />
         ) : (
           <Register modalState={setModalState} setModalState={setModalState} />

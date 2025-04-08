@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
 export default function Login({ modalState, setModalState }) {
-  const [userState, setUserState] = useState({
+  const [user, setUser] = useState({
     email: "",
     password: "",
   });
@@ -15,7 +15,7 @@ export default function Login({ modalState, setModalState }) {
   const navigate = useNavigate();
 
   function updateHandler(e) {
-    setUserState({ ...userState, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   }
 
   async function loginHandler(e) {
@@ -26,7 +26,7 @@ export default function Login({ modalState, setModalState }) {
     setSuccess("");
 
     try {
-      const response = await verifyUser(userState);
+      const response = await verifyUser(user);
 
       if (response.success) {
         setSuccess("User logged in successfully!");

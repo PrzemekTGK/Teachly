@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { getVideos, deleteVideo } from "../api";
 import { Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import ConfirmationModal from "../components/ConfirmationModal";
 
 export default function ContentManager() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [videoId, setVideoId] = useState("");
 
   useEffect(() => {
     async function fetchVideos() {
@@ -76,7 +79,10 @@ export default function ContentManager() {
                   </Link>
                   <button
                     className="delete-video-button"
-                    onClick={() => handleDelete(video._id)}
+                    onClick={() => {
+                      setConfirmModal(!confirmModal);
+                      setVideoId(video._id);
+                    }}
                   >
                     Delete X
                   </button>
@@ -92,6 +98,18 @@ export default function ContentManager() {
           )}
         </div>
       </div>
+
+      {confirmModal && (
+        <div className="modal-wrapper">
+          <ConfirmationModal
+            modalState={confirmModal}
+            setModalState={setConfirmModal}
+            onConfirm={() => {
+              handleDelete(videoId);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }

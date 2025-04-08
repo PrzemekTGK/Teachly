@@ -8,7 +8,7 @@ export default function Dropwdown({
   handleLinkClick,
   handleLogout,
 }) {
-  const [confirmModalState, setConfirmModalState] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
   return (
     <div ref={dropdownRef} className="dropdown-menu">
       <Link to={"/profile"} className="navitem" onClick={handleLinkClick}>
@@ -43,16 +43,16 @@ export default function Dropwdown({
       )}
       <button
         onClick={() => {
-          setConfirmModalState(!confirmModalState);
+          setConfirmModal(!confirmModal);
         }}
       >
         Logout
       </button>
-      {confirmModalState && (
+      {confirmModal && (
         <div className="modal-wrapper">
           <ConfirmationModal
-            modalState={confirmModalState}
-            setModalState={setConfirmModalState}
+            modalState={confirmModal}
+            setModalState={setConfirmModal}
             onConfirm={() => {
               handleLogout();
             }}

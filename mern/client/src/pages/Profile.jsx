@@ -19,15 +19,14 @@ import axios from "axios";
 
 export default function Profile() {
   const MAX_FILE_SIZE = 5000000;
-  const [userState, setUserState] = useState();
-  const [editProfileImgState, setEditProfileImgState] = useState(false);
-  const [selectProfileImgState, setSelectProfileImgState] = useState();
-  const [profileImgUrl, setProfileImgUrl] = useState(defaultProfileImage);
-  const [roleState, setRoleState] = useState();
-  const [roleModalState, setRoleModalState] = useState(false);
-  const [confirmModalState, setConfirmModalState] = useState(false);
-  const [changePasswordModalState, setChangePasswordModalState] =
-    useState(false);
+  const [user, setUser] = useState();
+  const [editProfileImage, setEditProfileImage] = useState(false);
+  const [selectProfileImage, setSelectProfileImage] = useState();
+  const [profileImageUrl, setProfileImageUrl] = useState(defaultProfileImage);
+  const [userRole, setUserRole] = useState();
+  const [roleModal, setRoleModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [changePasswordModal, setChangePasswordModal] = useState(false);
   const [confirmAction, setConfirmAction] = useState("");
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState("");
@@ -37,25 +36,25 @@ export default function Profile() {
     async function loadUserData() {
       const token = sessionStorage.getItem("User");
       const decodedUser = jwtDecode(token);
-      setUserState(decodedUser);
-      setRoleState(decodedUser.role);
+      setUser(decodedUser);
+      setUserRole(decodedUser.role);
       if (decodedUser.imageId) {
         try {
           const imageUrl = await getImage(decodedUser.imageId);
-          setProfileImgUrl(imageUrl); // Update only if imageUrl is valid
+          setProfileImageUrl(imageUrl); // Update only if imageUrl is valid
         } catch (error) {
-          setProfileImgUrl(defaultProfileImage);
+          setProfileImageUrl(defaultProfileImage);
           setError("Error fetching profile image:", error);
         }
       }
     }
 
     loadUserData();
-  }, [roleState]);
+  }, [userRole]);
 
   function handleEditProfileImg() {
-    setEditProfileImgState(!editProfileImgState);
-    setSelectProfileImgState();
+    setEditProfileImage(!editProfileImage);
+    setSelectProfileImage();
   }
 
   function handleSelectProfileImg(e) {
@@ -78,33 +77,33 @@ export default function Profile() {
       inputFileRef.current.type = "file";
       return;
     }
-    setSelectProfileImgState(file);
+    setSelectProfileImage(file);
   }
 
   async function handleUploadProfileImg() {
     setError("");
     setSuccess("");
-    if (profileImgUrl) {
+    if (profileImageUrl) {
       const token = sessionStorage.getItem("User");
       const currentImageId = jwtDecode(token).imageId;
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      if (!(profileImgUrl === defaultProfileImage)) {
+      if (!(profileImageUrl === defaultProfileImage)) {
         await deleteImage(currentImageId);
       }
     }
 
-    if (!selectProfileImgState) {
+    if (!selectProfileImage) {
       setError("Failed to upload the file! - File does not exist");
       return;
     }
 
     try {
-      const uploadedImage = await uploadImage(selectProfileImgState);
+      const uploadedImage = await uploadImage(selectProfileImage);
       if (uploadedImage) {
         try {
           const updatedUser = {
-            ...userState,
-            imageId: selectProfileImgState.name,
+            ...user,
+            imageId: selectProfileImage.name,
           };
           const response = await updateUser(updatedUser._id, updatedUser);
           const newToken = response.data.token;
@@ -113,10 +112,10 @@ export default function Profile() {
           sessionStorage.setItem("User", newToken);
           axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
           inputFileRef.current.value = null;
-          setProfileImgUrl(imageUrl);
-          setUserState(decodedUser);
-          setEditProfileImgState(!editProfileImgState);
-          setSelectProfileImgState();
+          setProfileImageUrl(imageUrl);
+          setUser(decodedUser);
+          setEditProfileImage(!editProfileImage);
+          setSelectProfileImage();
         } catch (error) {
           setError(`Failed to upload an image: `, error.message);
         }
@@ -128,7 +127,7 @@ export default function Profile() {
   }
 
   async function handleDeleteProfileImg() {
-    if (profileImgUrl) {
+    if (profileImageUrl) {
       const token = sessionStorage.getItem("User");
       const decodedUser = jwtDecode(token);
       const imageId = decodedUser.imageId;
@@ -139,7 +138,7 @@ export default function Profile() {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       await deleteImage(imageId);
       await updateUser(decodedUser._id, updatedUser);
-      setProfileImgUrl(defaultProfileImage);
+      setProfileImageUrl(defaultProfileImage);
     }
   }
 
@@ -156,7 +155,7 @@ export default function Profile() {
       sessionStorage.setItem("User", newToken);
       sessionStorage.removeItem("StreamKey");
       const decodedUserAfterUpdate = jwtDecode(newToken);
-      setRoleState(decodedUserAfterUpdate.role);
+      setUserRole(decodedUserAfterUpdate.role);
     } catch (error) {
       setError("Failed to update user role:", error.message);
     }
@@ -164,8 +163,8 @@ export default function Profile() {
 
   async function handleDeleteProfile() {
     const token = sessionStorage.getItem("User");
-    const userId = userState._id;
-    const imageId = userState.imageId;
+    const userId = user._id;
+    const imageId = user.imageId;
 
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -190,34 +189,34 @@ export default function Profile() {
   }
 
   function handleRoleUpdate(newRole) {
-    setRoleState(newRole);
+    setUserRole(newRole);
   }
 
-  if (!userState) {
+  if (!user) {
     return <div>Loading...</div>; // Show a loading message or spinner while userState is being set
   }
 
   return (
     <div className="scroll">
       <div className="profile-content">
-        <img className="profile-image" src={profileImgUrl} alt="Profile" />
+        <img className="profile-image" src={profileImageUrl} alt="Profile" />
         <span className="image-upload-span">
-          {!editProfileImgState ? (
+          {!editProfileImage ? (
             <>
               <button
                 className="edit-profile-image-button"
                 onClick={handleEditProfileImg}
               >
-                {profileImgUrl === defaultProfileImage
+                {profileImageUrl === defaultProfileImage
                   ? "Upload Image"
                   : "Edit Image"}
               </button>
               <button
                 className="delete-profile-image-button"
                 onClick={() => {
-                  if (!(profileImgUrl === defaultProfileImage)) {
+                  if (!(profileImageUrl === defaultProfileImage)) {
                     setConfirmAction("deleteImage");
-                    setConfirmModalState(!confirmModalState);
+                    setConfirmModal(!confirmModal);
                   }
                 }}
               >
@@ -226,7 +225,7 @@ export default function Profile() {
             </>
           ) : (
             <>
-              {!selectProfileImgState ? (
+              {!selectProfileImage ? (
                 <></>
               ) : (
                 <>
@@ -251,13 +250,13 @@ export default function Profile() {
         </span>
         <div className="details-card">
           <div>
-            {roleState === "viewer" ? (
+            {userRole === "viewer" ? (
               <>
-                <ViewerDetails userState={userState} />
+                <ViewerDetails userState={user} />
                 <button
                   className="become-creator-button"
                   onClick={() => {
-                    setRoleModalState(!roleModalState);
+                    setRoleModal(!roleModal);
                   }}
                 >
                   Become Creator
@@ -265,12 +264,12 @@ export default function Profile() {
               </>
             ) : (
               <>
-                <CreatorDetails userState={userState} />
+                <CreatorDetails userState={user} />
                 <button
                   className="cease-creator-button"
                   onClick={() => {
                     setConfirmAction("ceaseCreator");
-                    setConfirmModalState(!confirmModalState);
+                    setConfirmModal(!confirmModal);
                   }}
                 >
                   Stop Creating
@@ -280,7 +279,7 @@ export default function Profile() {
             <button
               className="change-password-button"
               onClick={() => {
-                setChangePasswordModalState(!changePasswordModalState);
+                setChangePasswordModal(!changePasswordModal);
               }}
             >
               Change Password
@@ -290,7 +289,7 @@ export default function Profile() {
             className="delete-profile-button"
             onClick={() => {
               setConfirmAction("deleteProfile");
-              setConfirmModalState(!confirmModalState);
+              setConfirmModal(!confirmModal);
             }}
           >
             Delete Profile
@@ -299,20 +298,20 @@ export default function Profile() {
         {error && <p className="error-message">{error}</p>}
         {success && <p className="success-message">{success}</p>}
 
-        {roleModalState && (
+        {roleModal && (
           <div className="modal-wrapper">
             <BecomeCreatorModal
-              modalState={roleModalState}
-              setModalState={setRoleModalState}
+              modalState={roleModal}
+              setModalState={setRoleModal}
               onRoleUpdate={handleRoleUpdate}
             />
           </div>
         )}
-        {confirmModalState && (
+        {confirmModal && (
           <div className="modal-wrapper">
             <ConfirmationModal
-              modalState={confirmModalState}
-              setModalState={setConfirmModalState}
+              modalState={confirmModal}
+              setModalState={setConfirmModal}
               onConfirm={() => {
                 if (confirmAction === "ceaseCreator") {
                   handleCeaseCreator();
@@ -326,11 +325,11 @@ export default function Profile() {
           </div>
         )}
 
-        {changePasswordModalState && (
+        {changePasswordModal && (
           <div className="modal-wrapper">
             <ChangePasswordModal
-              modalState={changePasswordModalState}
-              setModalState={setChangePasswordModalState}
+              modalState={changePasswordModal}
+              setModalState={setChangePasswordModal}
             />
           </div>
         )}
