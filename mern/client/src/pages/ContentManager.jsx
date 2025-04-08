@@ -84,7 +84,7 @@ export default function ContentManager() {
                       setVideoId(video._id);
                     }}
                   >
-                    Delete X
+                    X
                   </button>
                 </div>
                 <video controls width="320" height="180">
