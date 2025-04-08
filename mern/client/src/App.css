@@ -47,6 +47,7 @@ html {
   height: fit-content;
   min-width: 100%;
   background-color: rgba(30, 30, 30, 1);
+  z-index: 1000;
 }
 
 .navbar {
@@ -57,7 +58,6 @@ html {
   max-width: 80%;
   margin: 0px auto;
   padding: 10px 0;
-  z-index: 1000;
 }
 
 .home-page {
