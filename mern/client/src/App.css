@@ -235,10 +235,14 @@ html {
   margin-bottom: 50px;
 }
 
-.stream-manager,
+.stream-manager {
+  margin: 0 auto;
+  max-width: fit-content;
+}
+
 .stream-details {
   margin: 0 auto;
-  max-width: -webkit-fill-available;
+  max-width: -webit-fill-available;
 }
 
 .tab-content {
