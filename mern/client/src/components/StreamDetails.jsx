@@ -28,7 +28,7 @@ export default function StreamDetails() {
           maxLength={40}
         />
         <textarea
-          className="stream-decription"
+          className="stream-description"
           placeholder="Stream Description"
           value={streamState}
           onChange={(e) => streamState(e.target.value)}
