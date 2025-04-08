@@ -443,9 +443,8 @@ label {
 .upload-page-title {
   position: relative;
   display: flex;
-  margin-top: 50px;
+  margin: 50px;
   text-align: center;
-  top: 0%;
 }
 
 /* ==========================================================================
