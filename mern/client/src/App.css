@@ -1,4 +1,34 @@
 /* ==========================================================================
+   Global Scrollbar Styling
+   ========================================================================== */
+
+/* WebKit Browsers (Chrome, Safari, Edge) */
+html::-webkit-scrollbar {
+  width: 12px; /* Vertical scrollbar width */
+  height: 12px; /* Horizontal scrollbar height */
+}
+
+html::-webkit-scrollbar-track {
+  background: rgba(25, 25, 25, 1); /* Dark track matching modal-container */
+}
+
+html::-webkit-scrollbar-thumb {
+  background: rgba(50, 50, 50, 1); /* Thumb color matching button hover */
+  border-radius: 6px; /* Rounded edges */
+  border: 2px solid rgba(25, 25, 25, 1); /* Border for contrast */
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: rgba(70, 70, 70, 1); /* Lighter on hover */
+}
+
+/* Firefox and Future Standard (Firefox 64+) */
+html {
+  scrollbar-width: thin; /* Slimmer scrollbar */
+  scrollbar-color: rgba(50, 50, 50, 1) rgba(25, 25, 25, 1); /* thumb track */
+}
+
+/* ==========================================================================
    Global Layout
    ========================================================================== */
 #root {
