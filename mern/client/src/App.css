@@ -272,6 +272,7 @@
 .stream-title-input,
 .stream-description {
   min-width: 100%;
+  max-width: 100%;
 }
 
 /* ==========================================================================
@@ -337,6 +338,7 @@ button:hover {
 }
 
 .publish-stream-button {
+  margin-top: 20px;
   max-width: 20%;
 }
 
