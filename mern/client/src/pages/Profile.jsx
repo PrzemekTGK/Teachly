@@ -198,141 +198,143 @@ export default function Profile() {
   }
 
   return (
-    <div className="profile-content">
-      <img className="profile-image" src={profileImgUrl} alt="Profile" />
-      <span className="image-upload-span">
-        {!editProfileImgState ? (
-          <>
-            <button
-              className="edit-profile-image-button"
-              onClick={handleEditProfileImg}
-            >
-              {profileImgUrl === defaultProfileImage
-                ? "Upload Image"
-                : "Edit Image"}
-            </button>
-            <button
-              className="delete-profile-image-button"
-              onClick={() => {
-                if (!(profileImgUrl === defaultProfileImage)) {
-                  setConfirmAction("deleteImage");
-                  setConfirmModalState(!confirmModalState);
-                }
-              }}
-            >
-              Delete Image
-            </button>
-          </>
-        ) : (
-          <>
-            {!selectProfileImgState ? (
-              <></>
-            ) : (
-              <>
-                <button onClick={handleUploadProfileImg}>Upload</button>
-              </>
-            )}
+    <div className="scroll">
+      <div className="profile-content">
+        <img className="profile-image" src={profileImgUrl} alt="Profile" />
+        <span className="image-upload-span">
+          {!editProfileImgState ? (
             <>
-              <input
-                type="file"
-                onChange={handleSelectProfileImg}
-                ref={inputFileRef}
-              />
               <button
-                className="close-image-edit-button"
+                className="edit-profile-image-button"
                 onClick={handleEditProfileImg}
               >
-                X
+                {profileImgUrl === defaultProfileImage
+                  ? "Upload Image"
+                  : "Edit Image"}
               </button>
-            </>
-          </>
-        )}
-      </span>
-      <div className="details-card">
-        <div>
-          {roleState === "viewer" ? (
-            <>
-              <ViewerDetails userState={userState} />
               <button
-                className="become-creator-button"
+                className="delete-profile-image-button"
                 onClick={() => {
-                  setRoleModalState(!roleModalState);
+                  if (!(profileImgUrl === defaultProfileImage)) {
+                    setConfirmAction("deleteImage");
+                    setConfirmModalState(!confirmModalState);
+                  }
                 }}
               >
-                Become Creator
+                Delete Image
               </button>
             </>
           ) : (
             <>
-              <CreatorDetails userState={userState} />
-              <button
-                className="cease-creator-button"
-                onClick={() => {
-                  setConfirmAction("ceaseCreator");
-                  setConfirmModalState(!confirmModalState);
-                }}
-              >
-                Stop Creating
-              </button>
+              {!selectProfileImgState ? (
+                <></>
+              ) : (
+                <>
+                  <button onClick={handleUploadProfileImg}>Upload</button>
+                </>
+              )}
+              <>
+                <input
+                  type="file"
+                  onChange={handleSelectProfileImg}
+                  ref={inputFileRef}
+                />
+                <button
+                  className="close-image-edit-button"
+                  onClick={handleEditProfileImg}
+                >
+                  X
+                </button>
+              </>
             </>
           )}
+        </span>
+        <div className="details-card">
+          <div>
+            {roleState === "viewer" ? (
+              <>
+                <ViewerDetails userState={userState} />
+                <button
+                  className="become-creator-button"
+                  onClick={() => {
+                    setRoleModalState(!roleModalState);
+                  }}
+                >
+                  Become Creator
+                </button>
+              </>
+            ) : (
+              <>
+                <CreatorDetails userState={userState} />
+                <button
+                  className="cease-creator-button"
+                  onClick={() => {
+                    setConfirmAction("ceaseCreator");
+                    setConfirmModalState(!confirmModalState);
+                  }}
+                >
+                  Stop Creating
+                </button>
+              </>
+            )}
+            <button
+              className="change-password-button"
+              onClick={() => {
+                setChangePasswordModalState(!changePasswordModalState);
+              }}
+            >
+              Change Password
+            </button>
+          </div>
           <button
-            className="change-password-button"
+            className="delete-profile-button"
             onClick={() => {
-              setChangePasswordModalState(!changePasswordModalState);
+              setConfirmAction("deleteProfile");
+              setConfirmModalState(!confirmModalState);
             }}
           >
-            Change Password
+            Delete Profile
           </button>
         </div>
-        <button
-          className="delete-profile-button"
-          onClick={() => {
-            setConfirmAction("deleteProfile");
-            setConfirmModalState(!confirmModalState);
-          }}
-        >
-          Delete Profile
-        </button>
+        {error && <p className="error-message">{error}</p>}
+        {success && <p className="success-message">{success}</p>}
+
+        {roleModalState && (
+          <div className="modal-wrapper">
+            <BecomeCreatorModal
+              modalState={roleModalState}
+              setModalState={setRoleModalState}
+              onRoleUpdate={handleRoleUpdate}
+            />
+          </div>
+        )}
+        {confirmModalState && (
+          <div className="modal-wrapper">
+            <ConfirmationModal
+              modalState={confirmModalState}
+              setModalState={setConfirmModalState}
+              onConfirm={() => {
+                if (confirmAction === "ceaseCreator") {
+                  handleCeaseCreator();
+                } else if (confirmAction === "deleteProfile") {
+                  handleDeleteProfile();
+                } else if (confirmAction === "deleteImage") {
+                  handleDeleteProfileImg();
+                }
+              }}
+            />
+          </div>
+        )}
+
+        {changePasswordModalState && (
+          <div className="modal-wrapper">
+            <ChangePasswordModal
+              modalState={changePasswordModalState}
+              setModalState={setChangePasswordModalState}
+            />
+          </div>
+        )}
       </div>
-      {error && <p className="error-message">{error}</p>}
-      {success && <p className="success-message">{success}</p>}
-
-      {roleModalState && (
-        <div className="modal-wrapper">
-          <BecomeCreatorModal
-            modalState={roleModalState}
-            setModalState={setRoleModalState}
-            onRoleUpdate={handleRoleUpdate}
-          />
-        </div>
-      )}
-      {confirmModalState && (
-        <div className="modal-wrapper">
-          <ConfirmationModal
-            modalState={confirmModalState}
-            setModalState={setConfirmModalState}
-            onConfirm={() => {
-              if (confirmAction === "ceaseCreator") {
-                handleCeaseCreator();
-              } else if (confirmAction === "deleteProfile") {
-                handleDeleteProfile();
-              } else if (confirmAction === "deleteImage") {
-                handleDeleteProfileImg();
-              }
-            }}
-          />
-        </div>
-      )}
-
-      {changePasswordModalState && (
-        <div className="modal-wrapper">
-          <ChangePasswordModal
-            modalState={changePasswordModalState}
-            setModalState={setChangePasswordModalState}
-          />
-        </div>
-      )}
     </div>
   );
 }
