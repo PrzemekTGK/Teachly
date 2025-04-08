@@ -348,7 +348,7 @@ button:hover {
 .upload-video-button {
   border: none;
   cursor: pointer;
-  width: 100%;
+  width: fit-content;
   margin: 5px 0;
 }
 
