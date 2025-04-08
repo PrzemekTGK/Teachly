@@ -54,41 +54,43 @@ export default function ContentManager() {
 
   return (
     <div className="content-manager">
-      <h2 className="content-manager-title">Content Manager</h2>
-      <div className="video-grid">
-        {userVideos.length > 0 ? (
-          userVideos.map((video) => (
-            <div key={video._id} className="video-item">
-              <div className="video-delete-bar">
-                <Link
-                  to={`/ContentViewer/${video._id}`}
-                  state={{
-                    videoUrl: video.url,
-                    videoTitle: video.title,
-                    videoDescription: video.description,
-                    videoUploader: video.uploader,
-                    uploadedAt: video.uploadedAt,
-                  }}
-                  className="video-title"
-                >
-                  {video.title}
-                </Link>
-                <button
-                  className="delete-video-button"
-                  onClick={() => handleDelete(video._id)}
-                >
-                  Delete X
-                </button>
+      <div className="content-scroll">
+        <h2 className="content-manager-title">Content Manager</h2>
+        <div className="video-grid">
+          {userVideos.length > 0 ? (
+            userVideos.map((video) => (
+              <div key={video._id} className="video-item">
+                <div className="video-delete-bar">
+                  <Link
+                    to={`/ContentViewer/${video._id}`}
+                    state={{
+                      videoUrl: video.url,
+                      videoTitle: video.title,
+                      videoDescription: video.description,
+                      videoUploader: video.uploader,
+                      uploadedAt: video.uploadedAt,
+                    }}
+                    className="video-title"
+                  >
+                    {video.title}
+                  </Link>
+                  <button
+                    className="delete-video-button"
+                    onClick={() => handleDelete(video._id)}
+                  >
+                    Delete X
+                  </button>
+                </div>
+                <video controls width="320" height="180">
+                  <source src={video.url} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
               </div>
-              <video controls width="320" height="180">
-                <source src={video.url} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          ))
-        ) : (
-          <p>No videos available.</p>
-        )}
+            ))
+          ) : (
+            <p>No videos available.</p>
+          )}
+        </div>
       </div>
     </div>
   );
