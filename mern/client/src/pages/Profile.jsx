@@ -19,7 +19,7 @@ import axios from "axios";
 
 export default function Profile() {
   const MAX_FILE_SIZE = 5000000;
-  const [user, setUser] = useState();
+  const [userState, setUserState] = useState();
   const [editProfileImage, setEditProfileImage] = useState(false);
   const [selectProfileImage, setSelectProfileImage] = useState();
   const [profileImageUrl, setProfileImageUrl] = useState(defaultProfileImage);
@@ -36,7 +36,7 @@ export default function Profile() {
     async function loadUserData() {
       const token = sessionStorage.getItem("User");
       const decodedUser = jwtDecode(token);
-      setUser(decodedUser);
+      setUserState(decodedUser);
       setUserRole(decodedUser.role);
       if (decodedUser.imageId) {
         try {
@@ -102,10 +102,10 @@ export default function Profile() {
       if (uploadedImage) {
         try {
           const updatedUser = {
-            ...user,
+            ...userState,
             imageId: selectProfileImage.name,
           };
-          const response = await updateUser(updatedUser._id, updatedUser);
+          const response = await updateUser(userState._id, updatedUser);
           const newToken = response.data.token;
           const decodedUser = jwtDecode(newToken);
           const imageUrl = await getImage(decodedUser.imageId);
@@ -113,7 +113,7 @@ export default function Profile() {
           axios.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
           inputFileRef.current.value = null;
           setProfileImageUrl(imageUrl);
-          setUser(decodedUser);
+          setUserState(decodedUser);
           setEditProfileImage(!editProfileImage);
           setSelectProfileImage();
         } catch (error) {
@@ -163,8 +163,8 @@ export default function Profile() {
 
   async function handleDeleteProfile() {
     const token = sessionStorage.getItem("User");
-    const userId = user._id;
-    const imageId = user.imageId;
+    const userId = userState._id;
+    const imageId = userState.imageId;
 
     try {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -192,7 +192,7 @@ export default function Profile() {
     setUserRole(newRole);
   }
 
-  if (!user) {
+  if (!userState) {
     return <div>Loading...</div>; // Show a loading message or spinner while userState is being set
   }
 
@@ -252,7 +252,7 @@ export default function Profile() {
           <div>
             {userRole === "viewer" ? (
               <>
-                <ViewerDetails userState={user} />
+                <ViewerDetails userState={userState} />
                 <button
                   className="become-creator-button"
                   onClick={() => {
@@ -264,7 +264,7 @@ export default function Profile() {
               </>
             ) : (
               <>
-                <CreatorDetails userState={user} />
+                <CreatorDetails userState={userState} />
                 <button
                   className="cease-creator-button"
                   onClick={() => {
