@@ -390,8 +390,7 @@ button:hover {
 }
 
 .delete-video-button {
-  width: 105px;
-  max-width: 105px;
+  width: fit-content;
   color: rgba(255, 0, 0, 1);
 }
 
