@@ -118,7 +118,7 @@ export default function Register({ modalState, setModalState }) {
               maxLength={20}
               required
             />
-            <button className="submit-button" type="submit">
+            <button className="submit-button register-button" type="submit">
               Register
             </button>
           </form>

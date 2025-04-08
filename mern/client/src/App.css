@@ -299,6 +299,11 @@ button:hover {
   background-color: rgba(20, 20, 20, 1);
 }
 
+.register-button {
+  max-width: fit-content;
+  margin: 0px auto 20px;
+}
+
 .upload-video-button {
   border: none;
   cursor: pointer;
