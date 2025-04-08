@@ -384,10 +384,7 @@ button:hover {
 .delete-video-button {
   background-color: rgba(50, 50, 50, 1);
   border-style: solid;
-  border-width: 2px;
-  border-radius: 0px;
-  border-color: rgba(255, 0, 0, 0.5);
-  color: rgba(255, 0, 0, 0.5);
+  color: rgba(255, 0, 0, 1);
 }
 
 .confirmation-buttons-bar {
