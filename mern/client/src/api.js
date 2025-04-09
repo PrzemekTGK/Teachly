@@ -314,3 +314,26 @@ export const getStreamUrl = async (streamKey) => {
     throw error;
   }
 };
+
+export const publishStream = async (stream) => {
+  const publishedStream = stream;
+
+  try {
+    const response = await axios.post(
+      `${URL}/stream/publish-stream`,
+      publishedStream
+    );
+    return response;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+
+    return {
+      data: {
+        success: false,
+        message: "An unexpected error occurred.",
+      },
+    };
+  }
+};

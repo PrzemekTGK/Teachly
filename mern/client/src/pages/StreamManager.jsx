@@ -8,6 +8,7 @@ export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
+  const [userId, setUserId] = useState("");
   const videoRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -16,6 +17,7 @@ export default function StreamManager() {
     const decodedUser = jwtDecode(token);
 
     const streamKey = decodedUser.streamKey;
+    setUserId(decodedUser._id);
     const fetchStreamKey = async () => {
       try {
         const url = await getStreamUrl(streamKey);
@@ -100,7 +102,7 @@ export default function StreamManager() {
             crossOrigin="anonymous"
             className="stream-manager-video"
           />
-          <StreamDetails />
+          <StreamDetails streamUrl={streamUrl} userId={userId} />
         </div>
       ) : (
         <p>You're currently not streaming.</p>

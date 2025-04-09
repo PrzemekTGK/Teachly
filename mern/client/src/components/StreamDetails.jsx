@@ -1,9 +1,10 @@
 import { useState } from "react";
+import { publishStream } from "../api";
 
-export default function StreamDetails() {
+export default function StreamDetails({ streamUrl, userId }) {
   const [streamDetails, setStreamState] = useState({
-    streamTitle: "",
-    streamDescription: "",
+    streamtitle: "",
+    streamdescription: "",
   });
 
   const [error, setError] = useState("");
@@ -13,7 +14,25 @@ export default function StreamDetails() {
     setStreamState({ ...streamDetails, [e.target.name]: e.target.value });
   }
 
-  function handlePublishStream() {}
+  async function handlePublishStream(e) {
+    e.preventDefault();
+
+    const fullStreamDetails = {
+      ...streamDetails,
+      streamerId: userId,
+      streamUrl: streamUrl,
+    };
+
+    try {
+      await publishStream(fullStreamDetails);
+      setSuccess("Stream published successfully!");
+      setError("");
+    } catch (err) {
+      setError("Failed to publish stream.");
+      setSuccess("");
+      console.error(err);
+    }
+  }
 
   return (
     <div className="stream-details">
@@ -24,7 +43,7 @@ export default function StreamDetails() {
           placeholder="Stream Title"
           onChange={updateHandler}
           name="text"
-          value={streamDetails.streamTitle}
+          value={streamDetails.streamtitle}
           required
           maxLength={40}
         />
@@ -32,7 +51,7 @@ export default function StreamDetails() {
         <textarea
           className="stream-description"
           placeholder="Stream Description"
-          value={streamDetails.streamDescription}
+          value={streamDetails.streamdescription}
           onChange={updateHandler}
           required
           maxLength={150}
