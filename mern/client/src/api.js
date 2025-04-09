@@ -342,7 +342,7 @@ export const publishStream = async (stream) => {
 
 export async function getStreams() {
   try {
-    const response = await axios.get(`${URL}/streams`); // Assuming the endpoint for fetching all videos is /videos
+    const response = await axios.get(`${URL}/stream/streams`); // Assuming the endpoint for fetching all videos is /videos
     return response.data;
   } catch (error) {
     console.error(`Failed to fetch videos: ${error.message}`);
