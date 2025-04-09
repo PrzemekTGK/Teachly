@@ -53,7 +53,7 @@ export default function ContentBrowser() {
                 {stream.streamtitle}
               </Link>
               <video controls width="320" height="180">
-                <source src={stream.streamUrl} type="video/mp4" />
+                <source ref={stream.streamUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
