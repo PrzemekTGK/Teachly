@@ -11,7 +11,7 @@ export default function ContentBrowser() {
     async function fetchStreams() {
       try {
         const streamsData = await getStreams();
-        setStreams(streamsData);
+        setStreams(streamsData.data);
         console.log(`Stream Data `, streamsData);
         console.log(`Streams `, streams);
       } catch (err) {
