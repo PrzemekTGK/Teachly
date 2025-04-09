@@ -24,9 +24,12 @@ export default function StreamDetails({ streamUrl, userId }) {
     };
 
     try {
-      await publishStream(fullStreamDetails);
-      setSuccess("Stream published successfully!");
-      setError("");
+      const response = await publishStream(fullStreamDetails);
+
+      if (response.data && response.data.success) {
+        setSuccess("Stream published successfully!");
+        setError("");
+      }
     } catch (err) {
       setError("Failed to publish stream.");
       setSuccess("");
