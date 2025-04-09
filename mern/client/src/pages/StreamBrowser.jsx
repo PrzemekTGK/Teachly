@@ -8,7 +8,7 @@ export default function ContentBrowser() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function fetchVideos() {
+    async function fetchStreams() {
       try {
         const streamsData = await getStreams();
         setStreams(streamsData);
@@ -21,7 +21,7 @@ export default function ContentBrowser() {
       }
     }
 
-    fetchVideos();
+    fetchStreams();
   }, [streams]);
 
   if (loading) {
