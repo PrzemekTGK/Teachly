@@ -99,21 +99,19 @@ export const publishStream = async (req, res) => {
 
   try {
     await newStream.save();
-    const { password, ...userWithoutPassword } = newStream.toObject();
-    const token = jwt.sign(userWithoutPassword, process.env.SECRET_KEY);
-    res.status(201).json({ success: true, token });
+    res
+      .status(201)
+      .json({ success: true, message: "Published stream successfully!" });
   } catch (error) {
     res
       .status(500)
-      .json({ success: false, message: "Error creating new user!" });
+      .json({ success: false, message: "Error publishing stream!" });
   }
 };
 
 export const getStreams = async (req, res) => {
   try {
-    console.log("GETTING STREAMS!");
     const streams = await Stream.find({});
-    console.log(`STREAMS: `, JSON.stringify(streams));
     res.status(200).json({ success: true, data: streams });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error!" });
