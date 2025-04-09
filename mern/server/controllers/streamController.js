@@ -1,4 +1,5 @@
 import { WebSocket } from "ws";
+import Stream from "../models/streamModel.js";
 import User from "../models/userModel.js";
 import http from "http";
 export const validateStreamKey = async (req, res) => {
@@ -79,4 +80,31 @@ export const streamProxy = (req, res) => {
   });
 
   req.pipe(proxyReq);
+};
+
+export const publishStream = async (req, res) => {
+  const stream = req.body;
+
+  if (
+    !stream.streamtitle ||
+    !stream.streamdescription ||
+    !stream.streamerId ||
+    !stream.streamUrl
+  ) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Please provide all fields" });
+  }
+  const newStream = new Stream(stream);
+
+  try {
+    await newStream.save();
+    const { password, ...userWithoutPassword } = newStream.toObject();
+    const token = jwt.sign(userWithoutPassword, process.env.SECRET_KEY);
+    res.status(201).json({ success: true, token });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error creating new user!" });
+  }
 };

@@ -9,16 +9,16 @@ const streamSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  streamTitle: {
+  streamtitle: {
     type: String,
     required: true,
   },
-  streamDescription: {
+  streamdescription: {
     type: String,
     required: true,
   },
 });
 
-const Video = mongoose.model("Video", streamSchema);
+const Stream = mongoose.model("Stream", streamSchema);
 
 export default Stream;
