@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { publishStream } from "../api";
 
-export default function StreamDetails({ streamUrl, userId }) {
+export default function StreamDetails({ streamUrl, userId, streamRef }) {
   const [streamDetails, setStreamState] = useState({
     streamtitle: "",
     streamdescription: "",
@@ -21,6 +21,7 @@ export default function StreamDetails({ streamUrl, userId }) {
       ...streamDetails,
       streamerId: userId,
       streamUrl: streamUrl,
+      streamRef: streamRef,
     };
 
     console.log(fullStreamDetails);

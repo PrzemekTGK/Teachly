@@ -9,7 +9,7 @@ export default function StreamManager() {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
   const [userId, setUserId] = useState("");
-  const videoRef = useRef(null);
+  const streamRef = useRef(null);
   const wsRef = useRef(null);
 
   useEffect(() => {
@@ -61,26 +61,26 @@ export default function StreamManager() {
   }, []);
 
   useEffect(() => {
-    if (!loading && streamUrl && videoRef.current && isLive) {
+    if (!loading && streamUrl && streamRef.current && isLive) {
       if (Hls.isSupported()) {
         const hls = new Hls({
           liveSyncDurationCount: 3,
           liveMaxLatencyDurationCount: 10,
         });
         hls.loadSource(streamUrl);
-        hls.attachMedia(videoRef.current);
+        hls.attachMedia(streamRef.current);
         hls.on(Hls.Events.MANIFEST_PARSED, () => {
-          videoRef.current.play();
+          streamRef.current.play();
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
           console.error("HLS error:", data.type, data.details);
         });
       } else if (
-        videoRef.current.canPlayType("application/vnd.apple.mpegurl")
+        streamRef.current.canPlayType("application/vnd.apple.mpegurl")
       ) {
-        videoRef.current.src = streamUrl;
-        videoRef.current.addEventListener("loadedmetadata", () => {
-          videoRef.current.play();
+        streamRef.current.src = streamUrl;
+        streamRef.current.addEventListener("loadedmetadata", () => {
+          streamRef.current.play();
         });
       }
     }
@@ -94,7 +94,7 @@ export default function StreamManager() {
       ) : isLive ? (
         <div className="stream-manager">
           <video
-            ref={videoRef}
+            ref={streamRef}
             controls
             autoPlay
             width="640"
@@ -102,7 +102,11 @@ export default function StreamManager() {
             crossOrigin="anonymous"
             className="stream-manager-video"
           />
-          <StreamDetails streamUrl={videoRef} userId={userId} />
+          <StreamDetails
+            streamUrl={streamUrl}
+            userId={userId}
+            streamRef={streamRef}
+          />
         </div>
       ) : (
         <p>You're currently not streaming.</p>
