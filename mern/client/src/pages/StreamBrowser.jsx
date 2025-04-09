@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { getStreams } from "../api";
 import { Link } from "react-router-dom";
+import Hls from "hls.js";
 
 export default function ContentBrowser() {
+  const [streamUrl, setStreamUrl] = useState("");
   const [streams, setStreams] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLive, setIsLive] = useState(false);
+  const streamRef = useRef(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -23,6 +27,32 @@ export default function ContentBrowser() {
 
     fetchStreams();
   }, []);
+
+  useEffect(() => {
+    if (!loading && streamUrl && streamRef.current && isLive) {
+      if (Hls.isSupported()) {
+        const hls = new Hls({
+          liveSyncDurationCount: 3,
+          liveMaxLatencyDurationCount: 10,
+        });
+        hls.loadSource(streamUrl);
+        hls.attachMedia(streamRef.current);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          streamRef.current.play();
+        });
+        hls.on(Hls.Events.ERROR, (event, data) => {
+          console.error("HLS error:", data.type, data.details);
+        });
+      } else if (
+        streamRef.current.canPlayType("application/vnd.apple.mpegurl")
+      ) {
+        streamRef.current.src = streamUrl;
+        streamRef.current.addEventListener("loadedmetadata", () => {
+          streamRef.current.play();
+        });
+      }
+    }
+  }, [loading, streamUrl, isLive]);
 
   if (loading) {
     return <div>Loading live streams...</div>;

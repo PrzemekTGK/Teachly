@@ -102,11 +102,7 @@ export default function StreamManager() {
             crossOrigin="anonymous"
             className="stream-manager-video"
           />
-          <StreamDetails
-            streamUrl={streamUrl}
-            userId={userId}
-            streamRef={streamRef}
-          />
+          <StreamDetails streamUrl={streamUrl} userId={userId} />
         </div>
       ) : (
         <p>You're currently not streaming.</p>
