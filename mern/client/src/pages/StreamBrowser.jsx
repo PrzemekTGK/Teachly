@@ -12,7 +12,7 @@ export default function ContentBrowser() {
       try {
         const streamsData = await getStreams();
         setStreams(streamsData);
-        console.log(`streams `, streams);
+        console.log(`streams `, streamsData);
       } catch (err) {
         setError(`Error fetching videos: `, err);
       } finally {

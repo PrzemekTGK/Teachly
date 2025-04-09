@@ -111,7 +111,9 @@ export const publishStream = async (req, res) => {
 
 export const getStreams = async (req, res) => {
   try {
+    console.log("GETTING STREAMS!");
     const streams = await Stream.find({});
+    console.log(`STREAMS: `, JSON.stringify(streams));
     res.status(200).json({ success: true, data: streams });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error!" });
