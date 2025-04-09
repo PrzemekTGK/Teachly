@@ -3,23 +3,6 @@ import { jwtDecode } from "jwt-decode";
 
 const URL = import.meta.env.VITE_API_URL;
 
-export async function testBackend() {
-  console.log("Calling backend...");
-  try {
-    const response = await axios.get(`${URL}/users`, { timeout: 10000 });
-    console.log("Backend response:", response.data);
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Backend call failed:",
-      error.message,
-      error.code,
-      error.response?.status
-    );
-    throw error;
-  }
-}
-
 export async function checkPassword(currentPassword) {
   const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
   const decodedUser = jwtDecode(token); // Decode the token to get the user ID
