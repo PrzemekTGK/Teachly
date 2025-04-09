@@ -23,6 +23,8 @@ export default function StreamDetails({ streamUrl, userId }) {
       streamUrl: streamUrl,
     };
 
+    console.log(fullStreamDetails);
+
     try {
       const response = await publishStream(fullStreamDetails);
 
