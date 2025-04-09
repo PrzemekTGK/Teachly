@@ -32,7 +32,7 @@ export default function ContentBrowser() {
 
   return (
     <div className="content-browser">
-      <h2 className="content-browser-title">Content Browser</h2>
+      <h2 className="content-browser-title">Stream Browser</h2>
       <div className="video-grid">
         {streams.length > 0 ? (
           streams.map((stream) => (
