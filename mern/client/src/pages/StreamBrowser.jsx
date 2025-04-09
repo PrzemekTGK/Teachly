@@ -49,10 +49,10 @@ export default function ContentBrowser() {
                 }}
                 className="video-title"
               >
-                {stream.title}
+                {stream.streamtitle}
               </Link>
               <video controls width="320" height="180">
-                <source src={stream.url} type="video/mp4" />
+                <source src={stream.streamUrl} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             </div>
