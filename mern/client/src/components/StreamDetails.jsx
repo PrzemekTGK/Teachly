@@ -29,6 +29,9 @@ export default function StreamDetails({ streamUrl, userId }) {
       if (response.data && response.data.success) {
         setSuccess("Stream published successfully!");
         setError("");
+      } else {
+        setError("Failed to publish stream.");
+        setSuccess("");
       }
     } catch (err) {
       setError("Failed to publish stream.");
