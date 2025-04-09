@@ -41,8 +41,9 @@ export default function StreamDetails({ streamUrl, userId }) {
         <input
           className="stream-title-input"
           placeholder="Stream Title"
+          name="streamtitle"
           onChange={updateHandler}
-          name="text"
+          value={streamDetails.streamtitle}
           required
           maxLength={40}
         />
@@ -50,6 +51,8 @@ export default function StreamDetails({ streamUrl, userId }) {
         <textarea
           className="stream-description"
           placeholder="Stream Description"
+          name="streamdescription"
+          value={streamDetails.streamdescription}
           onChange={updateHandler}
           required
           maxLength={150}
