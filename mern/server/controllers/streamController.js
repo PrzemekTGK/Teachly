@@ -1,4 +1,5 @@
 import { WebSocket } from "ws";
+import User from "../models/userModel.js";
 import http from "http";
 export const validateStreamKey = async (req, res) => {
   console.log("VALIDATING STREAM KEY!");
