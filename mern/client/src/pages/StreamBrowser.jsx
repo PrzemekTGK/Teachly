@@ -22,7 +22,7 @@ export default function ContentBrowser() {
     }
 
     fetchStreams();
-  }, [streams]);
+  }, []);
 
   if (loading) {
     return <div>Loading live streams...</div>;
