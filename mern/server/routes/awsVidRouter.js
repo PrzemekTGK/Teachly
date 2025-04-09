@@ -9,8 +9,8 @@ import {
 
 const awsVidRouter = express.Router();
 
-awsVidRouter.post("/upload", verifyToken, uploadVideo);
 awsVidRouter.get("/", getVideos);
+awsVidRouter.post("/upload", verifyToken, uploadVideo);
 awsVidRouter.delete("/:id", verifyToken, deleteVideo);
 awsVidRouter.post("/delete", verifyToken, deleteVideos);
 

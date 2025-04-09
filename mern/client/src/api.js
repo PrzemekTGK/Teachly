@@ -19,6 +19,7 @@ export async function testBackend() {
     throw error;
   }
 }
+
 export async function checkPassword(currentPassword) {
   const token = sessionStorage.getItem("User"); // Retrieve the token from sessionStorage
   const decodedUser = jwtDecode(token); // Decode the token to get the user ID
@@ -253,6 +254,7 @@ export async function getUserVideos(filterKey, filterValue) {
     throw error;
   }
 }
+
 export async function deleteVideo(videoId) {
   const token = sessionStorage.getItem("User");
   try {
@@ -337,3 +339,13 @@ export const publishStream = async (stream) => {
     };
   }
 };
+
+export async function getStreams() {
+  try {
+    const response = await axios.get(`${URL}/streams`); // Assuming the endpoint for fetching all videos is /videos
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch videos: ${error.message}`);
+    throw error; // Optionally handle the error in a way that the caller can handle it
+  }
+}
