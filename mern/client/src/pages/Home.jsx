@@ -1,13 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ContentBrowser from "./ContentBrowser";
 import StreamBrowser from "./StreamBrowser";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("page1");
-  useEffect(() => {
-      .then((data) => console.log("Home data:", data))
-      .catch((err) => console.error("Home error:", err));
-  }, []);
 
   return (
     <div className="home-page">
