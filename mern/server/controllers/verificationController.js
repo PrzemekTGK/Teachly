@@ -57,13 +57,10 @@ export const verifyUser = async (req, res) => {
 };
 
 export const verifyToken = async (req, res, next) => {
-  console.log(`🔍 Checking token for: ${req.path}`); // Debugging log
-
   const authHeaders = req.headers["authorization"];
   const token = authHeaders && authHeaders.split(" ")[1];
 
   if (!token) {
-    console.log(`🚨 No token provided for: ${req.path}`);
     return res
       .status(401)
       .json({ message: "Authantication token is missing!" });

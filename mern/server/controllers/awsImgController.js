@@ -13,11 +13,10 @@ const s3Client = new S3Client({
 });
 
 export const uploadImage = async (req, res) => {
-  // Ensure you're using the parameters passed into the function (req, res)
   const file = req.files[0];
 
   const bucketParams = {
-    Bucket: s3ImageBucket, // make sure s3Bucket is defined or imported in this file
+    Bucket: s3ImageBucket,
     Key: file.originalname,
     Body: file.buffer,
   };
@@ -34,12 +33,11 @@ export const getImage = async (req, res) => {
   const imageId = req.params.id;
 
   if (!imageId) {
-    // Return a 400 Bad Request response if imageId is missing.
     return res.status(400).json({ error: "Image ID is required." });
   }
 
   const bucketParams = {
-    Bucket: s3ImageBucket, // make sure s3Bucket is defined or imported in this file
+    Bucket: s3ImageBucket,
     Key: imageId,
   };
 
@@ -58,12 +56,11 @@ export const deleteImage = async (req, res) => {
   const imageId = req.params.id;
 
   if (!imageId) {
-    // Return a 400 Bad Request response if imageId is missing.
     return res.status(400).json({ error: "Image ID is required." });
   }
 
   const bucketParams = {
-    Bucket: s3ImageBucket, // make sure s3Bucket is defined or imported in this file
+    Bucket: s3ImageBucket,
     Key: imageId,
   };
 

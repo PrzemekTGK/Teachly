@@ -22,7 +22,7 @@ export const getUser = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const user = req.body; // user input data in the front end
+  const user = req.body;
 
   if (!user.username || !user.email || !user.password) {
     return res
@@ -46,8 +46,6 @@ export const createUser = async (req, res) => {
 
     try {
       await newUser.save();
-
-      // Exclude password and confirmPassword from the user object
       const { password, ...userWithoutPassword } = newUser.toObject();
       const token = jwt.sign(userWithoutPassword, process.env.SECRET_KEY);
       res.status(201).json({ success: true, token });
@@ -61,7 +59,7 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { id } = req.params;
-  const user = req.body; // user input data in the front end
+  const user = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res
@@ -101,16 +99,12 @@ export const changePassword = async (req, res) => {
   const { userId, newPassword } = req.body;
 
   try {
-    // Find user by ID
     const user = await User.findById(userId);
-
     if (!user) {
       return res
         .status(400)
         .json({ success: false, message: "User not found" });
     }
-
-    // Update the password
     user.password = newPassword;
     await user.save();
     return res
