@@ -6,27 +6,27 @@ import StreamDetails from "../components/StreamDetails";
 
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
-  const [loading, setLoading] = useState();
-  const [isLive, setIsLive] = useState();
+  const [loading, setLoading] = useState(true); // Default to true for initial load
+  const [isLive, setIsLive] = useState(false); // Default to false
   const [userId, setUserId] = useState("");
-  const [streamPublished, setStreamPublished] = useState();
+  const [streamPublished, setStreamPublished] = useState(false); // Default to false
   const streamRef = useRef(null);
   const wsRef = useRef(null);
 
   useEffect(() => {
     const token = sessionStorage.getItem("User");
     const decodedUser = jwtDecode(token);
-
     const streamKey = decodedUser.streamKey;
     setUserId(decodedUser._id);
+
     const fetchStreamKey = async () => {
       try {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
-        console.log(`STREAM URL: `, streamUrl);
+        console.log("STREAM URL:", url);
         setIsLive(true);
       } catch (error) {
-        console.log(error);
+        console.log("Fetch stream error:", error);
         setIsLive(false);
       } finally {
         setLoading(false);
@@ -34,6 +34,8 @@ export default function StreamManager() {
     };
 
     fetchStreamKey();
+
+    // WebSocket setup
     wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app");
 
     wsRef.current.onopen = () => {
@@ -42,8 +44,13 @@ export default function StreamManager() {
 
     wsRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.streamKey === streamKey && data.action === "streamStarted") {
-        fetchStreamKey();
+      if (data.streamKey === streamKey) {
+        if (data.action === "streamStarted") {
+          fetchStreamKey();
+        } else if (data.action === "streamStopped") {
+          setIsLive(false);
+          setStreamPublished(false); // Reset on stop
+        }
       }
     };
 
@@ -76,6 +83,7 @@ export default function StreamManager() {
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
           console.error("HLS error:", data.type, data.details);
+          if (data.fatal) setIsLive(false); // Stop on fatal errors
         });
       } else if (
         streamRef.current.canPlayType("application/vnd.apple.mpegurl")
