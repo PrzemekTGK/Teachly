@@ -117,7 +117,6 @@ export const publishStream = async (req, res) => {
         { streamUrl: stream.streamUrl, streamKey },
         { timeout: 10000 }
       );
-      console.log("Thumbnail response:", thumbnailResponse.data);
       if (thumbnailResponse.data.success) {
         thumbnailUrl = thumbnailResponse.data.thumbnailUrl;
       }
