@@ -107,6 +107,7 @@ export const publishStream = async (req, res) => {
   }
 
   try {
+    console.log("Attempting thumbnail request...");
     const streamKey = stream.streamUrl.split("/").pop().replace(".m3u8", "");
     const thumbnailResponse = await axios.post(
       "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com:3001/generate-thumbnail",
@@ -115,6 +116,8 @@ export const publishStream = async (req, res) => {
         streamKey,
       }
     );
+
+    console.log("Thumbnail response:", thumbnailResponse.data);
 
     if (!thumbnailResponse.data.success) {
       throw new Error("Thumbnail generation failed");
