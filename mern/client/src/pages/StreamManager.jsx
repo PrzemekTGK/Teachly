@@ -9,6 +9,7 @@ export default function StreamManager() {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
   const [userId, setUserId] = useState("");
+  const [streamPublished, setStreamPublished] = useState(false);
   const streamRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -102,11 +103,16 @@ export default function StreamManager() {
             crossOrigin="anonymous"
             className="stream-manager-video"
           />
-          (!islive ? (<StreamDetails streamUrl={streamUrl} userId={userId} />
-          ))
         </div>
       ) : (
         <p>You're currently not streaming.</p>
+      )}
+      {!streamPublished && (
+        <StreamDetails
+          streamUrl={streamUrl}
+          userId={userId}
+          onStreamPublish={() => setStreamPublished(true)}
+        />
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { publishStream } from "../api";
 
-export default function StreamDetails({ streamUrl, userId }) {
+export default function StreamDetails({ streamUrl, userId, onStreamPublish }) {
   const [streamDetails, setStreamState] = useState({
     streamtitle: "",
     streamdescription: "",
@@ -34,10 +34,8 @@ export default function StreamDetails({ streamUrl, userId }) {
 
       if (response.data && response.data.success) {
         setSuccess("Stream published successfully!");
+        onStreamPublish();
         setError("");
-      } else {
-        setError("Failed to publish stream.");
-        setSuccess("");
       }
     } catch (err) {
       setError("Failed to publish stream.");
