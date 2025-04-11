@@ -24,6 +24,7 @@ const streamSchema = mongoose.Schema({
   thumbnailUrl: {
     type: String,
     default: "",
+    required: true,
   },
 });
 
