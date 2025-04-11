@@ -37,15 +37,17 @@ export const validateStreamKey = async (req, res) => {
         .json({ success: false, message: "Invalid stream key" });
     }
 
-    const clients = req.app.get("wssClients");
-    console.log(`Clients available: ${clients.size}`);
-    const client = clients.get(streamKey);
-    if (client && client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify({ streamKey, action: "streamStarted" }));
-      console.log(`Sent streamStarted to ${streamKey}`);
-    } else {
-      console.log(`No client found or not open for ${streamKey}`);
-    }
+    setTimeout(() => {
+      const clients = req.app.get("wssClients");
+      console.log(`Clients available after 10s: ${clients.size}`);
+      const client = clients.get(streamKey);
+      if (client && client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify({ streamKey, action: "streamStarted" }));
+        console.log(`Sent streamStarted to ${streamKey} after delay`);
+      } else {
+        console.log(`No client found or not open for ${streamKey} after delay`);
+      }
+    }, 10000);
 
     return res
       .status(200)
