@@ -107,7 +107,7 @@ export default function StreamManager() {
       ) : (
         <p>You're currently not streaming.</p>
       )}
-      {!streamPublished && (
+      {isLive && !streamPublished && (
         <StreamDetails
           streamUrl={streamUrl}
           userId={userId}
