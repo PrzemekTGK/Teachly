@@ -33,7 +33,7 @@ export default function StreamManager() {
     };
 
     fetchStreamKey();
-    wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app"); // Update to production URL later
+    wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app");
 
     wsRef.current.onopen = () => {
       wsRef.current.send(JSON.stringify({ streamKey }));
@@ -98,6 +98,8 @@ export default function StreamManager() {
             ref={streamRef}
             controls
             autoPlay
+            width="640"
+            height="360"
             crossOrigin="anonymous"
             className="stream-manager-video"
           />
