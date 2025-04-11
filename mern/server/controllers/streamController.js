@@ -158,8 +158,8 @@ export const getStreams = async (req, res) => {
 };
 
 export const deleteStream = async (req, res) => {
-  console.log("DELETE streamKey:", req.params.streamKey);
-  const streamKey = req.params.streamKey;
+  console.log("DELETE streamKey:", req.body.name);
+  const streamKey = req.body.name;
   const result = await Stream.deleteOne({ streamKey });
   console.log("Delete result:", result);
   res.status(result.deletedCount ? 200 : 404).json({

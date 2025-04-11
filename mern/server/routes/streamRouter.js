@@ -13,6 +13,6 @@ streamRouter.get("/get-streams", getStreams);
 streamRouter.use("/hls", streamProxy);
 streamRouter.all("/validate-stream-key", validateStreamKey);
 streamRouter.post("/publish-stream", publishStream);
-streamRouter.delete("/stream/delete/:streamKey", deleteStream);
+streamRouter.delete("/delete", deleteStream);
 
 export default streamRouter;
