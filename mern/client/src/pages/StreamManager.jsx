@@ -98,8 +98,6 @@ export default function StreamManager() {
             ref={streamRef}
             controls
             autoPlay
-            width="640"
-            height="360"
             crossOrigin="anonymous"
             className="stream-manager-video"
           />
