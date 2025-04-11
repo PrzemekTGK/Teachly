@@ -235,10 +235,16 @@ html {
   margin-bottom: 50px;
 }
 
-.stream-manager-container,
+.stream-manager-container {
+  margin: 0 auto;
+  max-width: fit-content;
+  text-align: center;
+}
+
 .stream-viewer-container {
   margin: 0 auto;
   max-width: fit-content;
+  text-align: left;
 }
 
 .stream-manager,
