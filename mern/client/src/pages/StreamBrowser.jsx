@@ -25,7 +25,7 @@ export default function StreamBrowser() {
           streams.map((stream) => (
             <div key={stream._id} className="video-item">
               <Link
-                to={`/StreamViewer/${stream._id}`}
+                to={`/streamViewer/${stream._id}`}
                 state={{
                   streamId: stream._id,
                   streamerId: stream.streamerId,
