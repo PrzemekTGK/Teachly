@@ -255,9 +255,12 @@ html {
   width: auto;
 }
 
-.stream-manager-video,
-.stream-viewer-video {
+.stream-manager-video {
   margin-bottom: 20px;
+  min-width: -webkit-fill-available;
+}
+
+.stream-viewer-video {
   min-width: -webkit-fill-available;
 }
 

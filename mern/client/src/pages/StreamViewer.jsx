@@ -35,6 +35,7 @@ export default function StreamViewer() {
   return (
     <div className="stream-viewer-container">
       <div className="stream-viewer">
+        <h2>{"Stream Viewer"}</h2>
         <video
           ref={streamRef}
           controls
@@ -45,7 +46,7 @@ export default function StreamViewer() {
           className="stream-viewer-video"
         />
       </div>
-      <h2>{streamtitle || "Stream Viewer"}</h2>
+      <h2>{streamtitle}</h2>
       <label>Stream Description</label>
       <p>{streamdescription || "No description available"}</p>
     </div>
