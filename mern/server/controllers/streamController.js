@@ -165,7 +165,7 @@ export const deleteStream = async (req, res) => {
     const key = stream.thumbnailUrl.split("/").pop();
     await s3Client.send(
       new DeleteObjectCommand({
-        Bucket: "teachlystreamthumbnails",
+        Bucket: s3StreamThumbnailBucket,
         Key: key,
       })
     );
