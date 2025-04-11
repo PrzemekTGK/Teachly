@@ -244,11 +244,12 @@ html {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: min-content;
+  width: auto;
 }
 
 .stream-manager-video {
   margin-bottom: 20px;
+  min-width: -webkit-fill-available;
 }
 
 .tab-content {
