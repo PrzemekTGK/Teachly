@@ -1,7 +1,17 @@
 import { WebSocket } from "ws";
+import { S3Client } from "@aws-sdk/client-s3";
+import { fromEnv } from "@aws-sdk/credential-providers";
 import Stream from "../models/streamModel.js";
 import User from "../models/userModel.js";
 import http from "http";
+import axios from "axios";
+
+const s3StreamThumbnailBucket = process.env.AWS_STREAM_THUMBNAILS_BUCKET;
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: fromEnv(),
+});
+
 export const validateStreamKey = async (req, res) => {
   console.log("VALIDATING STREAM KEY!");
   const streamKey = req.body.name;
@@ -81,7 +91,6 @@ export const streamProxy = (req, res) => {
 
   req.pipe(proxyReq);
 };
-
 export const publishStream = async (req, res) => {
   const stream = req.body;
 
@@ -95,14 +104,36 @@ export const publishStream = async (req, res) => {
       .status(400)
       .json({ success: false, message: "Please provide all fields" });
   }
-  const newStream = new Stream(stream);
 
   try {
+    const streamKey = stream.streamUrl.split("/").pop().replace(".m3u8", "");
+    const thumbnailResponse = await axios.post(
+      "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com:3001/generate-thumbnail",
+      {
+        streamUrl: stream.streamUrl,
+        streamKey,
+      }
+    );
+
+    if (!thumbnailResponse.data.success) {
+      throw new Error("Thumbnail generation failed");
+    }
+
+    const newStream = new Stream({
+      streamtitle: stream.streamtitle,
+      streamdescription: stream.streamdescription,
+      streamerId: stream.streamerId,
+      streamUrl: stream.streamUrl,
+      thumbnailUrl: thumbnailResponse.data.thumbnailUrl,
+      isLive: true,
+    });
     await newStream.save();
+
     res
       .status(201)
       .json({ success: true, message: "Published stream successfully!" });
   } catch (error) {
+    console.error("Error publishing stream:", error);
     res
       .status(500)
       .json({ success: false, message: "Error publishing stream!" });

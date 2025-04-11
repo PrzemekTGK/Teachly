@@ -21,6 +21,11 @@ const streamSchema = mongoose.Schema({
     type: Boolean,
     require: true,
   },
+  thumbnailUrl: {
+    type: String,
+    default: "",
+    required: true,
+  },
 });
 
 const Stream = mongoose.model("Stream", streamSchema);

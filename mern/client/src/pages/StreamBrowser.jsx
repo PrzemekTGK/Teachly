@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getStreams } from "../api";
-import Hls from "hls.js";
 
 export default function StreamBrowser() {
   const [streams, setStreams] = useState([]);
@@ -15,7 +14,6 @@ export default function StreamBrowser() {
         console.error("Failed to load live streams:", err);
       }
     };
-
     fetchStreams();
   }, []);
 
@@ -27,7 +25,7 @@ export default function StreamBrowser() {
           streams.map((stream) => (
             <div key={stream._id} className="video-item">
               <Link
-                to={`/ContentViewer/${stream._id}`}
+                to={`/StreamViewer/${stream._id}`}
                 state={{
                   streamId: stream._id,
                   streamerId: stream.streamerId,
@@ -37,12 +35,16 @@ export default function StreamBrowser() {
                 }}
                 className="video-title"
               >
+                <img
+                  src={
+                    stream.thumbnailUrl || "https://via.placeholder.com/320x180"
+                  }
+                  alt={stream.streamtitle}
+                  width="320"
+                  height="180"
+                />
                 {stream.streamtitle}
               </Link>
-              <video controls width="320" height="180">
-                <source ref={stream.streamRef} type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
             </div>
           ))
         ) : (
