@@ -6,7 +6,7 @@ import {
 } from "@aws-sdk/client-s3";
 import { fromEnv } from "@aws-sdk/credential-providers";
 
-const s3ImageBucket = process.env.AWS_IMAGES_BUCKET;
+const s3ImageBucket = "teachlyimages";
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: fromEnv(),

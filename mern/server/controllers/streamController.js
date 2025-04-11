@@ -6,7 +6,7 @@ import User from "../models/userModel.js";
 import http from "http";
 import axios from "axios";
 
-const s3StreamThumbnailBucket = process.env.AWS_STREAM_THUMBNAILS_BUCKET;
+const s3StreamThumbnailBucket = "teachlystreamthumbnails";
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: fromEnv(),
