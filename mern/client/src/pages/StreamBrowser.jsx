@@ -1,9 +1,23 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { getStreams } from "../api";
 import Hls from "hls.js";
-import { useState } from "react";
 
 export default function StreamBrowser() {
   const [streams, setStreams] = useState([]);
+
+  useEffect(() => {
+    const fetchLiveStreams = async () => {
+      try {
+        const data = await getStreams();
+        setStreams(data);
+      } catch (err) {
+        console.error("Failed to load live streams:", err);
+      }
+    };
+
+    fetchLiveStreams();
+  }, []);
 
   return (
     <div className="content-browser">
