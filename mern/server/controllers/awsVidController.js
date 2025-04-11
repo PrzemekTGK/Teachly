@@ -9,7 +9,7 @@ import { fromEnv } from "@aws-sdk/credential-providers";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import Video from "../models/videoModel.js";
 
-const s3VideoBucket = process.env.AWS_VIDEOS_BUCKET;
+const s3VideoBucket = "teachlyvideos";
 const s3Client = new S3Client({
   region: process.env.AWS_REGION,
   credentials: fromEnv(),
