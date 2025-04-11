@@ -25,7 +25,7 @@ function App() {
           <Route path="/contentViewer/:videoId" element={<ContentViewer />} />
           <Route path="/contentManager/" element={<ContentManager />} />
           <Route path="/streamBrowser" element={<StreamBrowser />} />
-          <Route path="/streamViewer" element={<StreamViewer />} />
+          <Route path="/streamViewer/:id" element={<StreamViewer />} />
           <Route path="/streamManager" element={<StreamManager />} />
         </Route>
       </Routes>

@@ -4,7 +4,8 @@ import Hls from "hls.js";
 export default function StreamViewer() {
   const { state } = useLocation();
   const streamRef = useRef(null);
-  const streamUrl = state.streamUrl;
+  const { streamId, streamerId, streamUrl, streamtitle, streamdescription } =
+    state;
 
   useEffect(() => {
     if (streamUrl && streamRef.current) {
@@ -34,7 +35,7 @@ export default function StreamViewer() {
 
   return (
     <div className="stream-viewer-container">
-      <h2>Stream Viewer</h2>
+      <h2>{streamtitle || "Stream Viewer"}</h2>
       <div className="stream-viewer">
         <video
           ref={streamRef}
@@ -46,6 +47,9 @@ export default function StreamViewer() {
           className="stream-viewer-video"
         />
       </div>
+      <p>{streamdescription || "No description available"}</p>
+      <p>Stream ID: {streamId}</p>
+      <p>Streamer ID: {streamerId}</p>
     </div>
   );
 }
