@@ -128,6 +128,7 @@ export const publishStream = async (req, res) => {
       streamtitle: stream.streamtitle,
       streamdescription: stream.streamdescription,
       streamerId: stream.streamerId,
+      streamKey: streamKey,
       streamUrl: stream.streamUrl,
       thumbnailUrl: thumbnailUrl,
       isLive: true,
@@ -151,5 +152,23 @@ export const getStreams = async (req, res) => {
     res.status(200).json({ success: true, data: streams });
   } catch (error) {
     res.status(500).json({ success: false, message: "Server error!" });
+  }
+};
+
+export const deleteStream = async (req, res) => {
+  try {
+    const streamKey = req.params.streamKey;
+    const result = await Stream.deleteOne({ streamKey });
+    if (result.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Stream not found" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "Stream deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting stream:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 };

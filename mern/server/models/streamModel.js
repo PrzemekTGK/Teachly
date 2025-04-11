@@ -5,6 +5,10 @@ const streamSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  streamKey: {
+    type: String,
+    required: true,
+  },
   streamUrl: {
     type: String,
     required: true,
