@@ -3,7 +3,7 @@ import { getStreams } from "../api";
 import { Link } from "react-router-dom";
 import Hls from "hls.js";
 
-export default function ContentBrowser() {
+export default function StreamBrowser() {
   const [streamUrl, setStreamUrl] = useState("");
   const [streams, setStreams] = useState([]);
   const [loading, setLoading] = useState(true);
