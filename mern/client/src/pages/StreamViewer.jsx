@@ -47,7 +47,6 @@ export default function StreamViewer() {
         />
       </div>
       <h2>{streamtitle}</h2>
-      <label>Stream Description</label>
       <p>{streamdescription || "No description available"}</p>
     </div>
   );
