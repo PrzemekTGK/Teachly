@@ -17,6 +17,10 @@ const streamSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  isLive: {
+    type: Boolean,
+    require: true,
+  },
 });
 
 const Stream = mongoose.model("Stream", streamSchema);

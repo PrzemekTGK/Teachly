@@ -21,6 +21,7 @@ export default function StreamDetails({ streamUrl, userId }) {
       ...streamDetails,
       streamerId: userId,
       streamUrl: streamUrl,
+      isLive: true,
     };
 
     console.log(fullStreamDetails);
