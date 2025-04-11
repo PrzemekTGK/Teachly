@@ -36,9 +36,7 @@ export default function StreamBrowser() {
                 className="video-title"
               >
                 <img
-                  src={
-                    stream.thumbnailUrl || "https://via.placeholder.com/320x180"
-                  }
+                  src={stream.thumbnailUrl}
                   alt={stream.streamtitle}
                   width="320"
                   height="180"
