@@ -9,6 +9,7 @@ export default function StreamBrowser() {
     const fetchStreams = async () => {
       try {
         const data = await getStreams();
+        console.log(data);
         setStreams(data);
       } catch (err) {
         console.error("Failed to load live streams:", err);
