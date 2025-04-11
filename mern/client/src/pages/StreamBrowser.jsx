@@ -8,8 +8,8 @@ export default function StreamBrowser() {
   useEffect(() => {
     const fetchStreams = async () => {
       try {
-        const data = await getStreams();
-        setStreams(data.data);
+        const response = await getStreams();
+        setStreams(response.data);
       } catch (err) {
         console.error("Failed to load live streams:", err);
       }
