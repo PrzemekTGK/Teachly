@@ -6,9 +6,9 @@ export default function StreamDetails({ streamUrl, userId }) {
     streamtitle: "",
     streamdescription: "",
   });
-
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isPublishing, setIsPublishing] = useState(false); // New state
 
   function updateHandler(e) {
     setStreamState({ ...streamDetails, [e.target.name]: e.target.value });
@@ -16,6 +16,9 @@ export default function StreamDetails({ streamUrl, userId }) {
 
   async function handlePublishStream(e) {
     e.preventDefault();
+    setIsPublishing(true); // Show publishing state
+    setError("");
+    setSuccess("");
 
     const fullStreamDetails = {
       ...streamDetails,
@@ -40,6 +43,8 @@ export default function StreamDetails({ streamUrl, userId }) {
       setError("Failed to publish stream.");
       setSuccess("");
       console.error(err);
+    } finally {
+      setIsPublishing(false); // Reset publishing state
     }
   }
 
@@ -66,8 +71,12 @@ export default function StreamDetails({ streamUrl, userId }) {
           required
           maxLength={150}
         />
-        <button className="publish-stream-button" type="submit">
-          Publish Stream
+        <button
+          className="publish-stream-button"
+          type="submit"
+          disabled={isPublishing} // Disable during publishing
+        >
+          {isPublishing ? "Publishing..." : "Publish Stream"}
         </button>
       </form>
       {error && <p className="error-message">{error}</p>}

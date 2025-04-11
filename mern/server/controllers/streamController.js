@@ -115,7 +115,7 @@ export const publishStream = async (req, res) => {
       const thumbnailResponse = await axios.post(
         "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com:3001/generate-thumbnail",
         { streamUrl: stream.streamUrl, streamKey },
-        { timeout: 5000 } // 5 seconds timeout
+        { timeout: 10000 } // Increased to 10 seconds
       );
       console.log("Thumbnail response:", thumbnailResponse.data);
       if (thumbnailResponse.data.success) {
@@ -130,7 +130,7 @@ export const publishStream = async (req, res) => {
       streamdescription: stream.streamdescription,
       streamerId: stream.streamerId,
       streamUrl: stream.streamUrl,
-      thumbnailUrl, // Empty if thumbnail fails
+      thumbnailUrl: thumbnailUrl || null, // Allow null if empty
       isLive: true,
     });
     await newStream.save();
