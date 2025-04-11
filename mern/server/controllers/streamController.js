@@ -107,20 +107,22 @@ export const publishStream = async (req, res) => {
   }
 
   try {
-    console.log("Attempting thumbnail request...");
     const streamKey = stream.streamUrl.split("/").pop().replace(".m3u8", "");
-    const thumbnailResponse = await axios.post(
-      "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com:3001/generate-thumbnail",
-      {
-        streamUrl: stream.streamUrl,
-        streamKey,
+    let thumbnailUrl = "";
+
+    try {
+      console.log("Attempting thumbnail request...");
+      const thumbnailResponse = await axios.post(
+        "http://ec2-51-21-152-36.eu-north-1.compute.amazonaws.com:3001/generate-thumbnail",
+        { streamUrl: stream.streamUrl, streamKey },
+        { timeout: 5000 } // 5 seconds timeout
+      );
+      console.log("Thumbnail response:", thumbnailResponse.data);
+      if (thumbnailResponse.data.success) {
+        thumbnailUrl = thumbnailResponse.data.thumbnailUrl;
       }
-    );
-
-    console.log("Thumbnail response:", thumbnailResponse.data);
-
-    if (!thumbnailResponse.data.success) {
-      throw new Error("Thumbnail generation failed");
+    } catch (error) {
+      console.error("Thumbnail error:", error.message);
     }
 
     const newStream = new Stream({
@@ -128,7 +130,7 @@ export const publishStream = async (req, res) => {
       streamdescription: stream.streamdescription,
       streamerId: stream.streamerId,
       streamUrl: stream.streamUrl,
-      thumbnailUrl: thumbnailResponse.data.thumbnailUrl,
+      thumbnailUrl, // Empty if thumbnail fails
       isLive: true,
     });
     await newStream.save();
