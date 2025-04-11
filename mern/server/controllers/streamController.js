@@ -1,5 +1,5 @@
 import { WebSocket } from "ws";
-import { S3Client } from "@aws-sdk/client-s3";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { fromEnv } from "@aws-sdk/credential-providers";
 import Stream from "../models/streamModel.js";
 import User from "../models/userModel.js";
@@ -158,12 +158,28 @@ export const getStreams = async (req, res) => {
 };
 
 export const deleteStream = async (req, res) => {
-  console.log("DELETE streamKey:", req.body.name);
-  const streamKey = req.body.name;
-  const result = await Stream.deleteOne({ streamKey });
-  console.log("Delete result:", result);
-  res.status(result.deletedCount ? 200 : 404).json({
-    success: !!result.deletedCount,
-    message: result.deletedCount ? "Deleted" : "Not found",
-  });
+  try {
+    const streamKey = req.params.streamKey;
+    const stream = await Stream.findOne({ streamKey });
+    if (!stream) {
+      console.log("No stream found:", streamKey);
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    if (stream.thumbnailUrl) {
+      const key = stream.thumbnailUrl.split("/").pop();
+      await s3Client.send(
+        new DeleteObjectCommand({
+          Bucket: s3StreamThumbnailBucket,
+          Key: key,
+        })
+      );
+    }
+
+    await Stream.deleteOne({ streamKey });
+    return res.status(200).json({ success: true, message: "Deleted" });
+  } catch (error) {
+    console.error("Error in deleteStream:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
 };
