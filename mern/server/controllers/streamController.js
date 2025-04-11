@@ -158,19 +158,12 @@ export const getStreams = async (req, res) => {
 };
 
 export const deleteStream = async (req, res) => {
-  try {
-    const streamKey = req.params.streamKey;
-    const result = await Stream.deleteOne({ streamKey });
-    if (result.deletedCount === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Stream not found" });
-    }
-    return res
-      .status(200)
-      .json({ success: true, message: "Stream deleted successfully" });
-  } catch (error) {
-    console.error("Error deleting stream:", error);
-    return res.status(500).json({ success: false, message: "Server error" });
-  }
+  console.log("DELETE streamKey:", req.params.streamKey);
+  const streamKey = req.params.streamKey;
+  const result = await Stream.deleteOne({ streamKey });
+  console.log("Delete result:", result);
+  res.status(result.deletedCount ? 200 : 404).json({
+    success: !!result.deletedCount,
+    message: result.deletedCount ? "Deleted" : "Not found",
+  });
 };
