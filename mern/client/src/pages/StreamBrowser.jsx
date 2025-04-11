@@ -7,7 +7,7 @@ export default function StreamBrowser() {
   const [streams, setStreams] = useState([]);
 
   useEffect(() => {
-    const fetchLiveStreams = async () => {
+    const fetchStreams = async () => {
       try {
         const data = await getStreams();
         setStreams(data);
@@ -16,7 +16,7 @@ export default function StreamBrowser() {
       }
     };
 
-    fetchLiveStreams();
+    fetchStreams();
   }, []);
 
   return (
