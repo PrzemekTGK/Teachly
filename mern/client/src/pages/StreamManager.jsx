@@ -23,6 +23,7 @@ export default function StreamManager() {
       try {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
+        console.log(`STREAM URL: `, streamUrl);
         setIsLive(true);
       } catch (error) {
         console.log(error);

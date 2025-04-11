@@ -235,19 +235,22 @@ html {
   margin-bottom: 50px;
 }
 
-.stream-manager-container {
+.stream-manager-container,
+.stream-viewer-container {
   margin: 0 auto;
   max-width: fit-content;
 }
 
-.stream-manager {
+.stream-manager,
+.stream-viewer {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: auto;
 }
 
-.stream-manager-video {
+.stream-manager-video,
+.stream-viewer-video {
   margin-bottom: 20px;
   min-width: -webkit-fill-available;
 }
