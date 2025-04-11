@@ -6,10 +6,10 @@ import StreamDetails from "../components/StreamDetails";
 
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [isLive, setIsLive] = useState(false);
+  const [loading, setLoading] = useState();
+  const [isLive, setIsLive] = useState();
   const [userId, setUserId] = useState("");
-  const [streamPublished, setStreamPublished] = useState(false);
+  const [streamPublished, setStreamPublished] = useState();
   const streamRef = useRef(null);
   const wsRef = useRef(null);
 
