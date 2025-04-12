@@ -1,4 +1,4 @@
-import { getStreamUrl } from "../api";
+import { getStreamUrl, getStream } from "../api";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
@@ -25,6 +25,12 @@ export default function StreamManager() {
         setStreamUrl(url);
         console.log("STREAM URL:", url);
         setIsLive(true);
+
+        const streamResponse = await getStream(streamKey);
+        console.log("StreamManager getStream:", streamResponse);
+        if (streamResponse.success && streamResponse.data) {
+          setStreamPublished(true);
+        }
       } catch (error) {
         console.log("Fetch stream error:", error);
         setIsLive(false);

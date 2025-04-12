@@ -336,9 +336,14 @@ export const getStreams = async () => {
 export const getStream = async (streamKey) => {
   try {
     const response = await axios.get(`${URL}/stream/get-stream/${streamKey}`);
+    console.log("getStream response:", response.data);
     return response.data;
   } catch (error) {
-    console.error(`Failed to fetch stream: ${error.message}`);
-    throw error;
+    console.error(
+      "Failed to fetch stream:",
+      error.message,
+      error.response?.status
+    );
+    return { success: false, message: "Stream not found" };
   }
 };
