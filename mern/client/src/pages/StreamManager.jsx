@@ -6,10 +6,10 @@ import StreamDetails from "../components/StreamDetails";
 
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
-  const [loading, setLoading] = useState(true); // Default to true for initial load
-  const [isLive, setIsLive] = useState(false); // Default to false
+  const [loading, setLoading] = useState(true);
+  const [isLive, setIsLive] = useState(false);
   const [userId, setUserId] = useState("");
-  const [streamPublished, setStreamPublished] = useState(false); // Default to false
+  const [streamPublished, setStreamPublished] = useState(false);
   const streamRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -19,28 +19,28 @@ export default function StreamManager() {
     const streamKey = decodedUser.streamKey;
     setUserId(decodedUser._id);
 
-    const fetchStreamKey = async () => {
+    const fetchStreamKeyAndStatus = async () => {
       try {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
         console.log("STREAM URL:", url);
         setIsLive(true);
 
+        // Check if stream is published
         const streamResponse = await getStream(streamKey);
         if (streamResponse.success && streamResponse.data) {
           setStreamPublished(true); // Stream exists, assume published
         }
       } catch (error) {
-        console.log("Fetch stream error:", error);
+        console.log("Fetch error:", error);
         setIsLive(false);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchStreamKey();
+    fetchStreamKeyAndStatus();
 
-    // WebSocket setup
     wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app");
 
     wsRef.current.onopen = () => {
@@ -49,10 +49,8 @@ export default function StreamManager() {
 
     wsRef.current.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      if (data.streamKey === streamKey) {
-        if (data.action === "streamStarted") {
-          fetchStreamKey();
-        }
+      if (data.streamKey === streamKey && data.action === "streamStarted") {
+        fetchStreamKeyAndStatus();
       }
     };
 
@@ -85,7 +83,6 @@ export default function StreamManager() {
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
           console.error("HLS error:", data.type, data.details);
-          if (data.fatal) setIsLive(false); // Stop on fatal errors
         });
       } else if (
         streamRef.current.canPlayType("application/vnd.apple.mpegurl")
@@ -118,7 +115,7 @@ export default function StreamManager() {
       ) : (
         <p>You're currently not streaming.</p>
       )}
-      {!streamPublished && isLive && (
+      {isLive && !streamPublished && (
         <StreamDetails
           streamUrl={streamUrl}
           userId={userId}
