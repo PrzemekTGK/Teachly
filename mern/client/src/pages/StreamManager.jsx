@@ -86,7 +86,7 @@ export default function StreamManager() {
         });
         hls.on(Hls.Events.ERROR, (event, data) => {
           console.error("HLS error:", data.type, data.details);
-          if (data.fatal) setIsLive(false); // Stop on fatal errors
+          if (data.fatal) setIsLive(false);
         });
       } else if (
         streamRef.current.canPlayType("application/vnd.apple.mpegurl")
