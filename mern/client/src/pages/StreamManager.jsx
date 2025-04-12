@@ -55,7 +55,7 @@ export default function StreamManager() {
           fetchStreamKey();
         } else if (data.action === "streamStopped") {
           setIsLive(false);
-          setStreamPublished(false); // Reset on stop
+          setStreamPublished(false);
         }
       }
     };
