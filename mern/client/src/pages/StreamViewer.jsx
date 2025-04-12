@@ -1,10 +1,34 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useParams } from "react";
 import { useLocation } from "react-router-dom";
 import Hls from "hls.js";
+import { getStream } from "../api";
 export default function StreamViewer() {
   const { state } = useLocation();
+  const { id } = useParams();
   const streamRef = useRef(null);
-  const { streamerId, streamUrl, streamtitle, streamdescription } = state;
+  const [streamData, setStreamData] = useState(state || {});
+  const { streamUrl, streamtitle, streamdescription, streamerId } = streamData;
+  useEffect(() => {
+    if (!state || !state.streamUrl) {
+      const fetchStreamData = async () => {
+        try {
+          const response = await getStream(id);
+          if (response.success && response.data) {
+            setStreamData({
+              streamId: response.data._id,
+              streamerId: response.data.streamerId,
+              streamUrl: response.data.streamUrl,
+              streamtitle: response.data.streamtitle,
+              streamdescription: response.data.streamdescription,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching stream:", error);
+        }
+      };
+      fetchStreamData();
+    }
+  }, [id, state]);
 
   useEffect(() => {
     if (streamUrl && streamRef.current) {
