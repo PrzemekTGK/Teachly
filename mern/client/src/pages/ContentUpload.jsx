@@ -79,10 +79,6 @@ export default function ContentUpload() {
           />
           {selectedFile && (
             <div>
-              <p className="upload-video-name">
-                {`File name: ` + selectedFile.name}
-              </p>
-
               <input
                 className="upload-video-title"
                 type="text"
