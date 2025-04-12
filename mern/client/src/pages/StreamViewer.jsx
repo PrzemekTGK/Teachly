@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef, useParams } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { getStream } from "../api";
 import Hls from "hls.js";
 export default function StreamViewer() {
