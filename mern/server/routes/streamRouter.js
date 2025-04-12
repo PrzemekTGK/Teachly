@@ -1,18 +1,20 @@
 import express from "express";
 import {
-  publishStream,
-  streamProxy,
-  validateStreamKey,
   getStreams,
+  getStream,
+  streamProxy,
+  publishStream,
   deleteStream,
+  validateStreamKey,
 } from "../controllers/streamController.js";
 
 const streamRouter = express.Router();
 
 streamRouter.get("/get-streams", getStreams);
+streamRouter.get("/get-stream/:streamKey", getStream);
 streamRouter.use("/hls", streamProxy);
-streamRouter.all("/validate-stream-key", validateStreamKey);
 streamRouter.post("/publish-stream", publishStream);
-streamRouter.delete("/delete", deleteStream);
+streamRouter.delete("/delete-stream", deleteStream);
+streamRouter.all("/validate-stream-key", validateStreamKey);
 
 export default streamRouter;

@@ -332,3 +332,13 @@ export const getStreams = async () => {
     throw error;
   }
 };
+
+export const getStream = async (streamKey) => {
+  try {
+    const response = await axios.get(`${URL}/stream/get-stream/${streamKey}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch stream: ${error.message}`);
+    throw error;
+  }
+};

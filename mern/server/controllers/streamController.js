@@ -157,6 +157,27 @@ export const getStreams = async (req, res) => {
   }
 };
 
+export const getStream = async (req, res) => {
+  try {
+    const { streamKey } = req.params;
+    if (!streamKey) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Stream key required" });
+    }
+    const stream = await Stream.findOne({ streamKey });
+    if (!stream) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Stream not found" });
+    }
+    res.status(200).json({ success: true, data: stream });
+  } catch (error) {
+    console.error("Error getting stream:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 export const deleteStream = async (req, res) => {
   console.log("DELETE streamKey:", req.body.name);
   const streamKey = req.body.name;
