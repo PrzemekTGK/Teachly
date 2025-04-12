@@ -33,7 +33,6 @@ export default function Login({ modalState, setModalState }) {
         sessionStorage.setItem("User", response.data);
         const decodedUser = jwtDecode(response.data);
         const streamKey = decodedUser.streamKey;
-        console.log(streamKey);
         sessionStorage.setItem("StreamKey", streamKey);
         axios.defaults.headers.common[
           "Authorization"

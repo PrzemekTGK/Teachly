@@ -27,8 +27,6 @@ export default function StreamDetails({ streamUrl, userId, onStreamPublish }) {
       isLive: true,
     };
 
-    console.log(fullStreamDetails);
-
     try {
       const response = await publishStream(fullStreamDetails);
 

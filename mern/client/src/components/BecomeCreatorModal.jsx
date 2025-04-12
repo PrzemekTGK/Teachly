@@ -47,7 +47,6 @@ export default function BecomeCreatorModal({
 
       const newToken = response.data.token;
       const newUser = jwtDecode(newToken);
-      console.log(newUser);
       sessionStorage.setItem("User", newToken);
       sessionStorage.setItem("StreamKey", newUser.streamKey);
 

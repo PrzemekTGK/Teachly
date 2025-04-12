@@ -23,11 +23,9 @@ export default function StreamManager() {
       try {
         const url = await getStreamUrl(streamKey);
         setStreamUrl(url);
-        console.log("STREAM URL:", url);
         setIsLive(true);
 
         const streamResponse = await getStream(streamKey);
-        console.log("StreamManager getStream:", streamResponse);
         if (streamResponse.success && streamResponse.data) {
           setStreamPublished(true);
         }
@@ -62,10 +60,6 @@ export default function StreamManager() {
 
     wsRef.current.onerror = (error) => {
       console.error("WebSocket error:", error);
-    };
-
-    wsRef.current.onclose = () => {
-      console.log("WebSocket disconnected");
     };
 
     return () => {
