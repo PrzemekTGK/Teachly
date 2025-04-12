@@ -157,9 +157,12 @@ export const getStream = async (req, res) => {
     if (!streamKey) {
       return res
         .status(400)
-        .json({ success: false, message: "Stream key required" });
+        .json({ success: false, message: "Stream key or ID required" });
     }
-    const stream = await Stream.findOne({ streamKey });
+    let stream = await Stream.findOne({ streamKey });
+    if (!stream) {
+      stream = await Stream.findById(streamKey);
+    }
     if (!stream) {
       return res
         .status(404)
