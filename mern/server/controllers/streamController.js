@@ -181,21 +181,45 @@ export const getStream = async (req, res) => {
 export const deleteStream = async (req, res) => {
   console.log("DELETE streamKey:", req.body.name);
   const streamKey = req.body.name;
-  const stream = await Stream.findOne({ streamKey });
-  if (stream && stream.thumbnailUrl) {
-    const key = stream.thumbnailUrl.split("/").pop();
-    await s3Client.send(
-      new DeleteObjectCommand({
-        Bucket: s3StreamThumbnailBucket,
-        Key: key,
-      })
-    );
-    console.log("Thumbnail deleted from S3:", key);
+  if (!streamKey) {
+    return res
+      .status(400)
+      .json({ success: false, message: "Stream key required" });
   }
-  const result = await Stream.deleteOne({ streamKey });
-  console.log("Delete result:", result);
-  res.status(result.deletedCount ? 200 : 404).json({
-    success: !!result.deletedCount,
-    message: result.deletedCount ? "Deleted" : "Not found",
-  });
+  try {
+    const stream = await Stream.findOne({ streamKey });
+    console.log("Stream found:", stream);
+    if (stream && stream.thumbnailUrl) {
+      const key = stream.thumbnailUrl.split("/").pop();
+      console.log("Attempting to delete S3 thumbnail:", {
+        bucket: s3StreamThumbnailBucket,
+        key,
+      });
+      try {
+        await s3Client.send(
+          new DeleteObjectCommand({
+            Bucket: s3StreamThumbnailBucket,
+            Key: key,
+          })
+        );
+        console.log("Thumbnail deleted from S3:", key);
+      } catch (s3Error) {
+        console.error("S3 deletion error:", s3Error.message);
+      }
+    } else {
+      console.log("No thumbnail to delete:", {
+        streamKey,
+        thumbnailUrl: stream?.thumbnailUrl,
+      });
+    }
+    const result = await Stream.deleteOne({ streamKey });
+    console.log("Delete result:", result);
+    res.status(result.deletedCount ? 200 : 404).json({
+      success: !!result.deletedCount,
+      message: result.deletedCount ? "Deleted" : "Not found",
+    });
+  } catch (error) {
+    console.error("Error in deleteStream:", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
 };
