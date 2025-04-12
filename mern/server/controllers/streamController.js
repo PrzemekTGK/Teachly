@@ -47,7 +47,7 @@ export const validateStreamKey = async (req, res) => {
       } else {
         console.log(`No client found or not open for ${streamKey} after delay`);
       }
-    }, 5000);
+    }, 10000);
 
     return res
       .status(200)
