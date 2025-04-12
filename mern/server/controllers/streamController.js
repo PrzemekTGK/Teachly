@@ -215,16 +215,14 @@ export const deleteStream = async (req, res) => {
     const result = await Stream.deleteOne({ streamKey });
     console.log("Delete result:", result);
 
-    if (result.deletedCount) {
-      const clients = req.app.get("wssClients");
-      console.log(`Clients available: ${clients.size}`);
-      const client = clients.get(streamKey);
-      if (client && client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify({ streamKey, action: "streamStopped" }));
-        console.log(`Sent streamStopped to ${streamKey}`);
-      } else {
-        console.log(`No client found or not open for ${streamKey}`);
-      }
+    const clients = req.app.get("wssClients");
+    console.log(`Clients available: ${clients.size}`);
+    const client = clients.get(streamKey);
+    if (client && client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ streamKey, action: "streamStopped" }));
+      console.log(`Sent streamStopped to ${streamKey}`);
+    } else {
+      console.log(`No client found or not open for ${streamKey}`);
     }
 
     res.status(result.deletedCount ? 200 : 404).json({
