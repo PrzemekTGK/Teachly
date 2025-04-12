@@ -6,10 +6,10 @@ import StreamDetails from "../components/StreamDetails";
 
 export default function StreamManager() {
   const [streamUrl, setStreamUrl] = useState("");
-  const [loading, setLoading] = useState(true); // Default to true for initial load
-  const [isLive, setIsLive] = useState(false); // Default to false
+  const [loading, setLoading] = useState(true);
+  const [isLive, setIsLive] = useState(false);
   const [userId, setUserId] = useState("");
-  const [streamPublished, setStreamPublished] = useState(false); // Default to false
+  const [streamPublished, setStreamPublished] = useState(false);
   const streamRef = useRef(null);
   const wsRef = useRef(null);
 
@@ -39,7 +39,6 @@ export default function StreamManager() {
 
     fetchStreamKey();
 
-    // WebSocket setup
     wsRef.current = new WebSocket("wss://teachly-backend.up.railway.app");
 
     wsRef.current.onopen = () => {
