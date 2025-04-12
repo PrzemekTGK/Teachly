@@ -62,6 +62,10 @@ export default function StreamManager() {
       console.error("WebSocket error:", error);
     };
 
+    wsRef.current.onclose = () => {
+      console.log("WebSocket disconnected");
+    };
+
     return () => {
       if (wsRef.current) {
         wsRef.current.close();
