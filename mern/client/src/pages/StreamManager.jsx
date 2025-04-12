@@ -52,9 +52,6 @@ export default function StreamManager() {
       if (data.streamKey === streamKey) {
         if (data.action === "streamStarted") {
           fetchStreamKey();
-        } else if (data.action === "streamStopped") {
-          setIsLive(false);
-          setStreamPublished(false); // Reset on stop
         }
       }
     };
