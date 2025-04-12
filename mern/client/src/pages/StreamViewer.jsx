@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useParams } from "react";
 import { useLocation } from "react-router-dom";
-import Hls from "hls.js";
 import { getStream } from "../api";
+import Hls from "hls.js";
 export default function StreamViewer() {
   const { state } = useLocation();
   const { id } = useParams();
