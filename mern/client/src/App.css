@@ -257,12 +257,12 @@ html {
 
 .stream-manager-video {
   margin-bottom: 20px;
-  min-width: -webkit-fill-available;
+  width: -webkit-fill-available;
 }
 
 .stream-viewer-video {
-  margin-top: 20px;
-  min-width: -webkit-fill-available;
+  margin-top: 50px;
+  width: -webkit-fill-available;
 }
 
 .tab-content {
