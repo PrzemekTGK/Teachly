@@ -9,8 +9,7 @@ export default function StreamViewer() {
   const streamRef = useRef(null);
   const [streamData, setStreamData] = useState(state || {});
   const [error, setError] = useState(null);
-  const { streamUrl, streamtitle, streamdescription, streamId, streamerId } =
-    streamData;
+  const { streamUrl, streamtitle, streamdescription, streamerId } = streamData;
 
   useEffect(() => {
     if (!state || !state.streamUrl) {
@@ -72,7 +71,6 @@ export default function StreamViewer() {
   return (
     <div className="stream-viewer-container">
       <div className="stream-viewer">
-        <h2>{streamtitle || "Stream Viewer"}</h2>
         {error ? (
           <p>{error}</p>
         ) : streamUrl ? (
@@ -89,9 +87,8 @@ export default function StreamViewer() {
           <p>Loading stream...</p>
         )}
       </div>
-      <p>{streamdescription || "No description available"}</p>
-      {streamId && <p>Stream ID: {streamId}</p>}
-      {streamerId && <p>Streamer ID: {streamerId}</p>}
+      <h2>{streamtitle}</h2>
+      <p>{streamdescription}</p>
     </div>
   );
 }
