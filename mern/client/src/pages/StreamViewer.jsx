@@ -46,9 +46,6 @@ export default function StreamViewer() {
         const hls = new Hls({
           liveSyncDurationCount: 3,
           liveMaxLatencyDurationCount: 10,
-          xhrSetup: (xhr) => {
-            xhr.setRequestHeader("Cache-Control", "no-cache");
-          },
         });
         hls.loadSource(streamUrl);
         hls.attachMedia(streamRef.current);

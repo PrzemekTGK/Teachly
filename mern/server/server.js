@@ -24,7 +24,7 @@ app.use(
   cors({
     origin: "https://teachly.up.railway.app",
     methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
   })
 );
 app.use(express.json());
