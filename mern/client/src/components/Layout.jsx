@@ -1,16 +1,28 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Navbar from "./Navbar";
 
 export default function Layout() {
-  let user = sessionStorage.getItem("User");
+  const user = sessionStorage.getItem("User");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (!user) {
-      navigate("/");
+    const publicPaths = [
+      "/",
+      "/streamBrowser",
+      "/streamViewer",
+      "/contentBrowser",
+      "/contentViewer",
+    ];
+    const isPublicPath = publicPaths.some((path) =>
+      location.pathname.startsWith(path)
+    );
+
+    if (!user && !isPublicPath) {
+      navigate("/", { replace: true });
     }
-  }, [user, navigate]);
+  }, [user, navigate, location]);
 
   return (
     <>
