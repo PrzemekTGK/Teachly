@@ -261,6 +261,7 @@ html {
 }
 
 .stream-viewer-video {
+  margin-top: 20px;
   min-width: -webkit-fill-available;
 }
 
