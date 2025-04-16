@@ -22,8 +22,8 @@ export default function Home() {
           Live Streaming
         </button>
         <button
-          className={`tab ${activeTab === "page2" ? "active-tab" : ""}`}
-          onClick={() => setActiveTab("page2")}
+          className={`tab ${activeTab === "page3" ? "active-tab" : ""}`}
+          onClick={() => setActiveTab("page3")}
         >
           Feed
         </button>
@@ -32,7 +32,7 @@ export default function Home() {
         <div className="tab-content">
           {activeTab === "page1" && <ContentBrowser />}
           {activeTab === "page2" && <StreamBrowser />}
-          {activeTab === "page2" && <Feed />}
+          {activeTab === "page3" && <Feed />}
         </div>
       </div>
     </div>
