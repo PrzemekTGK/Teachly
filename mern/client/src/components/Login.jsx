@@ -1,5 +1,6 @@
 import { verifyUser } from "../api";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 
@@ -11,6 +12,7 @@ export default function Login({ modalState, setModalState }) {
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
   function updateHandler(e) {
     setUser({ ...user, [e.target.name]: e.target.value });
@@ -35,7 +37,7 @@ export default function Login({ modalState, setModalState }) {
         axios.defaults.headers.common[
           "Authorization"
         ] = `Bearer ${response.token}`;
-        window.location.href = "/"; // redirects and refreshes the page
+        navigate("../");
       } else {
         setError(response.message);
       }
