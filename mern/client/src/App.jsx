@@ -11,6 +11,7 @@ import StreamManager from "./pages/StreamManager";
 import StreamViewer from "./pages/StreamViewer";
 import Layout from "./components/Layout";
 import ScrollToTop from "./components/ScrollToTop";
+import Feed from "./Feed";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/streamBrowser" element={<StreamBrowser />} />
           <Route path="/streamViewer/:id" element={<StreamViewer />} />
           <Route path="/streamManager" element={<StreamManager />} />
+          <Route path="/Feed" element={<Feed />} />
         </Route>
       </Routes>
     </Router>
