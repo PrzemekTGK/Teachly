@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ContentBrowser from "./ContentBrowser";
 import StreamBrowser from "./StreamBrowser";
 import Feed from "./Feed";
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState("page1");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = sessionStorage.getItem("User"); // or "user", etc.
+    setIsLoggedIn(!!token);
+  }, []);
 
   return (
     <div className="home-page">
@@ -21,12 +27,14 @@ export default function Home() {
         >
           Live Streaming
         </button>
-        <button
-          className={`tab ${activeTab === "page3" ? "active-tab" : ""}`}
-          onClick={() => setActiveTab("page3")}
-        >
-          Feed
-        </button>
+        {isLoggedIn && (
+          <button
+            className={`tab ${activeTab === "page3" ? "active-tab" : ""}`}
+            onClick={() => setActiveTab("page3")}
+          >
+            Feed
+          </button>
+        )}
       </div>
       <div className="tab-scroll">
         <div className="tab-content">

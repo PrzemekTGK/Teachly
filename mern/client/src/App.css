@@ -145,10 +145,11 @@ html {
 .tab-container {
   position: sticky;
   z-index: 999;
+  display: flex;
 }
 
 .tab {
-  width: 33.3%;
+  flex: 1;
   height: 45px;
   border-radius: 0;
 }
