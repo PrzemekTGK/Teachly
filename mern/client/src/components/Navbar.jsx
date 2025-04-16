@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import AuthorizationModal from "./AuthorizationModal";
 import Dropwdown from "./Dropdown";
@@ -10,7 +9,6 @@ export default function Navbar() {
   const [userRole, setUserRole] = useState(null);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
-  const navigate = useNavigate();
 
   const token = sessionStorage.getItem("User");
 
@@ -51,7 +49,7 @@ export default function Navbar() {
     sessionStorage.removeItem("StreamKey");
     setMenuOpen(false);
     setTimeout(() => {
-      navigate("/");
+      window.location.href = "/"; // redirects and refreshes the page
     }, 0);
   }
 
