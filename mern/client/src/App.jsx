@@ -28,6 +28,7 @@ function App() {
           <Route path="/streamBrowser" element={<StreamBrowser />} />
           <Route path="/streamViewer/:id" element={<StreamViewer />} />
           <Route path="/streamManager" element={<StreamManager />} />
+          <Route path="/Feed/:id" element={<Feed />} />
         </Route>
       </Routes>
     </Router>
