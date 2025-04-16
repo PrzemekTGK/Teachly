@@ -51,7 +51,8 @@ export default function Navbar() {
     sessionStorage.removeItem("StreamKey");
     setMenuOpen(false);
     setTimeout(() => {
-      navigate("/");
+      navigate("/", { replace: true });
+      navigate(0);
     }, 0);
   }
 
