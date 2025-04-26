@@ -14,11 +14,6 @@ dotenv.config();
 
 const PORT = process.env.PORT || 5000;
 const app = express();
-const upload = multer();
-
-const server = createServer(app);
-const clients = initializeWebSocket(server);
-app.set("wssClients", clients);
 
 const allowedOrigins = [
   "https://teachly-backend.up.railway.app",
@@ -39,6 +34,12 @@ app.use(
     credentials: true,
   })
 );
+const upload = multer();
+
+const server = createServer(app);
+const clients = initializeWebSocket(server);
+app.set("wssClients", clients);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
