@@ -11,6 +11,7 @@ import { initializeWebSocket } from "./websocket.js";
 import multer from "multer";
 
 dotenv.config();
+
 const PORT = process.env.PORT || 5000;
 const app = express();
 const upload = multer();
@@ -21,7 +22,10 @@ app.set("wssClients", clients);
 
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:3000",
+    origin: [
+      "https://teachly.up.railway.app",
+      "https://teachly-backend.up.railway.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
