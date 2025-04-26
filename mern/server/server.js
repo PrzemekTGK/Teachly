@@ -38,7 +38,7 @@ const corsSettings = {
   credentials: true,
 };
 
-app.use(cors());
+app.use(cors(corsSettings));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
