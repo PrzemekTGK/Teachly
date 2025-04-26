@@ -20,13 +20,7 @@ const server = createServer(app);
 const clients = initializeWebSocket(server);
 app.set("wssClients", clients);
 
-app.use(
-  cors({
-    origin: "https://teachly.up.railway.app",
-    methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
-  })
-);
+app.use();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
