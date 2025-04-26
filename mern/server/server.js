@@ -22,10 +22,7 @@ app.set("wssClients", clients);
 
 app.use(
   cors({
-    origin: [
-      "https://teachly.up.railway.app",
-      "https://teachly-backend.up.railway.app",
-    ],
+    origin: "https://teachly-backend.up.railway.app",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
