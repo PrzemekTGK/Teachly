@@ -20,26 +20,11 @@ const server = createServer(app);
 const clients = initializeWebSocket(server);
 app.set("wssClients", clients);
 
-const allowedOrigins = [
-  "https://teachly.up.railway.app",
-  "https://teachly-backend.up.railway.app",
-];
-
 app.use(
   cors({
-    origin: function (origin, callback) {
-      // Allow no origin (like from server to server)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    origin: "https://teachly.up.railway.app",
+    methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
-    credentials: true,
   })
 );
 
