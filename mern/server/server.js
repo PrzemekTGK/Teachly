@@ -17,28 +17,32 @@ const app = express();
 const upload = multer();
 
 const server = createServer(app);
-//const clients = initializeWebSocket(server);
-//app.set("wssClients", clients);
+const clients = initializeWebSocket(server);
+app.set("wssClients", clients);
 
 const allowedOrigins = [
-  "https://teachly-backend.up.railway.app",
   "https://teachly.up.railway.app",
+  "https://teachly-backend.up.railway.app",
 ];
 
-const corsSettings = {
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("CORS not allowed"));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true,
-};
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow no origin (like from server to server)
+      if (!origin) return callback(null, true);
 
-app.use(cors(corsSettings));
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());
