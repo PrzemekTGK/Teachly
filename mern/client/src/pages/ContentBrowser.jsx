@@ -9,12 +9,16 @@ export default function ContentBrowser() {
 
   useEffect(() => {
     async function fetchVideos() {
+      console.log("Starting to fetch videos...");
       try {
         const videosData = await getVideos();
+        console.log("Videos fetched successfully:", videosData);
         setVideos(videosData);
       } catch (err) {
-        setError(`Error fetching videos: `, err);
+        console.error("Error fetching videos:", err);
+        setError(`Error fetching videos: ${err.message || err}`);
       } finally {
+        console.log("Finished fetching videos.");
         setLoading(false);
       }
     }
@@ -23,10 +27,12 @@ export default function ContentBrowser() {
   }, []);
 
   if (loading) {
+    console.log("Currently loading videos...");
     return <div>Loading videos...</div>;
   }
 
   if (error) {
+    console.error("Rendering error:", error);
     return <div>{error}</div>;
   }
 
