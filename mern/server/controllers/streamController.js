@@ -117,7 +117,10 @@ export const publishStream = async (req, res) => {
         thumbnailUrl = thumbnailResponse.data.thumbnailUrl;
       }
     } catch (error) {
-      console.error("Thumbnail error:", error.message);
+      console.error("Error publishing stream:", error);
+      res
+        .status(500)
+        .json({ message: "Failed to publish stream", error: error.message });
     }
 
     const newStream = new Stream({
