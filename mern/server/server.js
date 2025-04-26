@@ -17,8 +17,8 @@ const app = express();
 const upload = multer();
 
 const server = createServer(app);
-const clients = initializeWebSocket(server);
-app.set("wssClients", clients);
+//const clients = initializeWebSocket(server);
+//app.set("wssClients", clients);
 
 const allowedOrigins = [
   "https://teachly-backend.up.railway.app",
