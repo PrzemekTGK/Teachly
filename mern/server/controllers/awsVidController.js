@@ -38,6 +38,7 @@ export const uploadVideo = async (req, res) => {
       uploaderId: uploaderId,
       uploader: uploader,
       ContentType: "video/mp4",
+      ACL: "private",
     });
 
     await newVideo.save();
