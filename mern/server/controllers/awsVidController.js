@@ -73,7 +73,7 @@ export const getVideos = async (req, res) => {
           Bucket: s3VideoBucket,
           Key: video._id.toString(),
         });
-        const url = await getSignedUrl(s3Client, command);
+        const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 });
         return {
           ...video.toObject(),
           url,
