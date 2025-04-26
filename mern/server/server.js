@@ -20,12 +20,15 @@ const server = createServer(app);
 const clients = initializeWebSocket(server);
 app.set("wssClients", clients);
 
-const allowedOrigin = "https://teachly-backend.up.railway.app";
+const allowedOrigins = [
+  "https://teachly-backend.up.railway.app",
+  "https://teachly.up.railway.app",
+];
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      if (!origin || allowedOrigin.includes(origin)) {
+      if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error("CORS not allowed"));
