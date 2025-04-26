@@ -20,7 +20,7 @@ const server = createServer(app);
 const clients = initializeWebSocket(server);
 app.set("wssClients", clients);
 
-app.use();
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(upload.any());

@@ -37,6 +37,7 @@ export const uploadVideo = async (req, res) => {
       description: description,
       uploaderId: uploaderId,
       uploader: uploader,
+      ContentType: "video/mp4",
     });
 
     await newVideo.save();
