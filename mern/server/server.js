@@ -11,7 +11,6 @@ import { initializeWebSocket } from "./websocket.js";
 import multer from "multer";
 
 dotenv.config();
-
 const PORT = process.env.PORT || 5000;
 const app = express();
 const upload = multer();
