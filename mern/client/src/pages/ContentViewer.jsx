@@ -7,6 +7,7 @@ export default function ContentViewer() {
   const navigate = useNavigate();
 
   console.log("ContentViewer state:", state);
+  console.loog("Video URL: ", videoUrl);
 
   if (!videoUrl) {
     console.warn("No videoUrl found in state!");
