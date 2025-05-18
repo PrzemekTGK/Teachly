@@ -11,7 +11,7 @@ import axios from "axios";
 
 // Define Login component with modalState and setModalState props
 export default function Login({ modalState, setModalState }) {
-  // Initialize user state for form inputs
+  // Initialize user state for form input
   const [user, setUser] = useState({
     email: "",
     password: "",
