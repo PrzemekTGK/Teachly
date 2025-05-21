@@ -23,10 +23,6 @@ const app = express();
 // Configure Multer for handling file uploads (no specific storage defined, likely for in-memory processing)
 const upload = multer();
 
-// Log AWS credentials for debugging (Note: Be cautious logging sensitive data in production)
-console.log("AWS_ACCESS_KEY_ID:", process.env.AWS_ACCESS_KEY_ID);
-console.log("AWS_SECRET_ACCESS_KEY:", process.env.AWS_SECRET_ACCESS_KEY);
-
 // Create an HTTP server instance using the Express app
 const server = createServer(app);
 
