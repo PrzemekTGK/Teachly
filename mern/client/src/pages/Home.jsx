@@ -1,9 +1,9 @@
 // Import React hooks for state and side effects
 import { useState, useEffect } from "react";
 // Import components for each tab
-import ContentBrowser from "./ContentBrowser";
-import StreamBrowser from "./StreamBrowser";
-import Feed from "./Feed";
+import ContentBrowser from "./ContentBrowser.jsx";
+import StreamBrowser from "./StreamBrowser.jsx";
+import Feed from "./Feed.jsx";
 
 // Define Home component
 export default function Home() {
